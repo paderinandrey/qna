@@ -1,9 +1,7 @@
 p
-  strong Title:
-  = @question.title
+  strong= @question.title
 p
-  strong Body:
-  = @question.body
+  strong= @question.body
 
 = link_to 'Edit', edit_question_path(@question)
 '|
@@ -11,9 +9,11 @@ p
 '|
 = link_to 'Back', questions_path
 
-= form_for []@question, @answer] do |f|
-  p
-    = f.label :body, 'Ваш ответ:'
-    = f.text_area :body
+-@question.answers.each do |a|
+  p= a.body
+
+= form_for [@question, @answer] do |f|
+  p= f.label :body, 'Ваш ответ:'
+  p= f.text_area :body
     
   p= f.submit 'Ответить'
