@@ -1,0 +1,19 @@
+p
+  strong= @question.title
+p
+  strong= @question.body
+
+= link_to 'Edit', edit_question_path(@question)
+'|
+= link_to 'Delete', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }
+'|
+= link_to 'Back', questions_path
+
+-@question.answers.each do |a|
+  p= a.body
+
+= form_for [@question, @answer] do |f|
+  p= f.label :body, 'Ваш ответ:'
+  p= f.text_area :body
+    
+  p= f.submit 'Ответить'

@@ -1,0 +1,10 @@
+p= 'Новый вопрос'
+= form_for @question do |f|
+  p
+    = f.label :title
+    = f.text_field :title
+  p
+    = f.label :body
+    = f.text_field :body
+  
+  p= f.submit 'Задать'
