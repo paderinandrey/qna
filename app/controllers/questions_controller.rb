@@ -32,14 +32,17 @@ class QuestionsController < ApplicationController
   
   def update
     if @question.update(question_params)
+      flash[:success] = "Your question has been updated successfully."
       redirect_to @question
     else
+      flash[:error] = @question.errors.full_messages
       render :edit
     end
   end
   
   def destroy
     @question.destroy
+    flash[:success] = "Your question has been successfully deleted!"
     redirect_to questions_path
   end
   
