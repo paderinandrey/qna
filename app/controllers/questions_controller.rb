@@ -25,6 +25,7 @@ class QuestionsController < ApplicationController
       flash[:success] = "Your question successfully created."
       redirect_to @question
     else
+      flash[:error] = @question.errors.full_messages
       render :new
     end
   end
