@@ -31,6 +31,13 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'slim-rails'
+gem 'bootstrap', '~> 4.0.0.alpha3.1'
+gem 'devise'
+gem 'launchy'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.1.0'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -43,6 +50,7 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'capybara', git: 'https://github.com/jnicklas/capybara.git'
 end
 
 group :development do 
