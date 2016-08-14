@@ -10,37 +10,24 @@ AllCops:
     - 'spec/**/*'
     - 'db/*.rb'
     - 'bin/**/*'
-  
-Style/Encoding:
-  EnforcedStyle: always
-  Enabled: true
 
-Style/FrozenStringLiteralComment:
-  EnforcedStyle: always
-  
-# Offense count: 127
+  DisplayCopNames: true
+  StyleGuideCopsOnly: false
+
+Style/Documentation:
+  Exclude:
+    - 'lib/**/version.rb'
+
+Metrics/LineLength:
+  Max:  100
+
+Metrics/MethodLength:
+  Max:  15
+
 Metrics/AbcSize:
-  Max: 21
+  Max: 20
 
-# Offense count: 31
-# Configuration parameters: CountComments.
 Metrics/ClassLength:
   Max: 158
 
-# Offense count: 56
-Metrics/CyclomaticComplexity:
-  Max: 8
 
-# Offense count: 191
-# Configuration parameters: CountComments.
-Metrics/MethodLength:
-  Max: 16
-
-# Offense count: 11
-# Configuration parameters: CountComments.
-Metrics/ModuleLength:
-  Max: 156
-
-# Offense count: 29
-Metrics/PerceivedComplexity:
-  Max: 8

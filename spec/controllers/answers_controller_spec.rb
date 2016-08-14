@@ -37,6 +37,21 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    context 'Own answer' do
+      it 'edit answer' do
+      end
+
+      it 'render question show template' do
+      end
+    end
+
+    context 'Other answer' do
+      it 'edit answer' do
+      end
+
+      it 'render question show template' do
+      end
+    end
   end
 
   describe 'DELETE #destroy' do

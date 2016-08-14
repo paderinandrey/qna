@@ -1,4 +1,8 @@
 FactoryGirl.define do
+  sequence :body do |n|
+    "Some text #{n}"
+  end
+
   factory :answer do
     id
     question

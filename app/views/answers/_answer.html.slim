@@ -2,5 +2,5 @@ li id="answer-#{answer.id}"
   span.content= answer.body
   span.timestamp
     | Posted #{time_ago_in_words(answer.created_at) unless answer.created_at.blank?} ago.
-  - if @question.user == current_user
-    p= link_to "Delete", "/questions/#{@question.id}/answers/#{answer.id}", method: :delete, data: { confirm: "You sure?" }
+  - if answer.user == current_user
+    p= link_to "Delete", [@question, answer], method: :delete, data: { confirm: "You sure?" }
