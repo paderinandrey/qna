@@ -2,11 +2,11 @@ p
   strong= @question.title
 p
   = @question.body
-
-= link_to 'Edit', edit_question_path(@question)
-'| 
-= link_to 'Delete', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }
-'| 
+- if @question.user == current_user
+  = link_to 'Edit', edit_question_path(@question)
+  '|
+  = link_to 'Delete', @question, method: :delete, data: { confirm: 'Are you sure?' }
+  '|
 = link_to 'Back', questions_path
 
 p
@@ -15,8 +15,9 @@ p
     ol.answers
       = render @answers
 
-= form_for [@question, @answer] do |f|
-  p= f.label :body, 'Ваш ответ:'
-  p= f.text_area :body
-    
-  p= f.submit 'Create'
+- if user_signed_in?
+  = form_for [@question, @answer] do |f|
+    p= f.label :body, 'Ваш ответ:'
+    p= f.text_area :body
+
+    p= f.submit 'Create answer'
