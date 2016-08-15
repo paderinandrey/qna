@@ -1,0 +1,6 @@
+li id="answer-#{answer.id}"
+  span.content= answer.body
+  span.timestamp
+    | Posted #{time_ago_in_words(answer.created_at) unless answer.created_at.blank?} ago.
+  - if user_signed_in? && current_user.author_of?(answer)
+    p= link_to "Delete", answer, method: :delete, data: { confirm: "You sure?" }

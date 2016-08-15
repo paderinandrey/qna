@@ -2,4 +2,5 @@
   p
     strong= link_to q.title, q
 
-p= link_to 'Задать вопрос', new_question_path
+- if user_signed_in?
+  p= link_to 'Ask question', new_question_path

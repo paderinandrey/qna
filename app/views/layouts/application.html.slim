@@ -1,0 +1,33 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=Edge"
+    meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    meta name="keywords" content=""
+    meta name="author" content=""
+    title Q&A
+    = csrf_meta_tags
+    = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "application"
+
+  body
+    nav.navbar.navbar-fixed-top.navbar-dark.bg-inverse
+      a.navbar-brand href="#"  Q&A
+      ul.nav.navbar-nav.pull-xs-right
+        - if user_signed_in?
+          li.nav-item
+            = link_to  "Log out", destroy_user_session_path, method: :delete, class: 'nav-link'
+        - else
+          li.nav-item.active
+            = link_to  "Log in", new_user_session_path, class: 'nav-link'
+            span.sr-only (current)
+          li.nav-item
+            = link_to  "Sign up", new_user_registration_path, class: 'nav-link'
+
+
+    .container
+      .starter-template
+        p.lead
+          = flash_messages
+          = yield

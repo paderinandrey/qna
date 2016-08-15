@@ -1,10 +1,10 @@
-p= 'Новый вопрос'
-= form_for @question do |f|
+p= 'NEW QUESTION'
+= form_for @question, class: 'form-group row' do |f|
   p
-    = f.label :title
-    = f.text_field :title
+    = f.label :title, class: 'col-xs-2 col-form-label'
+    = f.text_field :title, class: 'form-control'
   p
-    = f.label :body
-    = f.text_field :body
+    = f.label :body, class: 'col-xs-2 col-form-label'
+    = f.text_area :body, class: 'form-control'
   
-  p= f.submit 'Задать'
+  p= f.submit 'Create', class: 'btn btn-primary'
