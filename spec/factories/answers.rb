@@ -4,7 +4,6 @@ FactoryGirl.define do
   end
 
   factory :answer do
-    id
     question
     user
     body

@@ -155,6 +155,7 @@ RSpec.describe QuestionsController, type: :controller do
     sign_in_user
 
     context 'Own question' do
+
       before { question.update_attribute(:user, @user) }
 
       it 'delete own question' do

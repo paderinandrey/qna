@@ -37,47 +37,42 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    context 'Own answer' do
-      it 'edit answer' do
-      end
-
-      it 'render question show template' do
-      end
+    context 'Own answers' do
+      it 'edit answer'
+      it 'render question show template'
     end
 
     context 'Other answer' do
-      it 'edit answer' do
-      end
-
-      it 'render question show template' do
-      end
+      it 'edit answers'
+      it 'render question show template'
     end
   end
 
   describe 'DELETE #destroy' do
-    context 'Own answer' do
-      before { answer.update_attribute(:user, @user) }
+    context 'Own answers' do
+
+      before { answer }
 
       it 'deletes answer' do
-        expect { delete :destroy, params: { id: answer, question_id: question } }.to change(question.answers, :count).by(-1)
+        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
       end
 
-      it 'render question show template' do
-        delete :destroy, params: { id: answer, question_id: question }
+      it 'redirect to question show view' do
+        delete :destroy, params: { id: answer }
         expect(response).to redirect_to question
       end
     end
 
-    context 'Other answer' do
+    context 'Other answers' do
       let(:alien_user) { create(:user) }
       let!(:alien_answer) { create(:answer, question: question, user: alien_user) }
 
       it 'delete other answer' do
-        expect { delete :destroy, params: { id: alien_answer, question_id: question } }.to_not change(question.answers, :count)
+        expect { delete :destroy, params: { id: alien_answer } }.to_not change(Answer, :count)
       end
 
       it 'redirect to show view' do
-        delete :destroy, params: { id: alien_answer, question_id: question }
+        delete :destroy, params: { id: alien_answer }
         expect(response).to redirect_to question
       end
     end
