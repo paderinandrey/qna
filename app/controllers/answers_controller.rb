@@ -1,6 +1,5 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  #before_action :find_question
 
   def create
     @question = Question.find(params[:question_id])
@@ -21,14 +20,13 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer = Answer.find(params[:id])
-    @question = Question.find(@answer.question_id)
     if current_user.author_of?(@answer)
       @answer.destroy
       flash[:success] = "Your answer has been successfully deleted!"
     else
       flash[:error] = "You cannot delete answers written by others."
     end
-    redirect_to  @question
+    redirect_to question_path(@answer.question_id)
   end
 
   private
