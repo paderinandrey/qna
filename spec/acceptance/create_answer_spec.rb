@@ -7,9 +7,9 @@ feature 'Create answer to question', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given!(:question) { create(:question, user: user) }
 
-  scenario 'Authenticated user create answer' do
+  scenario 'Authenticated user create answer', js: true do
     sign_in(user)
     visit question_path(question)
     fill_in 'answer_body', with: 'Test body'
@@ -19,7 +19,7 @@ feature 'Create answer to question', %q{
     expect(current_path).to eq question_path(question)
   end
 
-  scenario 'Authenticated user create answer with empty body' do
+  scenario 'Authenticated user create answer with empty body', js: true do
     sign_in(user)
     visit question_path(question)
     fill_in 'answer_body', with: ''
