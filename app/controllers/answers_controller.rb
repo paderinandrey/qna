@@ -3,16 +3,7 @@ class AnswersController < ApplicationController
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    if @answer.save
-      flash[:success] = "Your answer successfully created."
-      redirect_to @question
-    else
-      flash[:error] = @answer.errors.full_messages
-      @answers = @question.answers.reload
-      render 'questions/show'
-    end
+    @answer = @question.answers.create(answer_params.merge(user: current_user))
   end
 
   def update
@@ -22,11 +13,7 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
     if current_user.author_of?(@answer)
       @answer.destroy
-      flash[:success] = "Your answer has been successfully deleted!"
-    else
-      flash[:error] = "You cannot delete answers written by others."
     end
-    redirect_to question_path(@answer.question_id)
   end
 
   private

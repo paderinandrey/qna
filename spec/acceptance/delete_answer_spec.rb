@@ -12,12 +12,15 @@ feature 'Delete answers', %q{
   given(:alien_user) { create(:user) }
   given!(:alien_answer) { create(:answer, question: question, user: alien_user) }
 
-  scenario 'Authenticated user can delete answers of question' do
+  scenario 'Authenticated user can delete answers of question', js: true  do
     sign_in(user)
     visit question_path(question)
     within('.answers') do
       click_link('Delete', href: answer_path(answer))
     end
+    a = page.driver.browser.switch_to.alert
+    expect(a.text).to eq("Are you sure you want to delete this answer?")
+    a.accept
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
@@ -34,7 +37,7 @@ feature 'Delete answers', %q{
     end
   end
 
-  scenario 'Alien user can not delete answer' do
+  scenario 'Alien user can not delete answer', js: true  do
     sign_in(user)
 
     visit question_path(question)

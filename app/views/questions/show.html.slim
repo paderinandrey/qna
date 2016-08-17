@@ -11,13 +11,14 @@ p
 
 p
   -if @question.answers.any?
-    h5 Answers: #{@question.answers.count}
-    ol.answers
-      = render @answers
+    .count #{@question.answers.count}
+    .answers
+      = render @question.answers
 
 - if user_signed_in?
-  = form_for [@question, @answer] do |f|
-    p= f.label :body, 'Ваш ответ:'
-    p= f.text_area :body
+  = form_for [@question, @answer], remote: true, class: 'form-control' do |f|
+    .answer-errors
+    p= f.label :body, 'Ваш ответ:', class: 'col-xs-2 col-form-label'
+    p= f.text_area :body, class: 'form-control'
 
-    p= f.submit 'Create answer'
+    p= f.submit 'Create answer', class: 'btn btn-primary'
