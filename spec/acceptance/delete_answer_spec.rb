@@ -19,7 +19,7 @@ feature 'Delete answers', %q{
       click_link('Delete', href: answer_path(answer))
     end
     a = page.driver.browser.switch_to.alert
-	  a.text.should eq("Are you sure you want to delete this answer?")
+	  expect(a.text).to eq("Are you sure you want to delete this answer?")
 	  a.accept
 
     expect(page).to have_content question.title
