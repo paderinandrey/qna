@@ -11,10 +11,9 @@ p
 
 p
   -if @question.answers.any?
-    h5 id='count' #{@question.answers.count}
+    .count #{@question.answers.count}
     .answers
-      - @question.answers.each do |answer|
-          = render 'questions/answer', answer: answer
+      = render @question.answers
 
 - if user_signed_in?
   = form_for [@question, @answer], remote: true, class: 'form-control' do |f|

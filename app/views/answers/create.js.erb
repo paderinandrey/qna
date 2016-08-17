@@ -3,8 +3,8 @@
         $('.answer-errors').html('<%= j message %>');
     <% end %>
 <% else %>
-    $('.answers').append('<%= j render 'questions/answer', answer: @answer %>');
+    $('.answers').append('<%= j render @answer %>');
     $('#answer_body').val('');
 
-    $('#count').text(parseInt($('#count').text())+1);
+    $('.count').text('<%= @question.answers.count %>');
 <% end %>
