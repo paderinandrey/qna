@@ -53,7 +53,7 @@ end
 
 group :test do
   gem 'shoulda-matchers'
-  gem 'capybara'#, git: 'https://github.com/jnicklas/capybara.git'
+  gem 'capybara'
 end
 
 group :development do
