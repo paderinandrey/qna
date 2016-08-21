@@ -47,13 +47,13 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rubocop'
   gem 'launchy'
-  gem 'selenium-webdriver'
   gem 'database_cleaner'
+  gem 'capybara-webkit'
 end
 
 group :test do
   gem 'shoulda-matchers'
-  gem 'capybara', git: 'https://github.com/jnicklas/capybara.git'
+  gem 'capybara'#, git: 'https://github.com/jnicklas/capybara.git'
 end
 
 group :development do

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Create answer to question', %q{
   In order to help
@@ -26,7 +26,7 @@ feature 'Create answer to question', %q{
     click_on 'Create answer'
 
     expect(page).to have_content "Body can't be blank"
-    expect(current_path).to eq question_answers_path(question)
+    expect(current_path).to eq question_path(question)
   end
 
   scenario 'Non-authenticated user ties to create answer to question' do

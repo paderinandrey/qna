@@ -8,7 +8,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.build
-    @answers = @question.answers
+    @answers = @question.answers.order(best: :desc)
   end
 
   def new

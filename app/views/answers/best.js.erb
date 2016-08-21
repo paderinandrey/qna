@@ -1,0 +1,7 @@
+<% if @answer.best? %>
+    $('li').removeClass('best-answer');
+<% end %>
+
+$('#answer-<%= @answer.id %>').toggleClass('best-answer');
+
+$('#answer-<%= @answer.id %>').prependTo($(".answers"));

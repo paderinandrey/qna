@@ -1,5 +1,6 @@
 p
   strong= @question.title
+p=@question.user.email
 p
   = @question.body
 - if user_signed_in? && current_user.author_of?(@question)
@@ -13,7 +14,7 @@ p
   -if @question.answers.any?
     .count #{@question.answers.count}
     .answers
-      = render @question.answers
+      = render @answers
 
 - if user_signed_in?
   = form_for [@question, @answer], remote: true, class: 'form-control' do |f|
