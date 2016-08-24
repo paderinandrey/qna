@@ -12,22 +12,42 @@ html lang="en"
     = javascript_include_tag "application"
 
   body
-    nav.navbar.navbar-fixed-top.navbar-dark.bg-inverse
-      a.navbar-brand href="#"  Q&A
-      ul.nav.navbar-nav.pull-xs-right
+    #navbar-header.navbar-collapse.inverse.collapse aria-expanded="false" style=("height: 0px;") 
+      .container-fluid
+        .about
+          h4 About
+          p.text-muted Answers to Questions from People who know from own experiance. Find the Answer to your Question.
+        .social
         - if user_signed_in?
-          li.nav-item
-            = link_to  "Log out", destroy_user_session_path, method: :delete, class: 'nav-link'
+          h4= current_user.email
+          ul.list-unstyled
+            li
+              = link_to destroy_user_session_path, method: :delete
+                i.fa.fa-sign-out
+                | &nbsp; Log out
         - else
-          li.nav-item.active
-            = link_to  "Log in", new_user_session_path, class: 'nav-link'
-            span.sr-only (current)
-          li.nav-item
-            = link_to  "Sign up", new_user_registration_path, class: 'nav-link'
-
+            ul.list-unstyled
+              li
+                = link_to new_user_session_path
+                  i.fa.fa-sign-in
+                  | &nbsp; Log in
+              li
+                = link_to new_user_registration_path
+                  i.fa.fa-key
+                  | &nbsp; Sign up
+    
+    .navbar.navbar-static-top.navbar-dark.bg-inverse
+      .container-fluid
+        button.navbar-toggler.collapsed aria-expanded="false" data-target="#navbar-header" data-toggle="collapse" type="button" 
+          | ☰
+        =link_to root_path, class: 'navbar-brand'
+          b Q
+          small &
+          b A
 
     .container
       .starter-template
         p.lead
-          = flash_messages
+          #unobtrusive_flash
+          = render 'layouts/messages'
           = yield

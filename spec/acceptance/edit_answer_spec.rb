@@ -26,12 +26,6 @@ feature 'Answer editing', %q{
       visit question_path(question)
     end
     
-    scenario 'sees link to Edit' do
-      within('.answers') do
-        expect(page).to have_link 'Edit'
-      end  
-    end
-    
     scenario 'try to edit his answer', js: true do
       within '.answers' do
         click_on 'Edit'
@@ -44,8 +38,8 @@ feature 'Answer editing', %q{
       end
     end
     
-    scenario 'Authenticated user try to edit other answer' do
-      within '.answers' do
+    scenario 'try to edit other answer' do
+      within "#answer-#{alien_answer.id}" do
         expect(page).to have_no_link 'Edit'
       end
     end

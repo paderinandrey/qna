@@ -20,14 +20,6 @@ feature 'Choose the best answer', %q{
     end
   end
   
-  scenario 'Author can see link [best answer]' do
-    sign_in(user)
-    visit question_path(question)
-    within('.answers') do
-      expect(page).to have_link 'Best answer'
-    end
-  end
-  
   scenario 'Author of question can choose the best answer (and only one)', js: true do
     sign_in(user)
     visit question_path(question)
@@ -46,7 +38,7 @@ feature 'Choose the best answer', %q{
     answer2.update_attributes(best: true)
     visit question_path(question)
     within("#answer-#{answer2.id}") do
-      click_on 'Best answer'
+      click_on 'Not best answer'
     end
     
     within('.answers') do

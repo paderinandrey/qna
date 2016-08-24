@@ -23,9 +23,9 @@ feature 'Delete answers', %q{
     #expect(a.text).to eq("Are you sure you want to delete this answer?")
     #a.accept
     # Webkit
-    page.accept_confirm do
-      click_link "Delete"
-    end
+    #page.accept_confirm do
+    #  click_link "Delete"
+    #end
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body

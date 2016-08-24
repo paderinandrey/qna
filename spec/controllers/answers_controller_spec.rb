@@ -77,39 +77,39 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'GET #best' do
+  describe 'PATCH #best' do
     let(:alien_user) { create(:user) }
-    let!(:best_answer) { create(:answer, question: question, user: alien_user, best: false) }
+    let!(:not_best_answer) { create(:answer, question: question, user: alien_user, best: false) }
     
     context 'Author of question' do
       before do
         question.update_attribute(:user, @user)
-        get :best, xhr: true, params: { answer_id: best_answer, format: :js }
-        best_answer.reload
+        patch :best, params: { id: not_best_answer, format: :js }
+        not_best_answer.reload
       end  
 
       it 'assigns the requested answer_id to @answer' do
-        expect(assigns(:answer)).to eq best_answer
+        expect(assigns(:answer)).to eq not_best_answer
       end
       
       it 'set the best answer' do
-        expect(best_answer.best).to eq true
+        expect(not_best_answer.best).to eq true
       end
       
       it 'cancel best answer' do
-        get :best, xhr: true, params: { answer_id: best_answer, format: :js }
-        best_answer.reload
+        patch :best, params: { id: not_best_answer, format: :js }
+        not_best_answer.reload
         
-        expect(best_answer.best).to eq false
+        expect(not_best_answer.best).to eq false
       end
       
       it 'choose other best answer' do
-        get :best, xhr: true, params: { answer_id: answer, format: :js }
+        patch :best, params: { id: answer, format: :js }
         answer.reload
-        best_answer.reload
+        not_best_answer.reload
         
         expect(answer.best).to eq true
-        expect(best_answer.best).to eq false
+        expect(not_best_answer.best).to eq false
       end
       
       it 'render best view' do
@@ -119,7 +119,7 @@ RSpec.describe AnswersController, type: :controller do
     
     context 'Alien user' do
       it 'try set best answer' do
-        get :best, xhr: true, params: { answer_id: answer, format: :js }
+        patch :best, params: { id: answer, format: :js }
         answer.reload
         
         expect(answer.best).to eq false

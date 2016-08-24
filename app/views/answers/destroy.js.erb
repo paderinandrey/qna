@@ -1,3 +1,5 @@
-$('#answer-<%= @answer.id %>').remove();
-
-$('.count').text('<%= @answer.question.answers.count %>');
+<% unless flash[:error].present? %>
+  $('#answer-<%= @answer.id %>').remove();
+  
+  $('#answers-count').text('This question has <%= j pluralize(@answer.question.answers.count, 'answers') %>');
+<% end %>

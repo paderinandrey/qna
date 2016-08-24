@@ -4,13 +4,13 @@ class Answer < ApplicationRecord
 
   validates :body, :question_id, :user_id, presence: true
   
+  default_scope { order(best: :desc, created_at: :asc) }
+  
   def switch_best
-    unless self.best?
-      best_answers = Answer.where({ best: true, question_id: self.question })
-      best_answers.update_all(best: false)
-    end
-    
-    self.best = !self.best
-    self.save
+    Answer.transaction do
+      self.question.best_answers.update(best: false) unless self.best?
+      self.best = !self.best
+      self.save!
+    end  
   end
 end

@@ -1,7 +1,8 @@
-<% if @answer.best? %>
+<% unless flash[:error].present? %>
+  <% if @answer.best? %>
     $('li').removeClass('best-answer');
+  <% end %>
+  $('#answer-<%= @answer.id %>').toggleClass('best-answer');
+  $('#best-link-<%= @answer.id %>').html('<i class="fa fa-star-o"></i>&nbsp;<%= @answer.best ? 'Not best answer' : 'Best answer' %>');
+  $('#answer-<%= @answer.id %>').prependTo($(".answers"));
 <% end %>
-
-$('#answer-<%= @answer.id %>').toggleClass('best-answer');
-
-$('#answer-<%= @answer.id %>').prependTo($(".answers"));
