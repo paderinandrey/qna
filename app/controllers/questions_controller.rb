@@ -22,7 +22,7 @@ class QuestionsController < ApplicationController
     @question = Question.new(question_params)
     @question.user = current_user
     if @question.save
-      flash[:success] = "Your question successfully created."
+      flash[:notice] = 'Your question successfully created.'
       redirect_to @question
     else
       flash[:error] = @question.errors.full_messages
@@ -33,14 +33,14 @@ class QuestionsController < ApplicationController
   def update
     if current_user.author_of?(@question)
       if @question.update(question_params)
-        flash[:success] = "Your question has been updated successfully."
+        flash[:notice] = 'Your question has been updated successfully.'
         redirect_to @question
       else
         flash[:error] = @question.errors.full_messages
         render :edit
       end
     else
-      flash[:error] = "You cannot edit questions written by others."
+      flash[:error] = 'You cannot edit questions written by others.'
       redirect_to @question
     end
   end
@@ -48,10 +48,10 @@ class QuestionsController < ApplicationController
   def destroy
     if current_user.author_of?(@question)
       @question.destroy
-      flash[:success] = "Your question has been successfully deleted!"
+      flash[:notice] = 'Your question has been successfully deleted!'
       redirect_to questions_path
     else
-      flash[:error] = "You cannot delete questions written by others."
+      flash[:error] = 'You cannot delete questions written by others.'
       redirect_to @question
     end
   end

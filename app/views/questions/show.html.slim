@@ -1,19 +1,26 @@
 p
   strong= @question.title
+p=@question.user.email
 p
   = @question.body
 - if user_signed_in? && current_user.author_of?(@question)
-  = link_to 'Edit', edit_question_path(@question)
-  '|
-  = link_to 'Delete', @question, method: :delete, data: { confirm: 'Are you sure?' }
-  '|
-= link_to 'Back', questions_path
+  = link_to edit_question_path(@question), class: 'btn btn-primary'
+    i.fa.fa-pencil-square-o aria-hidden="true"
+    | &nbsp; Edit
+  '&nbsp;
+  = link_to @question, method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+    i.fa.fa-trash-o aria-hidden="true"
+    | &nbsp; Delete
+  '&nbsp;
+= link_to questions_path, class: 'btn btn-primary'
+  i.fa.fa-arrow-left aria-hidden="true"
+  | &nbsp; Back
 
 p
   -if @question.answers.any?
-    .count #{@question.answers.count}
+    h6 id="answers-count" This question has #{ pluralize(@question.answers.count, 'answers') }
     .answers
-      = render @question.answers
+      = render @answers
 
 - if user_signed_in?
   = form_for [@question, @answer], remote: true, class: 'form-control' do |f|

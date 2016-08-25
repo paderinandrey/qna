@@ -1,3 +1,7 @@
+.edit_answer { 
+  display: none; 
+}
+
 .answers {
   list-style: none;
   padding: 0;
@@ -22,4 +26,8 @@
     display: block;
     margin-left: 60px;
   }
+}
+
+.best-answer {
+  background-color: orange;
 }
