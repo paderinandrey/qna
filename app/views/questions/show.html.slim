@@ -1,8 +1,13 @@
-p
-  strong= @question.title
-p=@question.user.email
-p
-  = @question.body
+h5= @question.title
+p Posted by #{@question.user.email} on #{time_ago_in_words(@question.created_at) unless @question.created_at.blank?} ago.  
+p= @question.body
+
+p Attachments:  
+ul
+  - @question.attachments.each do |a|
+    li= link_to a.file.file.filename, a.file.url
+  
+  
 - if user_signed_in? && current_user.author_of?(@question)
   = link_to edit_question_path(@question), class: 'btn btn-primary'
     i.fa.fa-pencil-square-o aria-hidden="true"

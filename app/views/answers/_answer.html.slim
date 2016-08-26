@@ -3,7 +3,7 @@
     span.content= answer.body
     span.content= answer.user.email
     span.timestamp
-      | Posted #{time_ago_in_words(answer.created_at) unless answer.created_at.blank?} ago.
+      | Posted by #{answer.user.email} on #{time_ago_in_words(answer.created_at) unless answer.created_at.blank?} ago.
     - if user_signed_in?
         .row
           .col-md-3.col-sm-4

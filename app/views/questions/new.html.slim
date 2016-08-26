@@ -6,5 +6,13 @@ p= 'NEW QUESTION'
   p
     = f.label :body, class: 'col-xs-2 col-form-label'
     = f.text_area :body, class: 'form-control'
+    
+  p Attachments:
+  p
+    = f.fields_for :attachments do |a|
+      = a.label :file
+      = a.file_field :file
+    
+    
   
   p= f.submit 'Create', class: 'btn btn-primary'
