@@ -34,6 +34,7 @@ gem 'slim-rails'
 gem 'bootstrap', '~> 4.0.0.alpha3.1'
 gem 'font-awesome-sass'
 gem 'devise'
+gem 'carrierwave'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
