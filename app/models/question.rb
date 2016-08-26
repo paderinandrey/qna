@@ -7,4 +7,6 @@ class Question < ApplicationRecord
   validates :title, :body, :user_id, presence: true
   
   #scope :best_answers, -> { joins(:answers).where('answers.best = true') }
+  
+  accepts_nested_attributes_for :attachments
 end
