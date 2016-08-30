@@ -35,6 +35,13 @@ gem 'bootstrap', '~> 4.0.0.alpha3.1'
 gem 'font-awesome-sass'
 gem 'devise'
 gem 'carrierwave'
+#gem 'remotipart', github: 'JangoSteve/remotipart'
+gem 'remotipart', github: 'mshibuya/remotipart', ref: '88d9a7'
+#gem 'remotipart', '~> 1.2', github: 'pedantix/remotipart', ref: '7f7989db572976816c03508c335bbc1d8230af78'
+#gem 'jquery-fileupload-rails'
+
+gem 'cocoon'
+gem 'skim'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'

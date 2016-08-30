@@ -1,6 +1,12 @@
 - if answer.persisted?
   li id="answer-#{answer.id}" class=(answer.best ? 'best-answer' : '')
     span.content= answer.body
+    
+    p Attachments:  
+    ul
+      - answer.attachments.each do |a|
+        li= a.file.url
+    
     span.content= answer.user.email
     span.timestamp
       | Posted by #{answer.user.email} on #{time_ago_in_words(answer.created_at) unless answer.created_at.blank?} ago.

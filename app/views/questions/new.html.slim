@@ -7,12 +7,11 @@ p= 'NEW QUESTION'
     = f.label :body, class: 'col-xs-2 col-form-label'
     = f.text_area :body, class: 'form-control'
     
-  p Attachments:
+  h6 Attachments:
   p
     = f.fields_for :attachments do |a|
-      = a.label :file
-      = a.file_field :file
+      = render 'attachment_fields', f: a
+    .links  
+      = link_to_add_association 'Add file', f, :attachments
     
-    
-  
-  p= f.submit 'Create', class: 'btn btn-primary'
+  p= f.submit 'Create', disable_with: 'Please wait ...', class: 'btn btn-primary'

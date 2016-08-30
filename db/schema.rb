@@ -28,11 +28,11 @@ ActiveRecord::Schema.define(version: 20160826165102) do
 
   create_table "attachments", force: :cascade do |t|
     t.string   "file"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.integer  "attachmentable_id"
-    t.string   "attachmentable_type"
-    t.index ["attachmentable_id", "attachmentable_type"], name: "index_attachments_on_attachmentable_id_and_attachmentable_type", using: :btree
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "attachable_id"
+    t.string   "attachable_type"
+    t.index ["attachable_id", "attachable_type"], name: "index_attachments_on_attachable_id_and_attachable_type", using: :btree
   end
 
   create_table "questions", force: :cascade do |t|

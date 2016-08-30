@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :questions do
     resources :answers, shallow: true do
       patch :best, on: :member
+      #post :create, to: 'answers#create', :defaults => { :format => 'js' }
     end
   end
 

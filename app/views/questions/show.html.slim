@@ -28,9 +28,18 @@ p
       = render @answers
 
 - if user_signed_in?
-  = form_for [@question, @answer], remote: true, class: 'form-control' do |f|
+  = form_for [@question, @answer], authenticity_token: true, html: {multipart: true, remote: true, class: 'form-control'} do |f|
     .answer-errors
+    
     p= f.label :body, 'Ваш ответ:', class: 'col-xs-2 col-form-label'
     p= f.text_area :body, class: 'form-control'
+    
+    p
+     = f.fields_for :attachments  do |a|
+      = a.label :file
+      = a.file_field :file
+      
+    .actions  
+      p= f.submit 'Create answer', class: 'btn btn-primary' 
 
-    p= f.submit 'Create answer', class: 'btn btn-primary'
+
