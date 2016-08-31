@@ -1,5 +1,5 @@
 p= 'NEW QUESTION'
-= form_for @question, class: 'form-group row' do |f|
+= form_for @question, html: {multipart: true, class: 'form-group row'} do |f|
   p
     = f.label :title, class: 'col-xs-2 col-form-label'
     = f.text_field :title, class: 'form-control'
@@ -12,6 +12,9 @@ p= 'NEW QUESTION'
     = f.fields_for :attachments do |a|
       = render 'attachment_fields', f: a
     .links  
-      = link_to_add_association 'Add file', f, :attachments
+      = link_to_add_association f, :attachments, class: 'btn-sm btn btn-info' do
+        i.fa.fa-plus
+        | &nbsp; Add file
+        
     
   p= f.submit 'Create', disable_with: 'Please wait ...', class: 'btn btn-primary'

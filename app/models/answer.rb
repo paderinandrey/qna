@@ -8,7 +8,7 @@ class Answer < ApplicationRecord
   default_scope { order(best: :desc, created_at: :asc) }
   scope :best, -> { where(best: true) }
   
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
   
   def switch_best
     Answer.transaction do

@@ -2,11 +2,22 @@ h5= @question.title
 p Posted by #{@question.user.email} on #{time_ago_in_words(@question.created_at) unless @question.created_at.blank?} ago.  
 p= @question.body
 
-p Attachments:  
-ul
-  - @question.attachments.each do |a|
-    li= link_to a.file.file.filename, a.file.url
-  
+# в след. исправлении вынесу список файлов в отдельный паршл 
+- if @question.attachments.any?
+  .question_files
+    .list-group
+      .list-group-item.disabled 
+        h6 Attachments:
+      - @question.attachments.each do |a|
+        .list-group-item id="file-#{a.id}"
+          i.fa.fa-file
+          '&nbsp;
+          = link_to a.file.filename, a.file.url
+          span.pull-xs-right
+            -if user_signed_in? && current_user.author_of?(@question)
+              = link_to attachment_path(a), method: :delete, remote: true, class: 'btn btn-sm', data: { confirm: 'Are you sure?' } do
+                i.fa.fa-times
+                | &nbsp; Delete
   
 - if user_signed_in? && current_user.author_of?(@question)
   = link_to edit_question_path(@question), class: 'btn btn-primary'
@@ -36,8 +47,11 @@ p
     
     p
      = f.fields_for :attachments  do |a|
-      = a.label :file
-      = a.file_field :file
+      = render 'attachment_fields', f: a
+    .links  
+      = link_to_add_association f, :attachments, class: 'btn-sm btn btn-info' do
+        i.fa.fa-plus
+        | &nbsp; Add file
       
     .actions  
       p= f.submit 'Create answer', class: 'btn btn-primary' 
