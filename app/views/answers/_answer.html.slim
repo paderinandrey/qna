@@ -1,16 +1,33 @@
 - if answer.persisted?
   li id="answer-#{answer.id}" class=(answer.best ? 'best-answer' : '')
     span.content= answer.body
+    
+    - if answer.attachments.any?
+      .answer_files
+        .list-group
+          .list-group-item.disabled
+            i.fa.fa-paperclip &nbsp; Attachments:
+          - answer.attachments.each do |a|
+            .list-group-item id="file-#{a.id}"
+              i.fa.fa-file
+              '&nbsp;
+              = link_to a.file.filename, a.file.url
+              span.pull-xs-right
+                -if user_signed_in? && current_user.author_of?(answer)
+                  = link_to attachment_path(a), method: :delete, remote: true, class: 'btn btn-sm', data: { confirm: 'Are you sure?' } do
+                    i.fa.fa-times
+                    | &nbsp; Delete
+    
     span.content= answer.user.email
     span.timestamp
-      | Posted #{time_ago_in_words(answer.created_at) unless answer.created_at.blank?} ago.
+      | Posted by #{answer.user.email} on #{time_ago_in_words(answer.created_at) unless answer.created_at.blank?} ago.
     - if user_signed_in?
         .row
           .col-md-3.col-sm-4
           - if current_user.author_of?(answer.question)
             = link_to best_answer_path(answer), id: "best-link-#{answer.id}",  method: :patch, class: 'btn btn-default', remote: true
               i.fa.fa-star-o aria-hidden="true"
-              | &nbsp; #{answer.best ? 'Not best answer' : 'Best answer'}
+              |#{answer.best ? 'Not best answer' : 'Best answer'}
           - if current_user.author_of?(answer)    
             = link_to answer, class: 'btn btn-default', remote: true, method: :delete, data: { confirm: "Are you sure you want to delete this answer?" }
               i.fa.fa-trash-o aria-hidden="true"

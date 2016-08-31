@@ -34,6 +34,15 @@ gem 'slim-rails'
 gem 'bootstrap', '~> 4.0.0.alpha3.1'
 gem 'font-awesome-sass'
 gem 'devise'
+gem 'carrierwave'
+#gem 'remotipart', github: 'JangoSteve/remotipart'
+gem 'remotipart', github: 'mshibuya/remotipart', ref: '88d9a7'
+#gem 'remotipart', github: 'urielhdz/remotipart', ref: 'master'
+#gem 'remotipart', '~> 1.2', github: 'pedantix/remotipart', ref: '7f7989db572976816c03508c335bbc1d8230af78'
+#gem 'jquery-fileupload-rails'
+
+gem 'cocoon'
+#gem 'skim'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
@@ -63,6 +72,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

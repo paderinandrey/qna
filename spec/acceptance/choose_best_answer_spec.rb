@@ -8,7 +8,7 @@ feature 'Choose the best answer', %q{
   
   given(:user) { create(:user) }
   given!(:alien_user) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given!(:question) { create(:question, user: user) }
   given!(:answer1) { create(:answer, question: question, user: alien_user) }
   given!(:answer2) { create(:answer, question: question, user: alien_user) }
   
@@ -23,6 +23,7 @@ feature 'Choose the best answer', %q{
   scenario 'Author of question can choose the best answer (and only one)', js: true do
     sign_in(user)
     visit question_path(question)
+    
     within("#answer-#{answer2.id}") do
       click_on 'Best answer'
     end

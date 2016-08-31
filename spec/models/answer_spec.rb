@@ -6,6 +6,8 @@ RSpec.describe Answer, type: :model do
 
   it { should validate_presence_of :body }
   
+  it { should accept_nested_attributes_for :attachments }
+  
   describe ':best' do
     it 'orders by best' do
       last_answer = create(:answer, best: false, created_at: Time.zone.today)

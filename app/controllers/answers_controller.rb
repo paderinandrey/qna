@@ -3,8 +3,11 @@ class AnswersController < ApplicationController
   before_action :load_answer, except: [:create]
 
   def create
-    @question = Question.find(params[:question_id])
-    @answer = @question.answers.create(answer_params.merge(user: current_user))
+    respond_to do |format|
+      @question = Question.find(params[:question_id])
+      @answer = @question.answers.create(answer_params.merge(user: current_user))
+      format.js
+    end
   end
 
   def update
@@ -41,6 +44,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, attachments_attributes: [:file, :id, :_destroy])
   end
 end
