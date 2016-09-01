@@ -42,7 +42,8 @@ gem 'remotipart', github: 'mshibuya/remotipart', ref: '88d9a7'
 #gem 'jquery-fileupload-rails'
 
 gem 'cocoon'
-#gem 'skim'
+gem 'skim'
+gem 'sprockets', '>= 3.7.0'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'

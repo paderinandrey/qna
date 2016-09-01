@@ -3,10 +3,16 @@ class AnswersController < ApplicationController
   before_action :load_answer, except: [:create]
 
   def create
+    @question = Question.find(params[:question_id])
+    @answer = @question.answers.build(answer_params.merge(user: current_user))
     respond_to do |format|
-      @question = Question.find(params[:question_id])
-      @answer = @question.answers.create(answer_params.merge(user: current_user))
-      format.js
+      if @answer.save
+        format.html { render partial: @answer, layout: false }
+        format.json { render json: @answer }
+      else
+        format.html { render text: @answer.errors.full_messages.join("\n"), status: :unprocessable_entity }
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+      end
     end
   end
 

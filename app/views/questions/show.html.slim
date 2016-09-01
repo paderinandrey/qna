@@ -2,7 +2,6 @@ h5= @question.title
 p Posted by #{@question.user.email} on #{time_ago_in_words(@question.created_at) unless @question.created_at.blank?} ago.  
 p= @question.body
 
-# в след. исправлении вынесу список файлов в отдельный паршл 
 - if @question.attachments.any?
   .question_files
     .list-group
@@ -39,7 +38,7 @@ p
       = render @answers
 
 - if user_signed_in?
-  = form_for [@question, @answer], authenticity_token: true, html: {multipart: true, remote: true, class: 'form-control'} do |f|
+  = form_for [@question, @answer], id: 'new_answer', authenticity_token: true, data: { type: :json }, html: {multipart: true, remote: true, class: 'form-control'} do |f|
     .answer-errors
     
     p= f.label :body, 'Ваш ответ:', class: 'col-xs-2 col-form-label'
