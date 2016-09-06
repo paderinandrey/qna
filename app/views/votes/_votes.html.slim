@@ -1,0 +1,24 @@
+.voting id="vote-for-#{ votable.class.name.downcase }-#{ votable.id }"
+  .vote-errors
+  - if votable.user_can_vote?(current_user)
+    - if votable.user_voted?(current_user)
+        - if votable.like_by?(current_user)
+          = link_to polymorphic_path([:cancel_vote, votable]), id: 'cancel', method: :delete, remote: true, data: { type: :json }, class: 'btn btn-primary'
+            i.fa.fa-thumbs-up
+            
+          = link_to polymorphic_path([:change_vote, votable]), id: 'change', method: :patch, remote: true, data: { type: :json }, class: 'btn btn-primary'
+            i.fa.fa-thumbs-o-down
+        - else
+          = link_to polymorphic_path([:change_vote, votable]), id: 'change', method: :patch, remote: true, data: { type: :json }, class: 'btn btn-primary'
+            i.fa.fa-thumbs-o-up
+            
+          = link_to polymorphic_path([:cancel_vote, votable]), id: 'cancel', method: :delete, remote: true, data: { type: :json }, class: 'btn btn-primary'
+            i.fa.fa-thumbs-down
+    - else
+        = link_to polymorphic_path([:like, votable]), id: 'like', method: :post, remote: true, data: { type: :json }, class: 'btn btn-primary'
+          i.fa.fa-thumbs-o-up
+        
+        = link_to polymorphic_path([:dislike, votable]), id: 'dislike', method: :post, remote: true, data: { type: :json }, class: 'btn btn-primary'
+          i.fa.fa-thumbs-o-down
+          
+  .result-vote-for-question= votable.total

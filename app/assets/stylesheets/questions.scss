@@ -1,3 +1,30 @@
 // Place all the styles related to the Questions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.post-md {
+  margin-bottom: 30px;
+  padding-bottom: 0px;
+}
+
+.post {
+  text-align: left;
+  margin-bottom: 60px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.post-header {
+  margin:0px 0 20px 0;
+}
+
+.post-title a{
+  color:rgba(39, 39, 39, 0.8);
+}
+
+.post-title h4{font-size:130px;line-height:134px}.panel.panel-post{margin-bottom:40px}.panel.panel-post 
+.panel-body{padding:0}.panel.panel-post 
+.post{padding:20px;margin:0px;border-bottom:0}.panel.panel-post 
+.post .post-header.post-author img{width:55px;height:55px}.panel.panel-post 
+.post .post-header.post-author 
+.post-title{padding-left:15px;text-transform:inherit}.panel.panel-post 
+.post .post-header{margin-bottom:15px}.panel.panel-post 

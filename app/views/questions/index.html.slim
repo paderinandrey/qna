@@ -1,6 +1,15 @@
 -@questions.each do |q|
-  p
-    strong= link_to q.title, q
+  .post.post-md
+    .row
+      .col-md-8
+        .post-header
+          .post-title
+            h4= link_to q.title, q
+            ul.post-meta
+              li= q.user.email
+              li= q.user.email
+        p
+          = q.body
 
 - if user_signed_in?
   p= link_to 'Ask question', new_question_path, class: 'btn btn-primary'

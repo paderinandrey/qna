@@ -1,8 +1,11 @@
 require 'rails_helper'
+require Rails.root.join "spec/models/concerns/votable_spec.rb"
 
 RSpec.describe Question, type: :model do
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many :attachments }
+  
+  it_behaves_like 'votable'
   
   it { should belong_to :user }
 

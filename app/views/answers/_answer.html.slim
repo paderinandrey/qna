@@ -2,6 +2,9 @@
   li id="answer-#{answer.id}" class=(answer.best ? 'best-answer' : '')
     span.content= answer.body
     
+    - if user_signed_in?
+      = render partial: 'votes/votes', locals: { votable: answer }
+    
     - if answer.attachments.any?
       .answer_files
         .list-group
