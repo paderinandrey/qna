@@ -2,19 +2,19 @@
   .vote-errors
   - if @votable.user_can_vote
     - if @votable.user_voted
-      - if @votable.is_like
-          a href="#{ @votable.votable_path }/cancel_vote" id="cancel" data-method="delete" data-remote="true" data-type="json" class="btn btn-primary"
+      - if @votable.like
+          a href="#{ @votable.votable_path }/cancel_vote" id="cancel" data-method="delete" data-remote="true" data-type="json" class="btn btn-primary active"
             i.fa.fa-thumbs-up
-          a href="#{ @votable.votable_path }/change_vote" id="change" data-method="patch" data-remote="true" data-type="json" class="btn btn-primary"
+          a href="#{ @votable.votable_path }/change_vote" id="change" data-method="patch" data-remote="true" data-type="json" class="btn btn-info"
             i.fa.fa-thumbs-o-down
       - else
-          a href="#{ @votable.votable_path }/change_vote" id="change" data-method="patch" data-remote="true" data-type="json" class="btn btn-primary"
+          a href="#{ @votable.votable_path }/change_vote" id="change" data-method="patch" data-remote="true" data-type="json" class="btn btn-info"
             i.fa.fa-thumbs-o-up
-          a href="#{ @votable.votable_path }/cancel_vote" id="cancel" data-method="delete" data-remote="true" data-type="json" class="btn btn-primary"
+          a href="#{ @votable.votable_path }/cancel_vote" id="cancel" data-method="delete" data-remote="true" data-type="json" class="btn btn-primary active"
             i.fa.fa-thumbs-down
     - else
-      a href="#{ @votable.votable_path }/like" id="like" data-method="post" data-remote="true" data-type="json" class="btn btn-primary"
+      a href="#{ @votable.votable_path }/like" id="like" data-method="post" data-remote="true" data-type="json" class="btn btn-info"
         i.fa.fa-thumbs-o-up
-      a href="#{ @votable.votable_path }/dislike" id="dislike" data-method="post" data-remote="true" data-type="json" class="btn btn-primary"
+      a href="#{ @votable.votable_path }/dislike" id="dislike" data-method="post" data-remote="true" data-type="json" class="btn btn-info"
         i.fa.fa-thumbs-o-down
   .result-vote-for-question= @votable.total

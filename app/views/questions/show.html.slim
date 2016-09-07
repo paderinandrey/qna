@@ -2,9 +2,11 @@ h5= @question.title
 p Posted by #{@question.user.email} on #{time_ago_in_words(@question.created_at) unless @question.created_at.blank?} ago.  
 p= @question.body
 
+= render partial: 'attachments/attachments', locals: { object: @question }
+
 - if user_signed_in?
   = render partial: 'votes/votes', locals: { votable: @question }
-
+  
 - if user_signed_in? && current_user.author_of?(@question)
   = link_to edit_question_path(@question), class: 'btn btn-primary'
     i.fa.fa-pencil-square-o aria-hidden="true"
@@ -26,6 +28,7 @@ p
 
 - if user_signed_in?
   = form_for [@question, @answer], id: 'new_answer', authenticity_token: true, data: { type: :json }, html: {multipart: true, remote: true, class: 'form-control'} do |f|
+    
     .answer-errors
     
     p= f.label :body, 'Ваш ответ:', class: 'col-xs-2 col-form-label'

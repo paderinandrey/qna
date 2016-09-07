@@ -15,7 +15,7 @@ $ ->
   .bind 'ajax:error', (e, xhr, status, error) ->
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->
-      $('.answer-errors').append(value)
+      $('.answer-errors').replaceWith(JST['templates/answer-errors']({ message: value }))
 
 voting = (e, data, status, xhr) ->
   votable = $.parseJSON(xhr.responseText)

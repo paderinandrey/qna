@@ -2,24 +2,10 @@
   li id="answer-#{answer.id}" class=(answer.best ? 'best-answer' : '')
     span.content= answer.body
     
+    = render partial: 'attachments/attachments', locals: { object: answer }
+    
     - if user_signed_in?
       = render partial: 'votes/votes', locals: { votable: answer }
-    
-    - if answer.attachments.any?
-      .answer_files
-        .list-group
-          .list-group-item.disabled
-            i.fa.fa-paperclip &nbsp; Attachments:
-          - answer.attachments.each do |a|
-            .list-group-item id="file-#{a.id}"
-              i.fa.fa-file
-              '&nbsp;
-              = link_to a.file.filename, a.file.url
-              span.pull-xs-right
-                -if user_signed_in? && current_user.author_of?(answer)
-                  = link_to attachment_path(a), method: :delete, remote: true, class: 'btn btn-sm', data: { confirm: 'Are you sure?' } do
-                    i.fa.fa-times
-                    | &nbsp; Delete
     
     span.content= answer.user.email
     span.timestamp

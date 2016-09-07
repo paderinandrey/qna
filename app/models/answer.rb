@@ -10,6 +10,7 @@ class Answer < ApplicationRecord
   default_scope { order(best: :desc, created_at: :asc) }
   scope :best, -> { where(best: true) }
   
+  # Changes :best value on opposite
   def switch_best
     Answer.transaction do
       self.question.answers.best.update_all(best: false) unless self.best?

@@ -1,0 +1,17 @@
+- if object.attachments.any?
+  .files id="files-for-#{ object.class.to_s.downcase }-#{ object.id }"
+    .list-group
+      .list-group-item.list-group-item-warning
+        span.tag.tag-default.tag-pill.pull-xs-right= object.attachments.count
+        i.fa.fa-files-o
+        '&nbsp; Attachments:
+      - object.attachments.each do |attachment|
+        .list-group-item id="file-#{attachment.id}"
+          i.fa.fa-file-o
+          '&nbsp;
+          = link_to attachment.file.filename, attachment.file.url
+          span.pull-xs-right
+            -if user_signed_in? && current_user.author_of?(object)
+              = link_to attachment_path(attachment), method: :delete, remote: true, class: 'btn btn-sm', data: { confirm: 'Are you sure?' } do
+                i.fa.fa-times
+                | &nbsp; Delete

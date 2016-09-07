@@ -6,9 +6,9 @@ module Voted
   
   def like
     respond_to do |format|
-      if @votable.user_can_vote?(current_user) && !@votable.user_voted?(current_user)
+      if current_user.can_vote?(@votable)
         if @votable.set_evaluate(current_user, 1)
-          format.json { render partial: 'votes/vote', locals: { votable: @votable } }
+          format.json { render partial: 'votes/votes', locals: { votable: @votable } }
         else
           format.json { render json: @votable.errors.full_messages, status: :unprocessable_entity }
         end  
@@ -20,9 +20,9 @@ module Voted
   
   def dislike
     respond_to do |format|
-      if @votable.user_can_vote?(current_user) && !@votable.user_voted?(current_user)
+      if current_user.can_vote?(@votable)
         if @votable.set_evaluate(current_user, -1)
-          format.json { render partial: 'votes/vote', locals: { votable: @votable } }
+          format.json { render partial: 'votes/votes', locals: { votable: @votable } }
         else
           format.json { render json:  @votable.errors.full_messages, status: :unprocessable_entity }
         end
@@ -34,9 +34,9 @@ module Voted
   
   def change_vote
     respond_to do |format|
-      if @votable.user_can_vote?(current_user) && @votable.user_voted?(current_user)
+      if current_user.voted?(@votable)
         if @votable.change_evaluate(current_user)
-          format.json { render partial: 'votes/vote', locals: { votable: @votable } }
+          format.json { render partial: 'votes/votes', locals: { votable: @votable } }
         else
           format.json { render json:  @votable.errors.full_messages, status: :unprocessable_entity }
         end
@@ -48,9 +48,9 @@ module Voted
   
   def cancel_vote
     respond_to do |format|
-      if @votable.user_can_vote?(current_user) && @votable.user_voted?(current_user)
+      if current_user.voted?(@votable)
         if @votable.cancel_evaluate(current_user)
-          format.json { render partial: 'votes/vote', locals: { votable: @votable } }
+          format.json { render partial: 'votes/votes', locals: { votable: @votable } }
         else
           format.json { render json:  @votable.errors.full_messages, status: :unprocessable_entity }
         end

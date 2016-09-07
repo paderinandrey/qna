@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       delete :cancel_vote
     end
   end
-  
+
   resources :questions, concerns: [:votable] do
     resources :answers, shallow: true, concerns: [:votable] do
       patch :best, on: :member

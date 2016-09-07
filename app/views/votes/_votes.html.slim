@@ -1,24 +1,21 @@
 .voting id="vote-for-#{ votable.class.name.downcase }-#{ votable.id }"
   .vote-errors
-  - if votable.user_can_vote?(current_user)
-    - if votable.user_voted?(current_user)
-        - if votable.like_by?(current_user)
-          = link_to polymorphic_path([:cancel_vote, votable]), id: 'cancel', method: :delete, remote: true, data: { type: :json }, class: 'btn btn-primary'
-            i.fa.fa-thumbs-up
-            
-          = link_to polymorphic_path([:change_vote, votable]), id: 'change', method: :patch, remote: true, data: { type: :json }, class: 'btn btn-primary'
-            i.fa.fa-thumbs-o-down
-        - else
-          = link_to polymorphic_path([:change_vote, votable]), id: 'change', method: :patch, remote: true, data: { type: :json }, class: 'btn btn-primary'
-            i.fa.fa-thumbs-o-up
-            
-          = link_to polymorphic_path([:cancel_vote, votable]), id: 'cancel', method: :delete, remote: true, data: { type: :json }, class: 'btn btn-primary'
-            i.fa.fa-thumbs-down
-    - else
-        = link_to polymorphic_path([:like, votable]), id: 'like', method: :post, remote: true, data: { type: :json }, class: 'btn btn-primary'
-          i.fa.fa-thumbs-o-up
+  - if !current_user.author_of?(votable)
+    - if current_user.voted?(votable)
+      - current_user.like?(votable) ? (action1= :cancel_vote; action2= :change_vote; method1= :delete; method2= :patch; class1='btn btn-primary active'; class2='btn btn-info') : \
+        (action1= :change_vote; action2= :cancel_vote; method1= :patch; method2= :delete; class1='btn btn-info'; class2='btn btn-primary active')
+      
+      = link_to polymorphic_path([action1, votable]), id: 'cancel', method: method1, remote: true, data: { type: :json }, class: class1
+        i.fa.fa-thumbs-up
         
-        = link_to polymorphic_path([:dislike, votable]), id: 'dislike', method: :post, remote: true, data: { type: :json }, class: 'btn btn-primary'
-          i.fa.fa-thumbs-o-down
-          
+      = link_to polymorphic_path([action2, votable]), id: 'change', method: method2, remote: true, data: { type: :json }, class: class2
+        i.fa.fa-thumbs-o-down
+
+    - else
+      = link_to polymorphic_path([:like, votable]), id: 'like', method: :post, remote: true, data: { type: :json }, class: 'btn btn-info'
+        i.fa.fa-thumbs-o-up
+    
+      = link_to polymorphic_path([:dislike, votable]), id: 'dislike', method: :post, remote: true, data: { type: :json }, class: 'btn btn-info'
+        i.fa.fa-thumbs-o-down
+  
   .result-vote-for-question= votable.total
