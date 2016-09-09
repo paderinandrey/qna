@@ -1,7 +1,7 @@
 - if answer.persisted?
   li id="answer-#{answer.id}" class=(answer.best ? 'best-answer' : '')
-    span.content= answer.body
-    
+    = answer.body
+
     = render partial: 'attachments/attachments', locals: { object: answer }
     
     - if user_signed_in?

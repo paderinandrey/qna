@@ -1,52 +1,61 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  
   it { should have_many(:questions).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
   
-  #it { should respond_to(:author_of?).with(1).argument }
   let!(:user) { create(:user) }
   let(:alien) { create(:user) }
   let!(:question) { create(:question, user: user) }
   
-  it '#author_of?' do
-    expect(alien.author_of?(question)).to be false
-    expect(user.author_of?(question)).to be true
+  describe "#author_of?" do
+    it 'User is a author of question' do
+      expect(user).to be_author_of(question)
+    end
+    
+    it 'Alien isn\'t a author of question' do
+      expect(alien).to_not be_author_of(question)
+    end
   end
   
-  it '#can_vote?' do
-    question.set_evaluate(user, 1)
+  describe "#can_vote?" do
+    before { question.set_evaluate(user, 1) }
+    it 'User can\'t vote own question' do
+      expect(user).to_not be_can_vote(question)
+    end
     
-    expect(user.can_vote?(question)).to be false
-    expect(alien.can_vote?(question)).to be true
-  end
-    
-  it '#voted?' do
-    expect(user.voted?(question)).to be false
-    
-    question.set_evaluate(user, 1)
-    
-    expect(user.voted?(question)).to be true
+    it 'Alien can vote question' do
+      expect(alien).to be_can_vote(question)
+    end
   end
   
-  it '#like?' do
-    question.set_evaluate(user, 1)
+  describe "#voted?" do
+    it 'User voted' do
+      question.set_evaluate(user, 1)
+      
+      expect(user).to be_voted(question)
+    end
     
-    expect(user.like?(question)).to be true
-    
-    question.change_evaluate(user)
-    
-    expect(user.like?(question)).to be false
-    
-    question.set_evaluate(user, -1)
-    
-    expect(user.like?(question)).to be false
-    
-    question.cancel_evaluate(user)
-    
-    expect(user.like?(question)).to be false
+    it 'Alien didn\'t vote' do
+      expect(alien).to_not be_voted(question)
+    end
+  end
+  
+  describe "#like?" do
+    it 'User set [like]' do
+      question.set_evaluate(user, 1)
+      
+      expect(user).to be_like(question)
+    end
+      
+    it 'User set another evaluate' do
+      question.set_evaluate(user, -1)
+      
+      expect(user).to_not be_like(question)
+    end
   end
 end
