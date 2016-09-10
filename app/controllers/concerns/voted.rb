@@ -34,7 +34,7 @@ module Voted
   
   def change_vote
     respond_to do |format|
-      if current_user.voted?(@votable)
+      if !current_user.author_of?(@votable) && current_user.voted?(@votable)
         if @votable.change_evaluate(current_user)
           format.json { render partial: 'votes/votes', locals: { votable: @votable } }
         else
@@ -48,7 +48,7 @@ module Voted
   
   def cancel_vote
     respond_to do |format|
-      if current_user.voted?(@votable)
+      if !current_user.author_of?(@votable) && current_user.voted?(@votable)
         if @votable.cancel_evaluate(current_user)
           format.json { render partial: 'votes/votes', locals: { votable: @votable } }
         else

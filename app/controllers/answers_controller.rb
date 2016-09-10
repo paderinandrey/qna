@@ -5,15 +5,8 @@ class AnswersController < ApplicationController
   include Voted
   
   def create
-    @question = Question.find(params[:question_id])
-    @answer = @question.answers.build(answer_params.merge(user: current_user))
-    respond_to do |format|
-      if @answer.save
-        format.json { render json: @answer }
-      else
-        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
-      end
-    end
+      @question = Question.find(params[:question_id])
+      @answer = @question.answers.create(answer_params.merge(user: current_user))
   end
 
   def update

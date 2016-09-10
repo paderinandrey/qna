@@ -1,9 +1,10 @@
 - if answer.persisted?
   li id="answer-#{answer.id}" class=(answer.best ? 'best-answer' : '')
-    = answer.body
-
-    = render partial: 'attachments/attachments', locals: { object: answer }
+    div id="answer-body-#{answer.id}"
+      = answer.body
     
+    = render partial: 'attachments/attachments', locals: { object: answer }
+      
     - if user_signed_in?
       = render partial: 'votes/votes', locals: { votable: answer }
     
@@ -25,13 +26,6 @@
             = link_to '', class: 'btn btn-default edit-answer-link', data: { answer_id: answer.id }
               i.fa.fa-pencil-square-o aria-hidden="true"
               | &nbsp; Edit
-              
-          p
-            = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
-              .answer-errors
-              = f.label :body, "Answer"
-              = f.text_area :body
-              = f.button 'Cancel', class: 'btn btn-none'
-              | &nbsp;
-              = f.submit 'Save', class: 'btn btn-primary'
+        
+        .edit-answer id="edit-answer-#{answer.id}"
 end

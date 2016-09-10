@@ -10,9 +10,9 @@ module VotesHelper
   end
   
   def voting_buttons(votable)
-    like    = { id: :like, method: :post, class: 'btn btn-info' }
-    dislike = { id: :dislike, method: :post, class: 'btn btn-info' }
-    change  = { id: :change_vote, method: :patch, class: 'btn btn-info' }
+    like    = { id: :like, method: :post, class: 'btn btn-secondary' }
+    dislike = { id: :dislike, method: :post, class: 'btn btn-secondary' }
+    change  = { id: :change_vote, method: :patch, class: 'btn btn-secondary' }
     cancel  = { id: :cancel_vote, method: :delete, class: 'btn btn-primary active' }
     
     html_options    = { remote: true, data: { type: :json } } 

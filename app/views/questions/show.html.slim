@@ -30,7 +30,7 @@ p
 
 - if user_signed_in?
   .well
-    = form_for [@question, @answer], id: 'new_answer', authenticity_token: true, data: { type: :json }, html: {multipart: true, remote: true } do |f|
+    = form_for [@question, @answer], id: 'new_answer', authenticity_token: true, html: {multipart: true, remote: true } do |f|
       
       .answer-errors
       
@@ -47,5 +47,3 @@ p
       br  
       .actions  
         p= f.submit 'Create answer', class: 'btn btn-primary' 
-
-
