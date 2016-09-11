@@ -19,7 +19,7 @@ feature 'View list of questions', %q{
     expect(current_path).to eq questions_path
   end
 
-  scenario 'Non-authenticated user ties to view list of questions' do
+  scenario 'Non-authenticated user tries to view list of questions' do
     visit questions_path
 
     questions.each do |question|

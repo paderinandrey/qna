@@ -1,23 +1,12 @@
 - if answer.persisted?
   li id="answer-#{answer.id}" class=(answer.best ? 'best-answer' : '')
-    span.content= answer.body
+    div id="answer-body-#{answer.id}"
+      = answer.body
     
-    - if answer.attachments.any?
-      .answer_files
-        .list-group
-          .list-group-item.disabled
-            i.fa.fa-paperclip &nbsp; Attachments:
-          - answer.attachments.each do |a|
-            .list-group-item id="file-#{a.id}"
-              i.fa.fa-file
-              '&nbsp;
-              = link_to a.file.filename, a.file.url
-              span.pull-xs-right
-                -if user_signed_in? && current_user.author_of?(answer)
-                  = link_to attachment_path(a), method: :delete, remote: true, class: 'btn btn-sm', data: { confirm: 'Are you sure?' } do
-                    i.fa.fa-times
-                    | &nbsp; Delete
-    
+    = render partial: 'attachments/attachments', locals: { object: answer }
+    .vote-for-answer  
+      = render partial: 'votes/votes', locals: { votable: answer }
+
     span.content= answer.user.email
     span.timestamp
       | Posted by #{answer.user.email} on #{time_ago_in_words(answer.created_at) unless answer.created_at.blank?} ago.
@@ -36,13 +25,6 @@
             = link_to '', class: 'btn btn-default edit-answer-link', data: { answer_id: answer.id }
               i.fa.fa-pencil-square-o aria-hidden="true"
               | &nbsp; Edit
-              
-          p
-            = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
-              .answer-errors
-              = f.label :body, "Answer"
-              = f.text_area :body
-              = f.button 'Cancel', class: 'btn btn-none'
-              | &nbsp;
-              = f.submit 'Save', class: 'btn btn-primary'
+        
+        .edit-answer id="edit-answer-#{answer.id}"
 end

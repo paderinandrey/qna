@@ -1,59 +1,48 @@
-h5= @question.title
-p Posted by #{@question.user.email} on #{time_ago_in_words(@question.created_at) unless @question.created_at.blank?} ago.  
-p= @question.body
-
-# в след. исправлении вынесу список файлов в отдельный паршл 
-- if @question.attachments.any?
-  .question_files
-    .list-group
-      .list-group-item.disabled 
-        h6 Attachments:
-      - @question.attachments.each do |a|
-        .list-group-item id="file-#{a.id}"
-          i.fa.fa-file
-          '&nbsp;
-          = link_to a.file.filename, a.file.url
-          span.pull-xs-right
-            -if user_signed_in? && current_user.author_of?(@question)
-              = link_to attachment_path(a), method: :delete, remote: true, class: 'btn btn-sm', data: { confirm: 'Are you sure?' } do
-                i.fa.fa-times
-                | &nbsp; Delete
-  
-- if user_signed_in? && current_user.author_of?(@question)
-  = link_to edit_question_path(@question), class: 'btn btn-primary'
-    i.fa.fa-pencil-square-o aria-hidden="true"
-    | &nbsp; Edit
-  '&nbsp;
-  = link_to @question, method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-    i.fa.fa-trash-o aria-hidden="true"
-    | &nbsp; Delete
-  '&nbsp;
-= link_to questions_path, class: 'btn btn-primary'
-  i.fa.fa-arrow-left aria-hidden="true"
-  | &nbsp; Back
-
+.well
+  .media
+    h5= @question.title
+    p Posted by #{@question.user.email} on #{time_ago_in_words(@question.created_at) unless @question.created_at.blank?} ago.  
+    p= @question.body
+    
+    = render partial: 'attachments/attachments', locals: { object: @question }
+    
+    = render partial: 'votes/votes', locals: { votable: @question }
+      
+    - if user_signed_in? && current_user.author_of?(@question)
+      = link_to edit_question_path(@question), class: 'btn btn-primary'
+        i.fa.fa-pencil-square-o aria-hidden="true"
+        | &nbsp; Edit
+      '&nbsp;
+      = link_to @question, method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+        i.fa.fa-trash-o aria-hidden="true"
+        | &nbsp; Delete
+      '&nbsp;
+    = link_to questions_path, class: 'btn btn-primary'
+      i.fa.fa-arrow-left aria-hidden="true"
+      | &nbsp; Back
+    
 p
   -if @question.answers.any?
-    h6 id="answers-count" This question has #{ pluralize(@question.answers.count, 'answers') }
+    h6 id="answers-count" This question has #{ pluralize(@question.answers.count, 'answer') }
     .answers
       = render @answers
 
 - if user_signed_in?
-  = form_for [@question, @answer], authenticity_token: true, html: {multipart: true, remote: true, class: 'form-control'} do |f|
-    .answer-errors
-    
-    p= f.label :body, 'Ваш ответ:', class: 'col-xs-2 col-form-label'
-    p= f.text_area :body, class: 'form-control'
-    
-    p
-     = f.fields_for :attachments  do |a|
-      = render 'attachment_fields', f: a
-    .links  
-      = link_to_add_association f, :attachments, class: 'btn-sm btn btn-info' do
-        i.fa.fa-plus
-        | &nbsp; Add file
+  .well
+    = form_for [@question, @answer], id: 'new_answer', authenticity_token: true, html: {multipart: true, remote: true } do |f|
       
-    .actions  
-      p= f.submit 'Create answer', class: 'btn btn-primary' 
-
-
+      .answer-errors
+      
+      h5 Leave a answer:
+      p= f.text_area :body, rows: 4, placeholder: 'Please write your answer here...', class: 'form-control'
+      
+      p
+       = f.fields_for :attachments  do |a|
+        = render 'attachment_fields', f: a
+      .links  
+        = link_to_add_association f, :attachments, class: 'btn-sm btn btn-outline-info'
+          i.fa.fa-plus
+          | &nbsp; Attach a file
+      br  
+      .actions  
+        p= f.submit 'Create answer', class: 'btn btn-primary' 

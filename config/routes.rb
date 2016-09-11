@@ -1,9 +1,18 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :questions do
-    resources :answers, shallow: true do
+  
+  concern :votable do
+    member do
+      post :like
+      post :dislike
+      patch :change_vote
+      delete :cancel_vote
+    end
+  end
+
+  resources :questions, concerns: [:votable] do
+    resources :answers, shallow: true, concerns: [:votable] do
       patch :best, on: :member
-      #post :create, to: 'answers#create', :defaults => { :format => 'js' }
     end
   end
 

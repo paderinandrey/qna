@@ -1,10 +1,13 @@
 <% if @answer.errors.present? %>
   <% @answer.errors.full_messages.each do |message| %>
-    $('.answer-errors').html('<%= j message %>');
+    var error_msg = "<%= escape_javascript(message).html_safe %>";
+    $('.answer-errors').replaceWith(JST["templates/answer-errors"]({ message: error_msg }));
+    $('.answer-errors').delay(3000).slideUp("fast");
   <% end %>
 <% else %>
-  $('.answers').append('<%= j render @answer %>');
-  $('#answer_body').val('');
   
-  $('#answers-count').text('This question has <%= j pluralize(@question.answers.count, 'answers') %>');
+  $('.answers').append("<%= escape_javascript("#{ render @answer }") %>");
+  $('#answer_body').val('');
+
+  $('#answers-count').text('This question has <%= j pluralize(@question.answers.count, 'answers') %>')
 <% end %>

@@ -1,0 +1,7 @@
+.answer-errors
+  .alert.alert-danger role="alert"
+    i.fa.fa-exclamation-triangle
+    '&nbsp;
+    strong Warning!
+    '&nbsp;
+    =@message

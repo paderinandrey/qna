@@ -1,6 +1,23 @@
 -@questions.each do |q|
-  p
-    strong= link_to q.title, q
-
+  h4= link_to q.title, q
+  p= q.body
+  div
+    i.fa.fa-user
+    ' &nbsp; by
+    = link_to q.user.email
+    ' &nbsp; | &nbsp;
+    i.fa.fa-clock-o
+    ' &nbsp; 
+    ' Posted #{time_ago_in_words(q.created_at) unless q.created_at.blank?} ago.
+    ' &nbsp; | &nbsp;
+    i.fa.fa-reply
+    '&nbsp; #{ pluralize(q.answers.count, 'answer') }
+    ' &nbsp; | &nbsp;
+    i.fa.fa-thumbs-o-up
+    ' &nbsp;
+    = q.total
+    
+  hr  
+            
 - if user_signed_in?
   p= link_to 'Ask question', new_question_path, class: 'btn btn-primary'

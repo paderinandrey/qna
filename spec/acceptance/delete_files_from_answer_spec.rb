@@ -18,7 +18,7 @@ feature 'Delete files from question', %q{
     
     expect(page).to have_link(file.file.filename) 
     
-    within '.answer_files' do
+    within "#files-for-answer-#{ answer.id }" do
       click_on 'Delete'
     end  
     
@@ -29,7 +29,7 @@ feature 'Delete files from question', %q{
     sign_in(alien_user)
     visit question_path(question)
     
-    within '.answer_files' do
+    within "#files-for-answer-#{ answer.id }" do
       expect(page).to have_no_link("Delete", href: attachment_path(file))
       expect(page).to have_no_xpath "//a[@href='#{attachment_path(file)}'][@data-method='delete']"
     end  
