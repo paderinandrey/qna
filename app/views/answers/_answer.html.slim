@@ -4,10 +4,9 @@
       = answer.body
     
     = render partial: 'attachments/attachments', locals: { object: answer }
-      
-    - if user_signed_in?
+    .vote-for-answer  
       = render partial: 'votes/votes', locals: { votable: answer }
-    
+
     span.content= answer.user.email
     span.timestamp
       | Posted by #{answer.user.email} on #{time_ago_in_words(answer.created_at) unless answer.created_at.blank?} ago.

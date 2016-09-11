@@ -1,5 +1,5 @@
 .answer-errors
-  .alert.alert-warning role="alert"
+  .alert.alert-danger role="alert"
     i.fa.fa-exclamation-triangle
     '&nbsp;
     strong Warning!

@@ -11,29 +11,29 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves new answer in the db' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question, format: :json } }.to change(question.answers, :count).by(1)
+        expect { post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js } }.to change(question.answers, :count).by(1)
       end
 
       it 'answer belongs to user' do
-        post :create, params: { answer: attributes_for(:answer), question_id: question, format: :json }
+        post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
         expect(assigns(:answer).user).to eq subject.current_user
       end
 
-      #it 'redner show question template' do
-      #  post :create, params: { answer: attributes_for(:answer), question_id: question, format: :json }
-      #  expect(response).to render_template :create
-      #end
+      it 'redner show question template' do
+        post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
+        expect(response).to render_template :create
+      end
     end
 
     context 'with invalid attributes' do
       it 'does not save the answer' do
-        expect { post :create, params: { answer: attributes_for(:invalid_answer), question_id: question, format: :json } }.to_not change(Answer, :count)
+        expect { post :create, params: { answer: attributes_for(:invalid_answer), question_id: question, format: :js } }.to_not change(Answer, :count)
       end
 
-      #it 'render create template' do
-      #  post :create, params: { answer: attributes_for(:invalid_answer), question_id: question, format: :json }
-      #  expect(response).to render_template :create
-      #end
+      it 'render create template' do
+        post :create, params: { answer: attributes_for(:invalid_answer), question_id: question, format: :js }
+        expect(response).to render_template :create
+      end
     end
   end
 

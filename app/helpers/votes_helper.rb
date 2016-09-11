@@ -17,7 +17,7 @@ module VotesHelper
     
     html_options    = { remote: true, data: { type: :json } } 
     
-    if !current_user.author_of?(votable)
+    if user_signed_in? && !current_user.author_of?(votable)
       combinations = current_user.voted?(votable) ? current_user.like?(votable) ? [cancel, change] : [change, cancel] : [like, dislike]      
           
       content_tag(:div, class: "voting_buttons") do

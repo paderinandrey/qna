@@ -1,4 +1,6 @@
 .voting id="vote-for-#{ votable.class.name.downcase }-#{ votable.id }"
+  div class="result-vote-for-#{ votable.class.name.downcase }"
+    = votable.total
   .vote-errors
   = voting_buttons(votable)
-  .result-vote-for-question= votable.total
+  
