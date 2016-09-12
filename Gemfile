@@ -39,6 +39,8 @@ gem 'remotipart', github: 'mshibuya/remotipart', ref: '88d9a7'
 gem 'cocoon'
 gem 'skim'
 gem 'sprockets', '>= 3.7.0'
+gem 'private_pub'
+gem 'thin'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
