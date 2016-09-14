@@ -19,5 +19,3 @@
         i.fa.fa-thumbs-o-up
       a href="#{ @votable.votable_path }/dislike" id="dislike" data-method="post" data-remote="true" data-type="json" class="btn btn-secondary"
         i.fa.fa-thumbs-o-down
-  
-

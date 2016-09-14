@@ -1,0 +1,11 @@
+<% if @comment.errors.present? %>
+  <% @comment.errors.full_messages.each do |message| %>
+    var error_msg = "<%= escape_javascript(message).html_safe %>";
+    $('.comment-errors').replaceWith(JST["templates/answer-errors"]({ message: error_msg }));
+    $('.comment-errors').delay(3000).slideUp("fast");
+  <% end %>
+<% else %>
+  $('.comments#for-<%= @comment.commentable_type.downcase %>-<%= @comment.commentable.id %>').append('<%= j render @comment %>');
+  $('.add-comment-link').show(); 
+  $('form#new-comment-for-<%= @comment.commentable_type.downcase %>-<%= @comment.commentable.id %>').remove();
+<% end %>

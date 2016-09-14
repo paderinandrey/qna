@@ -1,0 +1,8 @@
+.new-comment id="for-#{ @commentable_type }-#{ @commentable_id }"
+  form data-remote="true" id="new-comment-for-#{ @commentable_type }-#{ @commentable_id }" action="/#{ @commentable_type }s/#{ @commentable_id }/add_comment" accept-charset="UTF-8" method="post"
+    h5 Leave a comment
+    .comment-errors
+    input type="hidden" name="_method" value="post"
+    textarea id= "comment_body" name="comment[body]"
+    
+    button type="submit" class="btn btn-success active add-comment" Save

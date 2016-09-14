@@ -3,6 +3,7 @@ class AnswersController < ApplicationController
   before_action :load_answer, except: [:create]
 
   include Voted
+  include Commented
   
   def create
       @question = Question.find(params[:question_id])

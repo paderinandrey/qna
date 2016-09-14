@@ -9,9 +9,5 @@
   $('.answers').append("<%= escape_javascript("#{ render @answer }") %>");
   $('#answer_body').val('');
 
-  <% publish_to "/questions/#{ @question.id }/answers" do %>
-    $('.answers').append("<%= escape_javascript("#{ render @answer }") %>");
-  <% end %>
-
-  $('#answers-count').text('This question has <%= j pluralize(@question.answers.count, 'answers') %>')
+  $('#answers-count').text('This question has <%= j pluralize(@question.answers.count, 'answer') %>')
 <% end %>

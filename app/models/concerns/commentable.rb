@@ -1,7 +1,7 @@
 module Commentable
   extend ActiveSupport::Concern
   
-  include do
+  included do
     has_many :comments, as: :commentable, dependent: :destroy
   end
 end

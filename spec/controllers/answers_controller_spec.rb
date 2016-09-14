@@ -1,5 +1,6 @@
 require 'rails_helper'
 require Rails.root.join "spec/shared_examples/voted_controller_spec.rb"
+require Rails.root.join "spec/shared_examples/commented_controller_spec.rb"
 
 RSpec.describe AnswersController, type: :controller do
   sign_in_user
@@ -159,4 +160,5 @@ RSpec.describe AnswersController, type: :controller do
   end
   
   it_behaves_like "voted", "answer"
+  it_behaves_like "commented", "answer"
 end

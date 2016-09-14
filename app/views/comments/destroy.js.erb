@@ -1,0 +1,3 @@
+<% unless flash[:error].present? %>
+  $('#comment-<%= @comment.id %>').remove();
+<% end %>
