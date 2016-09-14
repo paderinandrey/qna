@@ -49,4 +49,4 @@ p
       .actions  
         p= f.submit 'Create answer', class: 'btn btn-primary' 
 
-
+= subscribe_to "/questions/#{@question.id}/answers"
