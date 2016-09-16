@@ -1,8 +1,8 @@
 .edit-comment id="comment-#{ @comment_id }"
-  h5 Edit comment
   form data-remote="true" id="comment-#{ @comment_id }" action="/comments/#{ @comment_id }" accept-charset="UTF-8" method="post"
+    h5 Edit comment
     .comment-errors
     input type="hidden" name="_method" value="patch"
-    textarea id= "comment_body" name="comment[body]" #{@comment_body}
+    textarea id= "comment_body" name="comment[body]" #{ @comment_body }
     
     button type="submit" class="btn btn-primary active" Save

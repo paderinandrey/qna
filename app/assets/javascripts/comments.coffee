@@ -19,15 +19,17 @@ addComment = (e) ->
   $("form#new-comment-for-#{ commentable_type }-#{ commentable_id }").show()
  
 createComment = (comment) ->
-  $('.comments#for-' + comment.commentable_type.toLowerCase() + '-' + comment.commentable_id).append(comment.body)
-  $('#comment_body').val('')
+  id = comment.commentable_type + '-' + comment.commentable_id
+  $('.comments#for-' + id).append(JST['templates/comment']({ comment: comment }))
+  $('.add-comment-link#for-'+ id).show()
+  $('form#new-comment-for-'+ id).remove() 
 
 deleteComment = (comment) ->
   $("#comment-#{ comment.id }").remove()  
 
 updateComment = (comment) ->
   $("#comment-body-#{ comment.id }").replaceWith(comment.body)
-  $('form#edit-comment-' + comment.id).remove() 
+  $('form#comment-' + comment.id).remove() 
  
 $(document).ready ->
   $(document).on('click', '.edit-comment-link', editComment)
@@ -35,6 +37,7 @@ $(document).ready ->
 
   commentableId = $('.comments').data('commentableId')
   PrivatePub.subscribe "/questions/#{ commentableId }/comments", (data, channel) ->
+    console.log(data)
     comment = $.parseJSON(data['comment'])
     switch data['method']
       when 'delete' then deleteComment(comment)

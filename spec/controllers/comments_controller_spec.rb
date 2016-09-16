@@ -6,6 +6,26 @@ RSpec.describe CommentsController, type: :controller do
   let!(:question) { create(:question) }
   let!(:comment) { create(:comment, commentable: question) }
 
+  describe 'POST #create' do
+    context 'with valid attributes' do
+      it 'comment count change by 1' do
+        expect { post :create, params: { commentable_type: 'question', comment: attributes_for(:comment), question_id: question.id, format: :js } }.to change(question.comments, :count).by(1)
+      end
+      
+      it 'comment belongs to user' do
+        post :create, params: { commentable_type: 'question', comment: attributes_for(:comment), question_id: question.id, format: :js }
+        
+        expect(assigns(:comment).user).to eq subject.current_user
+      end
+    end
+    
+    context 'with invalid attributes' do
+      it 'with invalid attributes' do
+        expect { post :create, params: { commentable_type: 'question', comment: attributes_for(:invalid_comment), question_id: question.id, format: :js } }.to_not change(Comment, :count)
+      end
+    end
+  end
+
   describe 'PATCH #update' do
     
     context 'Own answers' do

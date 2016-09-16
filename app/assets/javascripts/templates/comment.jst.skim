@@ -1,0 +1,9 @@
+.comment id="comment-#{ @comment.id }"
+  hr
+  i 
+    div id="comment-body-#{ @comment.id }"
+      p #{ @comment.body }
+  
+  .edit-comment id="comment-#{ @comment.id }"
+
+  hr

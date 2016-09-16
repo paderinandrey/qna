@@ -56,7 +56,7 @@ group :development, :test do
   gem 'launchy'
   gem 'database_cleaner'
   gem 'capybara-webkit'
-  gem 'with_model'
+  gem 'json_spec'
 end
 
 group :test do
