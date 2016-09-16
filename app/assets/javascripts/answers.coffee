@@ -10,6 +10,17 @@ editAnswer = (e) ->
   $("#edit-answer-#{ answer_id }").replaceWith(JST['templates/edit-answer']({ answer_id: answer_id, answer_body: answer_body }))
   $('form#edit-answer-' + answer_id).show()
 
+createAnswer = (answer) ->
+  $('.answers').append(answer.body)
+  $('#answer_body').val('')
+
+deleteAnswer = (answer) ->
+  $("#answer-#{ answer.id }").remove()  
+
+updateAnswer = (answer) ->
+  $("#answer-body-#{ answer.id }").replaceWith(answer.body)
+  $('form#edit-answer-' + answer.id).remove()
+  
 voting = (e, data, status, xhr) ->
   votable = $.parseJSON(xhr.responseText)
   $("#vote-for-answer-#{ votable.votable_id }").replaceWith(JST['templates/vote']({ votable: votable }))
@@ -23,3 +34,11 @@ $(document).ready ->
   $(document).on('click', '.edit-answer-link', editAnswer)
   $(document).on('ajax:success', '.voting', voting)
   $(document).on('ajax:error', '.vote-errors', voteError)
+  
+  questionId = $('.answers').data('questionId')
+  PrivatePub.subscribe '/questions/' + questionId + '/answers', (data, channel) ->
+    answer = $.parseJSON(data['answer'])
+    switch data['method']
+      when 'delete' then deleteAnswer(answer)
+      when 'update' then updateAnswer(answer)
+      else createAnswer(answer)

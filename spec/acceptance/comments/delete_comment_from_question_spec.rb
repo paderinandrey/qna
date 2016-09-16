@@ -11,7 +11,7 @@ feature 'Delete comment from question', %q{
   given(:question) { create(:question, user: user) }
   given!(:comment) { create(:comment, commentable: question, user: user) }
 
-  scenario 'Author edit own comment', js: true do
+  scenario 'Author edit own comment', json: true do
     sign_in(user)
     visit question_path(question)
     

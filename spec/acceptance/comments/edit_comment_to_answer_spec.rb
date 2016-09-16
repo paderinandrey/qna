@@ -12,33 +12,33 @@ feature 'Editing comment to answer', %q{
   given(:answer) { create(:answer, question: question, user: user) }
   given!(:comment) { create(:comment, commentable: answer, user: user) }
 
-  scenario 'Author edit own comment to answer', js: true do
+  scenario 'Author edit own comment to answer', json: true do
     sign_in(user)
     visit question_path(question)
-    within '.answer-comment' do
-      click_on('Edit comment')
+    within "#comment-#{ comment.id }" do
+      click_on('Edit')
       fill_in 'comment_body', with: 'new test comment'
-      click_on('Save comment')
+      click_on('Save')
     end
     
     expect(page).to have_content 'new test comment'
     expect(current_path).to eq question_path(question)
   end
 
-  scenario 'Alien tries to edit comment to answer' do
+  scenario 'Alien tries to edit comment to answer', json: true do
     sign_in(alien)
     visit question_path(question)
     
-    within '.answer-comment' do
-      expect(page).to have_no_link('Edit comment')
+    within "#comment-#{ comment.id }" do
+      expect(page).to have_no_link('Edit')
     end 
   end
 
   scenario 'Non-authenticated user tries to edit comment to answer' do
     visit question_path(question)
     
-    within '.answer-comment' do
-      expect(page).to have_no_link('Edit comment')
+    within "#comment-#{ comment.id }" do
+      expect(page).to have_no_link('Edit')
     end
   end
 end

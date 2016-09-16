@@ -11,7 +11,7 @@ feature 'Editing comment to question', %q{
   given(:question) { create(:question, user: user) }
   given!(:comment) { create(:comment, commentable: question, user: user) }
 
-  scenario 'Author edit own comment', js: true do
+  scenario 'Author edit own comment', json: true do
     sign_in(user)
     visit question_path(question)
     
@@ -23,7 +23,7 @@ feature 'Editing comment to question', %q{
     expect(current_path).to eq question_path(question)
   end
 
-  scenario 'Author edit commnent with empty body', js: true do
+  scenario 'Author edit commnent with empty body', json: true do
     sign_in(user)
     visit question_path(question)
     

@@ -1,4 +1,4 @@
-.comments id="for-#{ commentable.class.name.downcase }-#{ commentable.id }"
+.comments id="for-#{ commentable.class.name.downcase }-#{ commentable.id }" data={ commentable_id: "#{ commentable.id }", commentable_type: "#{ commentable.class.name.downcase }" }
   =render commentable.comments    
 
 - if user_signed_in?

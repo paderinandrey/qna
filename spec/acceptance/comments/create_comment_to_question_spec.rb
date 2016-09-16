@@ -6,10 +6,11 @@ feature 'Create comment to question', %q{
   I want to be able to create comment to question
 } do
 
+
   given(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
 
-  scenario 'Authenticated user create comment with valid attributes', js: true do
+  scenario 'Authenticated user create comment with valid attributes', json: true do
     sign_in(user)
     visit question_path(question)
     
@@ -21,7 +22,7 @@ feature 'Create comment to question', %q{
     expect(current_path).to eq question_path(question)
   end
 
-  scenario 'Authenticated user create commnent with empty body', js: true do
+  scenario 'Authenticated user create commnent with empty body', json: true do
     sign_in(user)
     visit question_path(question)
     
