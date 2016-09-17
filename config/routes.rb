@@ -9,9 +9,16 @@ Rails.application.routes.draw do
       delete :cancel_vote
     end
   end
+  
+  # concern :commentable do
+  #   resources :comments, shallow: true, only: [:update, :destroy] 
+  #   post :add_comment, on: :member
+  # end
 
-  resources :questions, concerns: [:votable] do
-    resources :answers, shallow: true, concerns: [:votable] do
+  resources :questions, concerns: :votable do
+    resources :comments, shallow: true, only: [:create, :update, :destroy], defaults: { commentable_type: 'question' }
+    resources :answers, shallow: true, concerns: :votable do
+      resources :comments, shallow: true, only: [:create, :update, :destroy], defaults: { commentable_type: 'answer' }
       patch :best, on: :member
     end
   end

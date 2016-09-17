@@ -17,6 +17,7 @@
             = link_to best_answer_path(answer), id: "best-link-#{answer.id}",  method: :patch, class: 'btn btn-default', remote: true
               i.fa.fa-star-o aria-hidden="true"
               |#{answer.best ? 'Not best answer' : 'Best answer'}
+              
           - if current_user.author_of?(answer)    
             = link_to answer, class: 'btn btn-default', remote: true, method: :delete, data: { confirm: "Are you sure you want to delete this answer?" }
               i.fa.fa-trash-o aria-hidden="true"
@@ -27,4 +28,8 @@
               | &nbsp; Edit
         
         .edit-answer id="edit-answer-#{answer.id}"
+        
+  
+  = render partial: 'comments/comments', locals: { commentable: answer }
+  
 end

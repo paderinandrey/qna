@@ -5,9 +5,5 @@
     $('.answer-errors').delay(3000).slideUp("fast");
   <% end %>
 <% else %>
-  
-  $('.answers').append("<%= escape_javascript("#{ render @answer }") %>");
-  $('#answer_body').val('');
-
-  $('#answers-count').text('This question has <%= j pluralize(@question.answers.count, 'answers') %>')
+  $('#answers-count').text('This question has <%= j pluralize(@question.answers.count, 'answer') %>')
 <% end %>

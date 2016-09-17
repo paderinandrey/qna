@@ -6,13 +6,29 @@ class AnswersController < ApplicationController
   
   def create
       @question = Question.find(params[:question_id])
-      @answer = @question.answers.create(answer_params.merge(user: current_user))
+      @answer = @question.answers.build(answer_params.merge(user: current_user))
+      respond_to do |format|
+        if @answer.save
+          format.js do
+            PrivatePub.publish_to "/questions/#{ @question.id }/answers", answer: @answer.to_json
+            head :ok
+          end
+        else
+          format.js
+        end
+      end
   end
 
   def update
     if current_user.author_of?(@answer) 
-      @answer.update(answer_params)
-      flash[:notice] = 'Answer updated'
+      respond_to do |format|
+        @answer.update(answer_params)
+        #flash[:notice] = 'Answer updated'
+        format.js do
+        PrivatePub.publish_to "/questions/#{ @answer.question_id }/answers", answer: @answer.to_json(only: [:id, :body]), method: :update
+        head :ok
+        end
+      end
     else
       flash[:error] = 'You cannot change answers written by others!'
     end
@@ -20,10 +36,16 @@ class AnswersController < ApplicationController
 
   def destroy
     if current_user.author_of?(@answer)
+      respond_to do |format|
       @answer.destroy
-      flash[:notice] = 'Answer deleted'
+        #flash[:notice] = 'Answer deleted'
+        format.js do
+          PrivatePub.publish_to "/questions/#{ @answer.question_id }/answers", answer: @answer.to_json(only: :id), method: :delete
+          head :ok
+        end
+      end
     else
-      flash[:error] = 'You cannot delete answers written by others!' 
+      flash[:error] = 'You cannot delete answers written by others!'
     end
   end
   

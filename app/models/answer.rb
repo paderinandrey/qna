@@ -4,6 +4,7 @@ class Answer < ApplicationRecord
   
   belongs_to :question, touch: true
   belongs_to :user
+  has_many :comments, as: :commentable, dependent: :destroy
 
   validates :body, :question_id, :user_id, presence: true
   

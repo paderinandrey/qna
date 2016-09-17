@@ -3,6 +3,6 @@
   form data-remote="true" id="edit-answer-#{ @answer_id }" class="edit_answer" action="/answers/#{ @answer_id }" accept-charset="UTF-8" method="post"
     .answer-errors
     input type="hidden" name="_method" value="patch"
-    textarea id= "answer_body" name="answer[body]" #{@answer_body}
+    textarea id= "answer_body" name="answer[body]" #{ @answer_body }
     
     button type="submit" class="btn btn-primary active" Save

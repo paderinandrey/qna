@@ -1,9 +1,10 @@
 require 'rails_helper'
-require Rails.root.join "spec/models/concerns/votable_spec.rb"
+require Rails.root.join 'spec/models/concerns/votable_spec.rb'
 
 RSpec.describe Answer, type: :model do
   it { should belong_to(:question).touch(true) }
   it { should belong_to :user }
+  it { should have_many(:comments).dependent(:destroy) }
   
   it_behaves_like 'votable'
 

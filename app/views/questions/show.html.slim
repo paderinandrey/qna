@@ -20,16 +20,18 @@
     = link_to questions_path, class: 'btn btn-primary'
       i.fa.fa-arrow-left aria-hidden="true"
       | &nbsp; Back
-    
+
+= render partial: 'comments/comments', locals: { commentable: @question }
+  
 p
   -if @question.answers.any?
     h6 id="answers-count" This question has #{ pluralize(@question.answers.count, 'answer') }
-    .answers
+    .answers data={question_id: "#{ @question.id }"}
       = render @answers
 
 - if user_signed_in?
   .well
-    = form_for [@question, @answer], id: 'new_answer', authenticity_token: true, html: {multipart: true, remote: true } do |f|
+    = form_for [@question, @answer], id: 'new_answer', authenticity_token: true, html: { multipart: true, remote: true } do |f|
       
       .answer-errors
       
@@ -46,3 +48,6 @@ p
       br  
       .actions  
         p= f.submit 'Create answer', class: 'btn btn-primary' 
+
+= subscribe_to "/questions/#{@question.id}/answers"
+= subscribe_to "/questions/#{@question.id}/comments"

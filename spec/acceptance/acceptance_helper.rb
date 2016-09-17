@@ -8,6 +8,10 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :feature
   config.include AcceptanceHelper, type: :feature
 
+  Capybara::Webkit.configure do |config|
+    config.allow_url("thinknetica-antares7g.c9users.io")
+  end
+
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end
