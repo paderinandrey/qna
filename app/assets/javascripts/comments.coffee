@@ -24,7 +24,7 @@ createComment = (comment) ->
   $('.add-comment-link#for-'+ id).show()
   $('form#new-comment-for-'+ id).remove() 
 
-deleteComment = (comment) ->
+destroyComment = (comment) ->
   $("#comment-#{ comment.id }").remove()  
 
 updateComment = (comment) ->
@@ -37,9 +37,9 @@ $(document).ready ->
 
   commentableId = $('.comments').data('commentableId')
   PrivatePub.subscribe "/questions/#{ commentableId }/comments", (data, channel) ->
-    console.log(data)
     comment = $.parseJSON(data['comment'])
-    switch data['method']
-      when 'delete' then deleteComment(comment)
+    switch comment.action
+      when 'destroy' then destroyComment(comment)
       when 'update' then updateComment(comment)
-      else createComment(comment)
+      when 'create' then createComment(comment)
+      else null

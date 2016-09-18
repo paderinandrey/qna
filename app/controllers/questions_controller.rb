@@ -1,48 +1,37 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
-
+  before_action :build_answer, only: [:show]
+  after_action -> { publish_question(params[:action]) }, only: [:create]
+  
+  respond_to :html
+  respond_to :json, only: :create
+  
   include Voted
   
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = @question.answers.build
-    @answer.attachments.build
     @answers = @question.answers
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with(@question = Question.new)
   end
 
   def edit
   end
 
   def create
-    @question = Question.new(question_params)
-    @question.user = current_user
-    if @question.save
-      flash[:notice] = 'Your question successfully created.'
-      PrivatePub.publish_to "/questions", question: @question.to_json
-      redirect_to @question
-    else
-      flash[:error] = @question.errors.full_messages, render(:new)
-    end
+    respond_with(@question = Question.create(question_params))
   end
 
   def update
     if current_user.author_of?(@question)
-      if @question.update(question_params)
-        flash[:notice] = 'Your question has been updated successfully.'
-        redirect_to @question
-      else
-        flash[:error] = @question.errors.full_messages
-        render :edit
-      end
+      @question.update(question_params)
+      respond_with @question
     else
       flash[:error] = 'You cannot edit questions written by others.'
       redirect_to @question
@@ -51,9 +40,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     if current_user.author_of?(@question)
-      @question.destroy
-      flash[:notice] = 'Your question has been successfully deleted!'
-      redirect_to questions_path
+      respond_with(@question.destroy)
     else
       flash[:error] = 'You cannot delete questions written by others.'
       redirect_to @question
@@ -66,7 +53,16 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
   end
 
+  def build_answer
+    @answer = @question.answers.build
+  end
+  
   def question_params
     params.require(:question).permit(:title, :body, attachments_attributes: [:file, :id, :_destroy])
+                             .merge(user: current_user)
+  end
+  
+  def publish_question(action)
+    PrivatePub.publish_to("/questions", question: @question.to_json, action: action) if @question.valid?
   end
 end

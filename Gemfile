@@ -41,6 +41,7 @@ gem 'skim'
 gem 'sprockets', '>= 3.7.0'
 gem 'private_pub'
 gem 'thin'
+gem 'responders', '~> 2.0'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'

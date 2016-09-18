@@ -1,0 +1,11 @@
+<% if @comment.errors.present? %>
+  <% @comment.errors.full_messages.each do |message| %>
+    var error_msg = "<%= escape_javascript(message).html_safe %>";
+    $('.comment-errors').replaceWith(JST["templates/answer-errors"]({ message: error_msg }));
+    $('.comment-errors').delay(3000).slideUp("fast");
+  <% end %>
+<% else %>
+  <!--var parentSelector = '<%= @comment.commentable_type.downcase %>_<%= @comment.commentable_id %>';-->
+  <!--$('.comments#for-' + parentSelector).append('<%= j render @comment %>');-->
+  <!--$('#answer_body').val('');-->
+<% end %>

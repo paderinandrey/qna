@@ -14,7 +14,7 @@ createAnswer = (answer) ->
   $('.answers').append(answer.body)
   $('#answer_body').val('')
 
-deleteAnswer = (answer) ->
+destroyAnswer = (answer) ->
   $("#answer-#{ answer.id }").remove()  
 
 updateAnswer = (answer) ->
@@ -38,7 +38,9 @@ $(document).ready ->
   questionId = $('.answers').data('questionId')
   PrivatePub.subscribe '/questions/' + questionId + '/answers', (data, channel) ->
     answer = $.parseJSON(data['answer'])
-    switch data['method']
-      when 'delete' then deleteAnswer(answer)
+    console.log(data)
+    switch data['action']
+      when 'destroy' then destroyAnswer(answer)
       when 'update' then updateAnswer(answer)
-      else createAnswer(answer)
+      when 'create' then createAnswer(answer)
+      else null

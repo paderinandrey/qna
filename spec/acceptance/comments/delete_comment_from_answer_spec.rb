@@ -11,7 +11,7 @@ feature 'Delete comment from answer', %q{
   given(:question) { create(:question, user: user) }
   given!(:comment) { create(:comment, commentable: question, user: user) }
 
-  scenario 'Author tries delete own comment', json: true do
+  scenario 'Author tries delete own comment', js: true do
     sign_in(user)
     visit question_path(question)
     
