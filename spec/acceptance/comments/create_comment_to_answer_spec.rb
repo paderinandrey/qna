@@ -10,11 +10,11 @@ feature 'Create comment to answer', %q{
   given(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user) }
 
-  scenario 'Authenticated user create comment with valid attributes', json: true do
+  scenario 'Authenticated user create comment with valid attributes', js: true do
     sign_in(user)
     visit question_path(question)
     
-    within '.answer-comment' do
+    within "#answer-#{ answer.id }" do
       click_on('Add a comment')
       fill_in 'comment_body', with: 'test comment'
       click_on('Save')
@@ -24,11 +24,11 @@ feature 'Create comment to answer', %q{
     expect(current_path).to eq question_path(question)
   end
 
-  scenario 'Authenticated user create commnent with empty body', json: true do
+  scenario 'Authenticated user create commnent with empty body', js: true do
     sign_in(user)
     visit question_path(question)
     
-    within '.answer-comment' do
+    within "#answer-#{ answer.id }" do
       click_on('Add a comment')
       fill_in 'comment_body', with: ''
       click_on('Save')

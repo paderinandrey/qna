@@ -1,34 +1,21 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_answer, except: [:create]
+  before_action :load_answer, except: :create
+  after_action -> { publish_answer(params[:action]) }, only: [:create, :update, :destroy]
+
+  respond_to :js, :json
 
   include Voted
   
   def create
-      @question = Question.find(params[:question_id])
-      @answer = @question.answers.build(answer_params.merge(user: current_user))
-      respond_to do |format|
-        if @answer.save
-          format.js do
-            PrivatePub.publish_to "/questions/#{ @question.id }/answers", answer: @answer.to_json
-            head :ok
-          end
-        else
-          format.js
-        end
-      end
+    @question = Question.find(params[:question_id])
+    respond_with(@answer = @question.answers.create(answer_params))
   end
 
   def update
     if current_user.author_of?(@answer) 
-      respond_to do |format|
-        @answer.update(answer_params)
-        #flash[:notice] = 'Answer updated'
-        format.js do
-        PrivatePub.publish_to "/questions/#{ @answer.question_id }/answers", answer: @answer.to_json(only: [:id, :body]), method: :update
-        head :ok
-        end
-      end
+      @answer.update(answer_params)
+      respond_with(@answer)
     else
       flash[:error] = 'You cannot change answers written by others!'
     end
@@ -36,14 +23,7 @@ class AnswersController < ApplicationController
 
   def destroy
     if current_user.author_of?(@answer)
-      respond_to do |format|
-      @answer.destroy
-        #flash[:notice] = 'Answer deleted'
-        format.js do
-          PrivatePub.publish_to "/questions/#{ @answer.question_id }/answers", answer: @answer.to_json(only: :id), method: :delete
-          head :ok
-        end
-      end
+      respond_with(@answer.destroy)
     else
       flash[:error] = 'You cannot delete answers written by others!'
     end
@@ -66,5 +46,10 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: [:file, :id, :_destroy])
+          .merge(user: current_user)
+  end
+  
+  def publish_answer(action)
+    PrivatePub.publish_to("/questions/#{ @answer.question_id }/answers", answer: @answer.to_json, action: action) if @answer.valid?
   end
 end

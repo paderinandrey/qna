@@ -5,5 +5,7 @@
     $('.comment-errors').delay(3000).slideUp("fast");
   <% end %>
 <% else %>
-  $('#comment-<%= @comment.id %>').replaceWith('<%= j render @comment %>').show();
+  <!--var parentSelector = '<%= @comment.commentable_type.downcase %>_<%= @comment.commentable_id %>';-->
+  <!--$('.comments#for-' + parentSelector).append('<%= j render @comment %>');-->
+  <!--$('#answer_body').val('');-->
 <% end %>

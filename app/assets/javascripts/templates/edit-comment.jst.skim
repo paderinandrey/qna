@@ -1,4 +1,4 @@
-.edit-comment id="comment-#{ @comment_id }"
+.edit-comment id="edit-comment-#{ @comment_id }"
   form data-remote="true" id="comment-#{ @comment_id }" action="/comments/#{ @comment_id }" accept-charset="UTF-8" method="post"
     h5 Edit comment
     .comment-errors

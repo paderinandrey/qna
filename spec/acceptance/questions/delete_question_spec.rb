@@ -1,4 +1,4 @@
-require_relative 'acceptance_helper'
+require_relative '../acceptance_helper'
 
 feature 'Delete question', %q{
   In order to ???
@@ -17,7 +17,7 @@ feature 'Delete question', %q{
     visit question_path(question)
     click_link('Delete', href: question_path(question))
 
-    expect(page).to have_content 'Your question has been successfully deleted!'
+    expect(page).to have_content 'Question was successfully destroyed.'
     expect(page).to have_no_content question.title
     expect(page).to have_no_content question.body
     expect(current_path).to eq questions_path

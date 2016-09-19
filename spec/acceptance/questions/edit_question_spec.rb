@@ -1,4 +1,4 @@
-require_relative 'acceptance_helper'
+require_relative '../acceptance_helper'
 
 feature 'Edit question', %q{
   In order to get specify question
@@ -20,7 +20,7 @@ feature 'Edit question', %q{
     fill_in 'Body', with: 'new body'
     click_on 'Save'
 
-    expect(page).to have_content 'Your question has been updated successfully.'
+    expect(page).to have_content 'Question was successfully updated.'
     expect(page).to have_content 'new title'
     expect(page).to have_content 'new body'
     expect(current_path).to eq question_path(question)
@@ -35,7 +35,7 @@ feature 'Edit question', %q{
     fill_in 'Body', with: 'new body'
     click_on 'Save'
 
-    expect(page).to have_content "Title can't be blank"
+    expect(page).to have_content 'Question could not be updated.'
     expect(current_path).to eq question_path(question)
   end
 

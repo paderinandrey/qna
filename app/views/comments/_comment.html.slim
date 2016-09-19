@@ -4,7 +4,7 @@
     div id="comment-body-#{ comment.id }"
       =comment.body
   
-  .edit-comment id="comment-#{ comment.id }"
+  .edit-comment id="edit-comment-#{ comment.id }"
   
   - if user_signed_in? && current_user.author_of?(comment) 
     = link_to comment, class: 'btn btn-default', remote: true, method: :delete, data: { confirm: "Are you sure you want to delete this answer?" }

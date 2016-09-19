@@ -11,25 +11,29 @@ feature 'Editing comment to question', %q{
   given(:question) { create(:question, user: user) }
   given!(:comment) { create(:comment, commentable: question, user: user) }
 
-  scenario 'Author edit own comment', json: true do
+  scenario 'Author edit own comment', js: true do
     sign_in(user)
     visit question_path(question)
     
-    click_on('Edit comment')
-    fill_in 'comment_body', with: 'new test comment'
-    click_on('Save comment')
+    within "#comment-#{ comment.id }" do
+      click_on('Edit')
+      fill_in 'comment_body', with: 'new test comment'
+      click_on('Save')
+    end
     
     expect(page).to have_content 'new test comment'
     expect(current_path).to eq question_path(question)
   end
 
-  scenario 'Author edit commnent with empty body', json: true do
+  scenario 'Author edit commnent with empty body', js: true do
     sign_in(user)
     visit question_path(question)
     
-    click_on('Edit comment')
-    fill_in 'comment_body', with: ''
-    click_on('Save comment')
+    within "#comment-#{ comment.id }" do
+      click_on('Edit')
+      fill_in 'comment_body', with: ''
+      click_on('Save')
+    end
     
     expect(page).to have_content "Body can't be blank"
     expect(current_path).to eq question_path(question)
@@ -39,12 +43,16 @@ feature 'Editing comment to question', %q{
     sign_in(alien)
     visit question_path(question)
     
-    expect(page).to have_no_link('Edit comment')
+    within "#comment-#{ comment.id }" do
+      expect(page).to have_no_link('Edit')
+    end
   end
 
   scenario 'Non-authenticated user tries to edit comment' do
     visit question_path(question)
     
-    expect(page).to have_no_link('Edit comment')
+    within "#comment-#{ comment.id }" do
+      expect(page).to have_no_link('Edit')
+    end
   end
 end

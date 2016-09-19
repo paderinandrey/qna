@@ -1,4 +1,4 @@
-require_relative 'acceptance_helper'
+require_relative '../acceptance_helper'
 
 feature 'Delete files from question', %q{
   In order to illustrate my question
@@ -9,15 +9,16 @@ feature 'Delete files from question', %q{
   given(:user) { create(:user) }
   given(:alien_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
-  given!(:file) { create(:attachment, attachable: question) }
+  given!(:answer) { create(:answer, question: question, user: user) }
+  given!(:file) { create(:attachment, attachable: answer) }
   
-  scenario 'User deletes file from question', js: true do
+  scenario 'User deletes file from answer', js: true do
     sign_in(user)
     visit question_path(question)
     
     expect(page).to have_link(file.file.filename) 
     
-    within "#files-for-question-#{ question.id }" do
+    within "#files-for-answer-#{ answer.id }" do
       click_on 'Delete'
     end  
     
@@ -28,7 +29,7 @@ feature 'Delete files from question', %q{
     sign_in(alien_user)
     visit question_path(question)
     
-    within "#files-for-question-#{ question.id }" do
+    within "#files-for-answer-#{ answer.id }" do
       expect(page).to have_no_link("Delete", href: attachment_path(file))
       expect(page).to have_no_xpath "//a[@href='#{attachment_path(file)}'][@data-method='delete']"
     end  
