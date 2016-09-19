@@ -7,7 +7,7 @@ editComment = (e) ->
   $(this).hide()
   comment_id = $(this).data('commentId')
   comment_body = $('#comment-body-' + comment_id).text()
-  $(".edit-comment#comment-#{ comment_id }").replaceWith(JST['templates/edit-comment']({ comment_id: comment_id, comment_body: comment_body }))
+  $(".edit-comment#edit-comment-#{ comment_id }").replaceWith(JST['templates/edit-comment']({ comment_id: comment_id, comment_body: comment_body }))
   $('form#edit-comment-' + comment_id).show()
  
 addComment = (e) ->

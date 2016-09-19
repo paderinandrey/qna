@@ -15,8 +15,10 @@ feature 'Delete comment from question', %q{
     sign_in(user)
     visit question_path(question)
     
-    click_on('Delete')
-
+    within "#comment-#{ comment.id }" do
+      click_on('Delete')
+    end
+    
     expect(page).to have_no_content comment.body
     expect(current_path).to eq question_path(question)
   end
@@ -25,12 +27,16 @@ feature 'Delete comment from question', %q{
     sign_in(alien)
     visit question_path(question)
     
-    expect(page).to have_no_link('Delete')
+    within "#comment-#{ comment.id }" do
+      expect(page).to have_no_link('Delete')
+    end
   end
 
   scenario 'Non-authenticated user tries to delete comment from question' do
     visit question_path(question)
     
-    expect(page).to have_no_link('Delete')
+    within "#comment-#{ comment.id }" do
+      expect(page).to have_no_link('Delete')
+    end
   end
 end
