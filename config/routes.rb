@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' } 
+  match '/users/confirm_email' => 'users#confirm_email', via: :post, as: :confirm_email
   
   concern :votable do
     member do
@@ -24,10 +25,6 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: :destroy
-  
-  #match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
- # match '/users/:id/confirm_email' => 'users#confirm_email', via: [:get, :patch], :as => :confirm_email
-  match '/users/confirm_email' => 'users#confirm_email', via: :post, as: :confirm_email
   
   root to: "questions#index"
 end
