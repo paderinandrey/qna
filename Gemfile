@@ -44,6 +44,7 @@ gem 'thin'
 gem 'responders', '~> 2.0'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
@@ -59,7 +60,8 @@ group :development, :test do
   gem 'launchy'
   gem 'database_cleaner'
   gem 'capybara-webkit'
-  gem 'json_spec'
+  gem 'letter_opener'
+  gem 'capybara-email'
 end
 
 group :test do
