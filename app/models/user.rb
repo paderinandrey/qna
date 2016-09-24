@@ -28,57 +28,40 @@ class User < ApplicationRecord
   end
   
   #
-  def self.find_for_oauth1(auth)
+  def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
     
     email = auth.info[:email]
+    name = auth.info[:name]
     user = User.where(email: email).first if email
     
     if user
       user.create_authorization(auth.provider, auth.uid)
     else
+      password = Devise.friendly_token[0, 20]
       if email.blank?
-        return User.new(
-          name: auth.extra.raw_info.name,
-          password: Devise.friendly_token[0,20])
+        return User.new(name: name, password: password)
+        # или user = User.new(name: name, password: password) правильнее?
       else
-        password = Devise.friendly_token[0, 20]
-        user = User.new(email: email, password: password, password_confirmation: password)
+        user = User.new(email: email, password: password, password_confirmation: password, name: name)
         user.skip_confirmation!
-        user.save!
-        user.create_authorization(auth.provider, auth.uid)
+        User.transaction do  
+          user.save!
+          user.create_authorization(auth.provider, auth.uid)
+        end
       end
     end
     user
   end
   
+  #
   def create_authorization(provider, uid)
     self.authorizations.create(provider: provider, uid: uid)
   end
 
-  def self.find_for_oauth(auth)
-
-    authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
-    return authorization.user if authorization
-
-    email = auth.info[:email]
-    user = User.where(email: email).first if email
-    # Create the user if needed
-    if user.nil?
-      email_is_verified = auth.info.email && (auth.info.verified || auth.info.verified_email)
-      email = auth.info.email if email_is_verified
-      user = User.where(email: email).first if email
-
-      # Create the user if it's a new registration
-      if user.nil?
-
-        user = User.new(
-          name: auth.extra.raw_info.name,
-          password: Devise.friendly_token[0,20]
-        )
-      end
-    end
-    user
+  # 
+  def username
+    name.blank? ? email : name
   end
 end

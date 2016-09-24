@@ -122,4 +122,17 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "#username" do
+    let(:user) { create(:user) }
+    let(:named_user) { create(:named_user) }
+
+    it 'user hasn\'t name' do
+      expect(user.username).to eq user.email
+    end
+    
+    it 'user has name' do
+      expect(named_user.username).to eq named_user.name
+    end
+  end
 end

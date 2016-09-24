@@ -79,7 +79,6 @@ ActiveRecord::Schema.define(version: 20160923071635) do
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
     t.string   "name"
-    t.boolean  "need_confirmation"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"

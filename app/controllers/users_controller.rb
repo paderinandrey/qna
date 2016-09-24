@@ -1,19 +1,22 @@
 class UsersController < ApplicationController
-
   def confirm_email
     auth = session['devise.omniauth_data']
-    User.transaction do
-      @user = User.create!(user_params)
-      @user.create_authorization(auth['provider'], auth['uid'])
+    if auth == nil
+      flash[:notice] = "Please sign up to continue."
+      redirect_to new_user_registration_url
+    else
+      User.transaction do
+        @user = User.create!(user_params)
+        @user.create_authorization(auth['provider'], auth['uid'])
+      end
+      sign_in_and_redirect @user, event: :authentication
+      flash[:success] = "Signed in successfully via #{ auth['provider'].capitalize }." 
+      flash[:notice] = "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account." 
     end
-    sign_in_and_redirect @user, event: :authentication
-    flash[:success] = "Signed in successfully via #{ auth['provider'].capitalize }." 
   end
 
   private
     def user_params
-      accessible = [:name, :email]
-      accessible << [:password, :password_confirmation] unless params[:user][:password].blank?
-      params.require(:user).permit(accessible)
+      params.require(:user).permit(:name, :email, :password)
     end
 end
