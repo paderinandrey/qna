@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' } 
-  match '/users/confirm_email' => 'users#confirm_email', via: :post, as: :confirm_email
+  
+  devise_scope :user do
+    match '/users/confirm_email' => 'users#confirm_email', via: :post, as: :confirm_email
+  end
   
   concern :votable do
     member do

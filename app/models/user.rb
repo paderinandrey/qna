@@ -57,7 +57,7 @@ class User < ApplicationRecord
   
   #
   def create_authorization(provider, uid)
-    self.authorizations.create(provider: provider, uid: uid)
+    self.authorizations.create!(provider: provider, uid: uid)
   end
 
   # 

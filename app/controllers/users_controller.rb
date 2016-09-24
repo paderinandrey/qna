@@ -17,6 +17,6 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:name, :email, :password)
+      params.require(:user).permit(:name, :email).merge(password: Devise.friendly_token[0, 20])
     end
 end

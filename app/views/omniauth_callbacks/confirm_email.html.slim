@@ -6,7 +6,6 @@
       = f.text_field :name, class: 'form-control input-lg'
       = f.label :email
       = f.text_field :email, required: true, autofocus: true, value: '', class: 'form-control input-lg', placeholder: 'Example: email@test.com'
-      = f.hidden_field :password
     .actions
       p.help-block Please confirm your email address after continue.
       = f.submit 'Continue', class: 'btn btn-primary'

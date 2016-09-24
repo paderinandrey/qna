@@ -21,4 +21,10 @@ FactoryGirl.define do
     password_confirmation '12345678'
     confirmed_at Time.zone.now
   end
+  
+  factory :invalid_user, class: 'User' do
+    name
+    password '12345678'
+    password_confirmation '12345678'
+  end
 end
