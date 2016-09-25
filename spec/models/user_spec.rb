@@ -135,4 +135,18 @@ RSpec.describe User, type: :model do
       expect(named_user.username).to eq named_user.name
     end
   end
+  
+  describe ".generate" do
+    it 'with invalid params' do
+      invalid_params = {email: ''}
+      
+      expect(User.generate(invalid_params)).to_not be_valid
+    end
+    
+    it 'with valid params' do
+      valid_params = {email: 'test1@test.com'}
+      
+      expect(User.generate(valid_params)).to be_valid
+    end
+  end
 end

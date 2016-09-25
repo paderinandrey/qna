@@ -6,7 +6,8 @@ class UsersController < ApplicationController
       redirect_to new_user_registration_url
     else
       User.transaction do
-        @user = User.create!(user_params)
+        @user = User.generate(user_params)
+        @user.save!
         @user.create_authorization(auth['provider'], auth['uid'])
       end
       sign_in_and_redirect @user, event: :authentication
@@ -17,6 +18,6 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:name, :email).merge(password: Devise.friendly_token[0, 20])
+      params.require(:user).permit(:name, :email)
     end
 end

@@ -1,5 +1,5 @@
 class Authorization < ApplicationRecord
   belongs_to :user
-  validates_presence_of :uid, :provider
-  validates_uniqueness_of :uid, scope: :provider
+  validates :provider, presence: true
+  validates :uid, presence: true, uniqueness: { scope: :provider }
 end

@@ -64,4 +64,11 @@ class User < ApplicationRecord
   def username
     name.blank? ? email : name
   end
+  
+  #
+  def self.generate(params)
+    user = new(params)
+    user.password = Devise.friendly_token[0, 20]
+    user
+  end
 end

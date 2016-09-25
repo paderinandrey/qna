@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' } 
+  devise_for :users, skip: [:registrations], controllers: { omniauth_callbacks: 'omniauth_callbacks' } 
   
   devise_scope :user do
-    match '/users/confirm_email' => 'users#confirm_email', via: :post, as: :confirm_email
+    post '/users/confirm_email' => 'users#confirm_email', as: :confirm_email
+    get '/users/signup' => 'devise/registrations#new', as: :new_user_registration
+    post '/users/signup' => 'devise/registrations#create', as: :user_registration
   end
   
   concern :votable do
