@@ -3,6 +3,7 @@ class CommentsController < ApplicationController
   before_action :load_commentable, only: [:create]
   before_action :load_comment, except: [:create]
   after_action -> { publish_comment(params[:action]) }
+  authorize_resource
   
   respond_to :js
   

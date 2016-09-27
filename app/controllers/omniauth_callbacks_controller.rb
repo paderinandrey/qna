@@ -1,4 +1,6 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  skip_authorization_check
+  
   def facebook
     provides_callback
   end
@@ -10,6 +12,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def linkedin
     provides_callback
   end
+  
+  private
   
   def provides_callback
     auth = request.env["omniauth.auth"]
