@@ -12,11 +12,16 @@
       ' Posted #{time_ago_in_words(q.created_at) unless q.created_at.blank?} ago.
       ' &nbsp; | &nbsp;
       i.fa.fa-reply
-      '&nbsp; #{ pluralize(q.answers.count, 'answer') }
+      ' &nbsp; #{ pluralize(q.answers.count, 'answer') }
       ' &nbsp; | &nbsp;
       i.fa.fa-thumbs-o-up
       ' &nbsp;
       = q.total
+      ' &nbsp; raiting
+      ' &nbsp; | &nbsp;
+      i.fa.fa-comments-o
+      ' &nbsp; #{ pluralize(q.comments.count, 'comment') }
+      ' &nbsp; | &nbsp;
       
     hr  
             

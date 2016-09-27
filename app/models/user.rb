@@ -39,17 +39,14 @@ class User < ApplicationRecord
     if user
       user.create_authorization(auth.provider, auth.uid)
     else
+      return User.new(name: name) if email.blank?
+      
       password = Devise.friendly_token[0, 20]
-      if email.blank?
-        return User.new(name: name)
-        # или user = User.new(name: name) правильнее?
-      else
-        user = User.new(email: email, password: password, password_confirmation: password, name: name)
-        user.skip_confirmation!
-        User.transaction do  
-          user.save!
-          user.create_authorization(auth.provider, auth.uid)
-        end
+      user = User.new(email: email, password: password, password_confirmation: password, name: name)
+      user.skip_confirmation!
+      User.transaction do  
+        user.save!
+        user.create_authorization(auth.provider, auth.uid)
       end
     end
     user
