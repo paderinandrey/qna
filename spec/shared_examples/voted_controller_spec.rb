@@ -45,11 +45,11 @@ RSpec.shared_examples "voted" do |parameter|
             expect(votable.votes.last.value).to eq 1
           end
           
-          # it 'show error message' do
-          #   post :like, params: { id: votable, format: :json }
+          it 'show error message' do
+            post :like, params: { id: votable, format: :json }
             
-          #   expect(JSON.parse(response.body)['error']).to eq "You cannot vote!"
-          # end
+            expect(JSON.parse(response.body)['error']).to eq "You cannot vote!"
+          end
         end
       end
       
@@ -66,11 +66,11 @@ RSpec.shared_examples "voted" do |parameter|
           expect(votable.total).to eq 0
         end
           
-        # it 'show error message' do  
-        #   post :like, params: { id: votable, format: :json }
+        it 'show error message' do  
+          post :like, params: { id: votable, format: :json }
           
-        #   expect(JSON.parse(response.body)['error']).to eq "You cannot vote!"
-        # end  
+          expect(JSON.parse(response.body)['error']).to eq "You cannot vote!"
+        end  
       end
     end
     
@@ -113,11 +113,11 @@ RSpec.shared_examples "voted" do |parameter|
             expect(votable.votes.last.value).to eq -1
           end
           
-          # it 'show error message' do
-          #   post :dislike, params: { id: votable, format: :json }
+          it 'show error message' do
+            post :dislike, params: { id: votable, format: :json }
             
-          #   expect(JSON.parse(response.body)['error']).to eq "You cannot vote!"
-          # end
+            expect(JSON.parse(response.body)['error']).to eq "You cannot vote!"
+          end
         end
       end
       
@@ -134,11 +134,11 @@ RSpec.shared_examples "voted" do |parameter|
           expect(votable.total).to eq 0
         end
         
-        # it 'show error message' do
-        #   post :dislike, params: { id: votable, format: :json }
+        it 'show error message' do
+          post :dislike, params: { id: votable, format: :json }
           
-        #   expect(JSON.parse(response.body)['error']).to eq "You cannot vote!"
-        # end
+          expect(JSON.parse(response.body)['error']).to eq "You cannot vote!"
+        end
       end
     end
     
@@ -180,11 +180,11 @@ RSpec.shared_examples "voted" do |parameter|
           expect(votable.votes.last.value).to eq 1
         end
         
-        # it 'show error message' do
-        #   # patch :change_vote, params: { id: votable, format: :json }
+        it 'show error message' do
+          patch :change_vote, params: { id: votable, format: :json }
           
-        #   # expect(JSON.parse(response.body)['error']).to eq "You cannot vote!"
-        # end
+          expect(JSON.parse(response.body)['error']).to eq "You cannot vote!"
+        end
       end
     end
     
@@ -217,9 +217,9 @@ RSpec.shared_examples "voted" do |parameter|
         end
         
         it 'shoe error message' do
-          # delete :cancel_vote, params: { id: votable, format: :json }
+          delete :cancel_vote, params: { id: votable, format: :json }
           
-          # expect(JSON.parse(response.body)['error']).to eq "You cannot vote!"
+          expect(JSON.parse(response.body)['error']).to eq "You cannot vote!"
         end
       end
     end  
