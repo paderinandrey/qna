@@ -11,7 +11,7 @@
           '&nbsp;
           = link_to attachment.file.filename, attachment.file.url
           span.pull-xs-right
-            -if user_signed_in? && current_user.author_of?(object)
+            -if can?(:destroy, object)
               = link_to attachment_path(attachment), method: :delete, remote: true, class: 'btn btn-sm', data: { confirm: 'Are you sure?' } do
                 i.fa.fa-times
                 | &nbsp; Delete

@@ -41,8 +41,8 @@ class User < ApplicationRecord
     else
       password = Devise.friendly_token[0, 20]
       if email.blank?
-        return User.new(name: name, password: password)
-        # или user = User.new(name: name, password: password) правильнее?
+        return User.new(name: name)
+        # или user = User.new(name: name) правильнее?
       else
         user = User.new(email: email, password: password, password_confirmation: password, name: name)
         user.skip_confirmation!

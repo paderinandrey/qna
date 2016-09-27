@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :edit, :update, :destroy]
   before_action :build_answer, only: [:show]
   after_action -> { publish_question(params[:action]) }, only: [:create]
+  authorize_resource
   
   respond_to :html
   respond_to :json, only: :create
@@ -29,22 +30,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(@question)
-      @question.update(question_params)
-      respond_with @question
-    else
-      flash[:error] = 'You cannot edit questions written by others.'
-      redirect_to @question
-    end
+    @question.update(question_params)
+    respond_with @question
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      respond_with(@question.destroy)
-    else
-      flash[:error] = 'You cannot delete questions written by others.'
-      redirect_to @question
-    end
+    respond_with(@question.destroy)
   end
 
   private
