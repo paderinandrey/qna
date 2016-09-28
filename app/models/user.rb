@@ -7,6 +7,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :confirmable, 
          :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter, :linkedin]
 
+  scope :everyone_but_me, ->(me) { where.not(id: me) }
+
   # Returns true if the current user is owner of object
   def author_of?(object)
     object.user_id == id
