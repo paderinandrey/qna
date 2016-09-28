@@ -37,10 +37,6 @@ end
 
 OmniAuth.config.test_mode = true
 
-# JsonSpec.configure do
-#   exclude_keys "created_at", "updated_at"
-# end
-
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::TestHelpers, type: :controller

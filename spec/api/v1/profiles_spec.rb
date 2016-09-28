@@ -76,17 +76,13 @@ describe 'Profile API' do
       
       %w(id email created_at updated_at admin).each do |attr|
         it "contains #{attr}" do
-          parse_json(response.body).each do |user|
-            expect(user.to_json).to have_json_path(attr)
-          end  
+         expect(response.body).to have_json_path("0/#{ attr }")
         end
       end
       
       %w(password encrypted_password).each do |attr|      
         it "does not captain #{attr}" do
-          parse_json(response.body).each do |user|
-            expect(user.to_json).to_not have_json_path(attr)
-          end  
+          expect(response.body).to_not have_json_path("0/#{ attr }")
         end
       end
     end
