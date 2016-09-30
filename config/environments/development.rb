@@ -56,3 +56,4 @@ Rails.application.configure do
   
   config.action_mailer.default_url_options = { host: 'https://thinknetica-antares7g.c9users.io', port: 8080 }
 end
+

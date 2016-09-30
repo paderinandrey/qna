@@ -2,6 +2,7 @@ module Attached
   extend ActiveSupport::Concern
   included do
     before_action :load_attachable, only: [:destroy_file]
+    authorize_resource
   end
 
   def destroy_file

@@ -41,3 +41,5 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
   config.action_mailer.default_url_options = { host: 'https://thinknetica-antares7g.c9users.io', port: 8080 }
 end
+
+ActiveModelSerializers.config.adapter = :json
