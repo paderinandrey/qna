@@ -60,16 +60,7 @@ describe 'Answers API' do
       end
       
       it_behaves_like "API Commentable", :answer
-
-      context 'attachments' do
-        it 'included in answer object' do
-          expect(response.body).to have_json_size(2).at_path("answer/attachments")
-        end
-        
-        it "Attachments object contains url" do
-          expect(response.body).to be_json_eql(attachments.last.file.url.to_json).at_path("answer/attachments/0/url")
-        end
-      end  
+      it_behaves_like "API Attachable", :answer
     end
   end
   
