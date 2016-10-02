@@ -1,20 +1,15 @@
 require 'rails_helper'
 
 describe 'Answers API' do
+  let(:options) { {} }
+  
   describe 'GET /index' do
     let(:question) { create(:question) }
     
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get "/api/v1/questions/#{question.id}/answers", params: { format: :json }
-        expect(response.status).to eq 401
-      end
-      
-      it 'returns 401 status if access_token is invalid' do
-        get "/api/v1/questions/#{question.id}/answers", params: { format: :json, access_token: '12345' }
-        expect(response.status).to eq 401
-      end
-    end
+    let(:action) { :get }
+    let(:path) { "/api/v1/questions/#{question.id}/answers" }
+   
+    it_behaves_like "API Authenticable" 
     
     context 'authorized' do
       let(:access_token) { create(:access_token) }
@@ -42,17 +37,10 @@ describe 'Answers API' do
   describe 'GET /show' do
     let(:answer) { create(:answer) }
     
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get "/api/v1/answers/#{answer.id}", params: { format: :json }
-        expect(response.status).to eq 401
-      end
-      
-      it 'returns 401 status if access_token is invalid' do
-        get "/api/v1/answers/#{answer.id}", params: { format: :json, access_token: '12345' }
-        expect(response.status).to eq 401
-      end
-    end
+    let(:action) { :get }
+    let(:path) { "/api/v1/answers/#{answer.id}" }
+   
+    it_behaves_like "API Authenticable" 
     
     context 'authorized' do
       let(:access_token) { create(:access_token) }
@@ -98,17 +86,11 @@ describe 'Answers API' do
   describe 'POST /create' do
     let(:question) { create(:question) }
     
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json }
-        expect(response.status).to eq 401
-      end
-      
-      it 'returns 401 status if access_token is invalid' do
-        post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json, access_token: '12345' }
-        expect(response.status).to eq 401
-      end
-    end
+    let(:action) { :post }
+    let(:path) { "/api/v1/questions/#{question.id}/answers" }
+    let(:options) { { answer: attributes_for(:answer) } }
+   
+    it_behaves_like "API Authenticable" 
     
     context 'authorized' do
       let(:access_token) { create(:access_token) }

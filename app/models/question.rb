@@ -6,5 +6,7 @@ class Question < ApplicationRecord
   belongs_to :user
   has_many :answers, dependent: :destroy
   
+  default_scope  { order(id: :asc) }
+  
   validates :title, :body, :user_id, presence: true
 end
