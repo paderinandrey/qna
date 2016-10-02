@@ -42,5 +42,13 @@ class Ability
     can [:change_vote, :cancel_vote], [Question, Answer] do |votable|
       !user.author_of?(votable) && user.voted?(votable)
     end
+    
+    can [:me, :index], User
+    
+    #can :edit, Question
+    #can :destroy, [Question, User], user_id: user.id
+    #can :manage, [User, Vote, Question, Answer, Attachment]
+    #can :manage, :all
+    #can :destroy, :all
   end
 end

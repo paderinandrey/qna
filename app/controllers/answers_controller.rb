@@ -7,10 +7,11 @@ class AnswersController < ApplicationController
   respond_to :js, :json
 
   include Voted
+  
 
   def create
     @question = Question.find(params[:question_id])
-    respond_with(@answer = @question.answers.create(answer_params))
+    respond_with(@answer = @question.answers.create(answer_params.merge(user: current_user)))
   end
 
   def update
@@ -35,7 +36,6 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: [:file, :id, :_destroy])
-          .merge(user: current_user)
   end
   
   def publish_answer(action)

@@ -115,5 +115,10 @@ RSpec.describe Ability, type: :model do
         end
       end
     end
+    
+    context 'profile' do
+      it { should be_able_to :me, User }
+      it { should be_able_to :index, User.everyone_but_me(user) }
+    end
   end
 end

@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
   respond_to :html, :js, :json
   
-  check_authorization :unless => :devise_controller?
+  #check_authorization :unless => :devise_controller?
 
   protect_from_forgery with: :exception
   
