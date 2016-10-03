@@ -3,7 +3,6 @@ module Voted
   included do
     before_action :load_votable, only: [:like, :dislike, :change_vote, :cancel_vote]
     respond_to :json, only: [:like, :dislike, :change_vote, :cancel_vote]
-    #load_and_authorize_resource :vote, through: [:question, :answer]
   end
   
   def like

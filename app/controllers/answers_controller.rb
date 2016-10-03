@@ -7,7 +7,6 @@ class AnswersController < ApplicationController
   respond_to :js, :json
 
   include Voted
-  
 
   def create
     @question = Question.find(params[:question_id])
