@@ -2,7 +2,7 @@ shared_examples_for "voted" do |parameter|
     sign_in_user
     
     let(:user) { create(:user) }
-    let!(:votable) { create(parameter.underscore.to_sym, user: user) }
+    let!(:votable) { create(parameter, user: user) }
     
     describe 'POST #like' do
       it 'vote count change by 1' do

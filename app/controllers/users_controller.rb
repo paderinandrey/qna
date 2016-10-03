@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_authorization_check :only => [:confirm_email]
+  authorize_resource
   
   def confirm_email
     auth = session['devise.omniauth_data']

@@ -12,6 +12,8 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :read, Attachment }
     it { should be_able_to :read, Vote }
     
+    it { should be_able_to :confirm_email, User }
+    
     it { should_not be_able_to :manage, :all }
   end
   
@@ -74,47 +76,13 @@ RSpec.describe Ability, type: :model do
       it { should_not be_able_to :best, create(:answer, question: alien_question), user: user }
     end
     
-    context 'voting' do
-      context 'for question' do
-        it { should be_able_to :like, alien_question, user: user }
-        it { should_not be_able_to :like, user_question, user: user }
-        
-        it { should be_able_to :dislike, alien_question, user: user }
-        it { should_not be_able_to :dislike, user_question, user: user }
-        
-        context 'change vote' do
-          before { alien_question.set_evaluate(user, 1) }
-          it { should be_able_to :change_vote, alien_question, user: user }
-          it { should_not be_able_to :change_vote, user_question, user: user }
-        end
-        
-        context 'cancel vote' do
-          before { alien_question.set_evaluate(user, 1) }
-          it { should be_able_to :cancel_vote, alien_question, user: user } 
-          it { should_not be_able_to :cancel_vote, user_question, user: user }
-        end
-      end
+    let(:user_subject) { user_question }
+    let(:alien_subject) { alien_question }
+    it_behaves_like "Right to vote"
     
-      context 'for answer' do
-        it { should be_able_to :like, alien_answer, user: user }
-        it { should_not be_able_to :like, user_answer, user: user }
-        
-        it { should be_able_to :dislike, alien_answer, user: user }
-        it { should_not be_able_to :dislike, user_answer, user: user }
-        
-        context 'change vote' do
-          before { alien_answer.set_evaluate(user, 1) }
-          it { should be_able_to :change_vote, alien_answer, user: user }
-          it { should_not be_able_to :change_vote, user_answer, user: user }
-        end
-        
-        context 'cancel vote' do
-          before { alien_answer.set_evaluate(user, 1) }
-          it { should be_able_to :cancel_vote, alien_answer, user: user } 
-          it { should_not be_able_to :cancel_vote, user_answer, user: user }
-        end
-      end
-    end
+    let(:user_subject) { user_answer }
+    let(:alien_subject) { alien_answer }
+    it_behaves_like "Right to vote"
     
     context 'profile' do
       it { should be_able_to :me, User }

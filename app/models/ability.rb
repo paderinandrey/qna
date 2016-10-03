@@ -17,6 +17,7 @@ class Ability
   
   def guest_abilities
     can :read, :all
+    can :confirm_email, User
   end
   
   def admin_abilities

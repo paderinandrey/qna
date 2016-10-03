@@ -149,5 +149,5 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  it_behaves_like "voted", 'question'
+  it_behaves_like "voted", :question
 end
