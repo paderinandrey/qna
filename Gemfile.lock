@@ -377,6 +377,7 @@ DEPENDENCIES
   rails-controller-testing
   remotipart!
   responders (~> 2.0)
+  rspec-mocks
   rspec-rails
   rubocop
   sass-rails (~> 5.0, >= 5.0.6)

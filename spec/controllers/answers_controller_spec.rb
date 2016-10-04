@@ -22,6 +22,24 @@ RSpec.describe AnswersController, type: :controller do
         post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
         expect(response).to render_template :create
       end
+      
+      context 'publish_to' do
+        it 'invokes publish_to for PrivatePub' do
+          expect(PrivatePub).to receive(:publish_to)
+          
+          post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
+        end
+        
+        it 'publish to PrivatePub' do
+          new_answer = create(:answer, question: question)
+          allow(Answer).to receive(:new).and_return(new_answer)
+          expect(PrivatePub).to receive(:publish_to) do |channel, data|
+            expect(channel).to eq "/questions/#{ question.id }/answers"
+            expect(data[:answer]).to be_json_eql(new_answer.to_json)
+          end
+          post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
+        end
+      end
     end
 
     context 'with invalid attributes' do
@@ -32,6 +50,14 @@ RSpec.describe AnswersController, type: :controller do
       it 'render create template' do
         post :create, params: { answer: attributes_for(:invalid_answer), question_id: question, format: :js }
         expect(response).to render_template :create
+      end
+      
+      context 'publish_to' do
+        it 'doesn\'t publish to PrivatePub' do
+          expect(PrivatePub).to_not receive(:publish_to)
+          
+          post :create, params: { answer: attributes_for(:invalid_answer), question_id: question, format: :js }
+        end
       end
     end
   end
@@ -51,6 +77,24 @@ RSpec.describe AnswersController, type: :controller do
     it 'render update template' do
       patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
       expect(response).to render_template :update
+    end
+    
+    context 'publish_to' do
+      it 'invokes publish_to for PrivatePub' do
+        expect(PrivatePub).to receive(:publish_to)
+        
+        patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
+      end
+      
+      it 'publish to PrivatePub' do
+        new_answer = create(:answer, question: question)
+        allow(Answer).to receive(:update).and_return(new_answer)
+        expect(PrivatePub).to receive(:publish_to) do |channel, data|
+          expect(channel).to eq "/questions/#{ question.id }/answers"
+          expect(data[:answer]).to be_json_eql(new_answer.to_json)
+        end
+        patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
+      end
     end
   end
 
@@ -96,19 +140,35 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    context 'Own answers' do
 
-      before { answer }
+    before { answer }
 
-      it 'deletes answer' do
-        expect { delete :destroy, params: { id: answer, format: :js } }.to change(Answer, :count).by(-1)
-      end
-
-      it 'render destroy view' do
-        delete :destroy, params: { id: answer, format: :js }
-        expect(response).to render_template :destroy
-      end
+    it 'deletes answer' do
+      expect { delete :destroy, params: { id: answer, format: :js } }.to change(Answer, :count).by(-1)
     end
+
+    it 'render destroy view' do
+      delete :destroy, params: { id: answer, format: :js }
+      expect(response).to render_template :destroy
+    end
+      
+    context 'publish_to' do
+      it 'invokes publish_to for PrivatePub' do
+        expect(PrivatePub).to receive(:publish_to)
+        
+        delete :destroy, params: { id: answer, format: :js }
+      end
+      
+      it 'publish to PrivatePub' do
+        new_answer = create(:answer, question: question, user: @user)
+        allow(Answer).to receive(:destroy).and_return(new_answer)
+        expect(PrivatePub).to receive(:publish_to) do |channel, data|
+          expect(channel).to eq "/questions/#{ question.id }/answers"
+          expect(data[:answer]).to be_json_eql(new_answer.to_json)
+        end
+        delete :destroy, params: { id: new_answer, format: :js }
+      end
+    end  
   end
   
   it_behaves_like "voted", :answer

@@ -12,20 +12,12 @@ class CommentsController < ApplicationController
   end
   
   def update
-    if current_user.author_of?(@comment) 
-      @comment.update(comment_params)
-      respond_with(@comment)
-    else
-      flash[:error] = 'You cannot change comments written by others!'
-    end
+    @comment.update(comment_params)
+    respond_with(@comment)
   end
   
   def destroy
-    if current_user.author_of?(@comment)
-      respond_with(@comment.destroy)
-    else
-      flash[:error] = 'You cannot delete comments written by others!' 
-    end
+    respond_with(@comment.destroy)
   end
   
   private
@@ -55,7 +47,8 @@ class CommentsController < ApplicationController
   end
   
   def publish_comment(action)
+    return nil unless @comment.valid?
     PrivatePub.publish_to "/questions/#{ question_id(@comment.commentable) }/comments",
-      comment: render_to_string(partial: 'comments/comment.json.jbuilder', locals: { action: action })
+      comment: render_to_string(partial: 'comments/comment', locals: { action: action })
   end
 end
