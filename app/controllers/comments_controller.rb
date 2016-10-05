@@ -8,24 +8,16 @@ class CommentsController < ApplicationController
   respond_to :js
   
   def create
-    respond_with(@comment = @commentable.comments.create(comment_params))
+    respond_with(@comment = @commentable.comments.create(comment_params.merge(user: current_user)))
   end
   
   def update
-    if current_user.author_of?(@comment) 
-      @comment.update(comment_params)
-      respond_with(@comment)
-    else
-      flash[:error] = 'You cannot change comments written by others!'
-    end
+    @comment.update(comment_params)
+    respond_with(@comment)
   end
   
   def destroy
-    if current_user.author_of?(@comment)
-      respond_with(@comment.destroy)
-    else
-      flash[:error] = 'You cannot delete comments written by others!' 
-    end
+    respond_with(@comment.destroy)
   end
   
   private
@@ -47,15 +39,11 @@ class CommentsController < ApplicationController
   end
   
   def comment_params
-    params.require(:comment).permit(:body).merge(user: current_user)
+    params.require(:comment).permit(:body)
   end
-  
-  def question_id(commentable)
-    commentable.class == Question ? commentable.id : commentable.question_id
-  end
-  
+
   def publish_comment(action)
-    PrivatePub.publish_to "/questions/#{ question_id(@comment.commentable) }/comments",
-      comment: render_to_string(partial: 'comments/comment.json.jbuilder', locals: { action: action })
+    PrivatePub.publish_to("/questions/#{ @comment.question_id }/comments",
+      comment: comment_to_json(@comment, action)) if @comment.valid?
   end
 end

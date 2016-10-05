@@ -26,7 +26,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    respond_with(@question = Question.create(question_params))
+    respond_with(@question = Question.create(question_params.merge(user: current_user)))
   end
 
   def update

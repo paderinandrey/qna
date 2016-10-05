@@ -1,5 +1,4 @@
 require 'rails_helper'
-require Rails.root.join 'spec/models/concerns/votable_spec.rb'
 
 RSpec.describe Answer, type: :model do
   it { should belong_to(:question).touch(true) }
@@ -31,12 +30,15 @@ RSpec.describe Answer, type: :model do
     let(:question) { create(:question) }
     let(:answer) { create(:answer, question: question, user: user, best: false) }
   
-    it 'choose the best answer and cancel it' do
+    it 'choose the best answer' do
       answer.switch_best
       answer.reload
       
       expect(answer.best).to eq true
-      
+    end
+    
+    it 'cancel best answer' do
+      answer.update(best: true)
       answer.switch_best
       answer.reload
       

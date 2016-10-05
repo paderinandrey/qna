@@ -1,5 +1,4 @@
 require 'rails_helper'
-require Rails.root.join "spec/shared_examples/voted_controller_spec.rb"
 
 RSpec.describe AnswersController, type: :controller do
   sign_in_user
@@ -19,10 +18,28 @@ RSpec.describe AnswersController, type: :controller do
         expect(assigns(:answer).user).to eq subject.current_user
       end
 
-      # it 'redner show question template' do
-      #   post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
-      #   expect(response).to render_template :create
-      # end
+      it 'redner show question template' do
+        post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
+        expect(response).to render_template :create
+      end
+      
+      context 'publish_to' do
+        it 'invokes publish_to for PrivatePub' do
+          expect(PrivatePub).to receive(:publish_to)
+          
+          post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
+        end
+        
+        it 'publish to PrivatePub' do
+          new_answer = create(:answer, question: question)
+          allow(Answer).to receive(:new).and_return(new_answer)
+          expect(PrivatePub).to receive(:publish_to) do |channel, data|
+            expect(channel).to eq "/questions/#{ question.id }/answers"
+            expect(data[:answer]).to be_json_eql(new_answer.to_json)
+          end
+          post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
+        end
+      end
     end
 
     context 'with invalid attributes' do
@@ -30,51 +47,54 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { answer: attributes_for(:invalid_answer), question_id: question, format: :js } }.to_not change(Answer, :count)
       end
 
-      # it 'render create template' do
-      #   post :create, params: { answer: attributes_for(:invalid_answer), question_id: question, format: :js }
-      #   expect(response).to render_template :create
-      # end
+      it 'render create template' do
+        post :create, params: { answer: attributes_for(:invalid_answer), question_id: question, format: :js }
+        expect(response).to render_template :create
+      end
+      
+      context 'publish_to' do
+        it 'doesn\'t publish to PrivatePub' do
+          expect(PrivatePub).to_not receive(:publish_to)
+          
+          post :create, params: { answer: attributes_for(:invalid_answer), question_id: question, format: :js }
+        end
+      end
     end
   end
 
   describe 'PATCH #update' do
-    
-    context 'Own answers' do
-      before { answer.update_attribute(:user, @user) }
-      
-      it 'assigns the requested answer to @answer' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
-        expect(assigns(:answer)).to eq answer
-      end
-      
-      it 'changes answer attributes' do
-        patch :update, params: { id: answer, answer: { body: 'new body' }, format: :js }
-        answer.reload
-        expect(answer.body).to eq 'new body'
-      end
-      
-      # it 'render update template' do
-      #   patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
-      #   expect(response).to render_template :update
-      # end
+    it 'assigns the requested answer to @answer' do
+      patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
+      expect(assigns(:answer)).to eq answer
     end
-
-    context 'Other answer' do
-      let(:alien_user) { create(:user) }
-      let!(:alien_answer) { create(:answer, question: question, user: alien_user) }
-      
-      before do
-        patch :update, params: { id: alien_answer, answer: { body: 'new body' }, format: :js } 
-        alien_answer.reload
+    
+    it 'changes answer attributes' do
+      patch :update, params: { id: answer, answer: { body: 'new body' }, format: :js }
+      answer.reload
+      expect(answer.body).to eq 'new body'
+    end
+    
+    it 'render update template' do
+      patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
+      expect(response).to render_template :update
+    end
+    
+    context 'publish_to' do
+      it 'invokes publish_to for PrivatePub' do
+        expect(PrivatePub).to receive(:publish_to)
+        
+        patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
       end
       
-      it 'edit answers' do
-        expect(alien_answer.body).to_not eq 'new body'
+      it 'publish to PrivatePub' do
+        new_answer = create(:answer, question: question, user: @user)
+        allow(Answer).to receive(:update).and_return(new_answer)
+        expect(PrivatePub).to receive(:publish_to) do |channel, data|
+          expect(channel).to eq "/questions/#{ question.id }/answers"
+          expect(data[:answer]).to be_json_eql(new_answer.to_json)
+        end
+        patch :update, params: { id: new_answer, answer: attributes_for(:answer), format: :js }
       end
-      
-    #   it 'render update template' do
-    #     expect(response).to render_template :update
-    #   end
     end
   end
 
@@ -117,46 +137,39 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template :best
       end
     end
-    
-    context 'Alien user' do
-      it 'try set best answer' do
-        patch :best, params: { id: answer, format: :js }
-        answer.reload
-        
-        expect(answer.best).to eq false
-      end
-    end
   end
 
   describe 'DELETE #destroy' do
-    context 'Own answers' do
 
-      before { answer }
+    before { answer }
 
-      it 'deletes answer' do
-        expect { delete :destroy, params: { id: answer, format: :js } }.to change(Answer, :count).by(-1)
-      end
-
-      # it 'render destroy view' do
-      #   delete :destroy, params: { id: answer, format: :js }
-      #   expect(response).to render_template :destroy
-      # end
+    it 'deletes answer' do
+      expect { delete :destroy, params: { id: answer, format: :js } }.to change(Answer, :count).by(-1)
     end
 
-    context 'Other answers' do
-      let(:alien_user) { create(:user) }
-      let!(:alien_answer) { create(:answer, question: question, user: alien_user) }
-
-      it 'delete other answer' do
-        expect { delete :destroy, params: { id: alien_answer, format: :js } }.to_not change(Answer, :count)
-      end
-
-      # it 'render destroy view' do
-      #   delete :destroy, params: { id: alien_answer, format: :js }
-      #   expect(response).to render_template :destroy
-      # end
+    it 'render destroy view' do
+      delete :destroy, params: { id: answer, format: :js }
+      expect(response).to render_template :destroy
     end
+      
+    context 'publish_to' do
+      it 'invokes publish_to for PrivatePub' do
+        expect(PrivatePub).to receive(:publish_to)
+        
+        delete :destroy, params: { id: answer, format: :js }
+      end
+      
+      it 'publish to PrivatePub' do
+        new_answer = create(:answer, question: question, user: @user)
+        allow(Answer).to receive(:destroy).and_return(new_answer)
+        expect(PrivatePub).to receive(:publish_to) do |channel, data|
+          expect(channel).to eq "/questions/#{ question.id }/answers"
+          expect(data[:answer]).to be_json_eql(new_answer.to_json)
+        end
+        delete :destroy, params: { id: new_answer, format: :js }
+      end
+    end  
   end
   
-  it_behaves_like "voted", "answer"
+  it_behaves_like "voted", :answer
 end

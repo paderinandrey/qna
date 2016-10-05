@@ -6,6 +6,8 @@ class Ability
   def initialize(user)
     @user = user
     
+    alias_action :update, :destroy, to: :modify
+    
     if user
       user.admin? ? admin_abilities : user_abilities
     else
@@ -15,6 +17,7 @@ class Ability
   
   def guest_abilities
     can :read, :all
+    can :confirm_email, User
   end
   
   def admin_abilities
@@ -24,9 +27,8 @@ class Ability
   def user_abilities
     guest_abilities
     can :create, [Question, Answer, Comment, Attachment]
-    can :update, [Question, Answer, Comment], user_id: user.id
-    can :destroy, [Question, Answer, Comment], user_id: user.id
-    
+    can :modify, [Question, Answer, Comment], user_id: user.id
+
     can :destroy, Attachment do |attach|
       user.author_of?(attach.attachable)
     end
@@ -42,5 +44,7 @@ class Ability
     can [:change_vote, :cancel_vote], [Question, Answer] do |votable|
       !user.author_of?(votable) && user.voted?(votable)
     end
+    
+    can [:me, :index], User
   end
 end

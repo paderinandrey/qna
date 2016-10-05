@@ -16,7 +16,7 @@ Rails.application.routes.draw do
       delete :cancel_vote
     end
   end
-  
+
   # concern :commentable do
   #   resources :comments, shallow: true, only: [:update, :destroy] 
   #   post :add_comment, on: :member

@@ -74,6 +74,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'json_spec'
+  gem 'rspec-mocks'
 end
 
 group :development do
