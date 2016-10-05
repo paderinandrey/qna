@@ -87,13 +87,13 @@ RSpec.describe AnswersController, type: :controller do
       end
       
       it 'publish to PrivatePub' do
-        new_answer = create(:answer, question: question)
+        new_answer = create(:answer, question: question, user: @user)
         allow(Answer).to receive(:update).and_return(new_answer)
         expect(PrivatePub).to receive(:publish_to) do |channel, data|
           expect(channel).to eq "/questions/#{ question.id }/answers"
           expect(data[:answer]).to be_json_eql(new_answer.to_json)
         end
-        patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
+        patch :update, params: { id: new_answer, answer: attributes_for(:answer), format: :js }
       end
     end
   end

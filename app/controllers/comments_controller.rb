@@ -41,14 +41,9 @@ class CommentsController < ApplicationController
   def comment_params
     params.require(:comment).permit(:body)
   end
-  
-  def question_id(commentable)
-    commentable.class == Question ? commentable.id : commentable.question_id
-  end
-  
+
   def publish_comment(action)
-    return nil unless @comment.valid?
-    PrivatePub.publish_to "/questions/#{ question_id(@comment.commentable) }/comments",
-      comment: render_to_string(partial: 'comments/comment', locals: { action: action })
+    PrivatePub.publish_to("/questions/#{ @comment.question_id }/comments",
+      comment: comment_to_json(@comment, action)) if @comment.valid?
   end
 end
