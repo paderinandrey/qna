@@ -8,20 +8,23 @@
     
     = render partial: 'votes/votes', locals: { votable: @question }
       
-    - if can?(:update, @question)
-      = link_to edit_question_path(@question), class: 'btn btn-primary'
+    - if can?(:modify, @question)
+      = link_to edit_question_path(@question), class: 'btn btn-primary btn-sm'
         i.fa.fa-pencil-square-o aria-hidden="true"
         | &nbsp; Edit
       '&nbsp;
-    - if can?(:destroy, @question)  
-      = link_to @question, method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+      = link_to @question, method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: 'Are you sure?' }
         i.fa.fa-trash-o aria-hidden="true"
         | &nbsp; Delete
       '&nbsp;
-    = link_to questions_path, class: 'btn btn-primary'
+    = link_to questions_path, class: 'btn btn-info btn-sm'
       i.fa.fa-arrow-left aria-hidden="true"
       | &nbsp; Back
-
+    '&nbsp;
+    = link_to subscribe_question_path(@question), method: :post, class: 'btn btn-success btn-sm'
+      i.fa.fa-eye aria-hidden="true"
+      | &nbsp; Subscribe
+    
 = render partial: 'comments/comments', locals: { commentable: @question }
   
 p

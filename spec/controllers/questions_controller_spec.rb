@@ -139,7 +139,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     before { question.update_attribute(:user, @user) }
 
-    it 'delete own question' do
+    it 'delete question' do
       expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
     end
 
@@ -147,6 +147,30 @@ RSpec.describe QuestionsController, type: :controller do
       delete :destroy, params: { id: question }
       expect(response).to redirect_to questions_path
     end
+  end
+
+  describe 'POST #subscribe' do
+    sign_in_user
+    
+    it 'saves the new subscribe in the database' do
+      expect { post :subscribe, params: { id: attributes_for(:question) } }.to change(Question, :count).by(1)
+    end
+    
+    it 'subscribe belongs to user' do
+      post :subscribe, params: { question: attributes_for(:question) }
+      
+      expect(assigns(:question).user).to eq subject.current_user
+    end
+    
+    it 'render to show view' do
+      post :subscribe, params: { question: attributes_for(:question) }
+      
+      expect(response).to redirect_to question_path(assigns(:question))
+    end
+  end
+  
+  describe 'DELETE #unsubscribe' do
+    sign_in_user
   end
 
   it_behaves_like "voted", :question

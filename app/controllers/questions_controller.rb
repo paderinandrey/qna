@@ -38,6 +38,12 @@ class QuestionsController < ApplicationController
     respond_with(@question.destroy)
   end
 
+  def subscribe
+  end
+  
+  def unsubscribe
+  end
+
   private
 
   def load_question
@@ -50,7 +56,6 @@ class QuestionsController < ApplicationController
   
   def question_params
     params.require(:question).permit(:title, :body, attachments_attributes: [:file, :id, :_destroy])
-                             .merge(user: current_user)
   end
   
   def publish_question(action)

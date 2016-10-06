@@ -46,5 +46,6 @@ class Ability
     end
     
     can [:me, :index], User
+    can [:subscribe, :unsubscribe], Question
   end
 end

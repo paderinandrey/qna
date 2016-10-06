@@ -5,6 +5,7 @@ class Question < ApplicationRecord
   
   belongs_to :user
   has_many :answers, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   
   default_scope  { order(id: :asc) }
   
