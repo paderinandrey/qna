@@ -14,4 +14,13 @@ RSpec.describe Question, type: :model do
   it { should validate_presence_of :body }
   
   it { accept_nested_attributes_for :attachments }
+  
+  describe '#create_subscription_for_author' do
+    let(:question) { build(:question) }
+    
+    it 'create subscription for author' do
+      expect(question).to receive(:create_subscription_for_author).and_call_original
+      question.save
+    end  
+  end
 end

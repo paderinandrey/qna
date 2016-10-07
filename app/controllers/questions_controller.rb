@@ -1,12 +1,13 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :load_question, only: [:show, :edit, :update, :destroy, :subscribe, :unsubscribe]
   before_action :build_answer, only: [:show]
   after_action -> { publish_question(params[:action]) }, only: [:create]
   authorize_resource
   
   respond_to :html
   respond_to :json, only: :create
+  respond_to :js, only: [:subscribe, :unsubscribe]
   
   include Voted
   
@@ -39,9 +40,11 @@ class QuestionsController < ApplicationController
   end
 
   def subscribe
+    respond_with(current_user.subscribe_to(@question)) 
   end
   
   def unsubscribe
+    respond_with(current_user.unsubscribe_from(@question))
   end
 
   private

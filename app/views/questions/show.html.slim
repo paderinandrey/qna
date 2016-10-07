@@ -21,9 +21,16 @@
       i.fa.fa-arrow-left aria-hidden="true"
       | &nbsp; Back
     '&nbsp;
-    = link_to subscribe_question_path(@question), method: :post, class: 'btn btn-success btn-sm'
-      i.fa.fa-eye aria-hidden="true"
-      | &nbsp; Subscribe
+    - if user_signed_in?
+      .subscription
+        - if current_user.has_subscribed?(@question)
+          = link_to unsubscribe_question_path(@question), remote: true, method: :delete, class: 'btn btn-success btn-sm'
+            i.fa.fa-eye-slash aria-hidden="true"
+            | &nbsp; Unsubscribe
+        - else
+          = link_to subscribe_question_path(@question), remote: true, method: :post, class: 'btn btn-success btn-sm'
+            i.fa.fa-eye aria-hidden="true"
+            | &nbsp; Subscribe
     
 = render partial: 'comments/comments', locals: { commentable: @question }
   

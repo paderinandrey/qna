@@ -88,5 +88,10 @@ RSpec.describe Ability, type: :model do
       it { should be_able_to :me, User }
       it { should be_able_to :index, User.everyone_but_me(user) }
     end
+    
+    context 'subscriptions' do
+      it { should be_able_to :subscribe, Question }
+      it { should be_able_to :unsubscribe, Question, user: user }
+    end
   end
 end

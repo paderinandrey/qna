@@ -15,6 +15,8 @@ class User < ApplicationRecord
     object.user_id == id
   end
   
+  # ----- Voting -----
+  
   # Return true if user voted
   def voted?(object)
     object.votes.where(user: self).exists?
@@ -28,6 +30,36 @@ class User < ApplicationRecord
   # Return true if user set like
   def like?(object)
     object.votes.where(user: self, value: 1).present?
+  end
+  
+  #---------------------------
+  
+  # ----- Subscriptions ------
+  
+  # Returns true if user has subscribed on Question 
+  def has_subscribed?(question)
+    self.subscriptions.where(question: question).exists?
+  end
+  
+  # Creates a new subscription on Question   
+  def subscribe_to(question)
+    self.subscriptions.find_or_create_by(question: question)
+  end
+  
+  # Unsubscribes from question
+  def unsubscribe_from(question)
+    self.subscriptions.where(question: question).delete_all if has_subscribed?(question)
+  end
+  # ---------------------------
+  
+  #
+  def create_authorization(provider, uid)
+    self.authorizations.create!(provider: provider, uid: uid)
+  end
+
+  # 
+  def username
+    name.blank? ? email : name
   end
   
   #
@@ -56,26 +88,9 @@ class User < ApplicationRecord
   end
   
   #
-  def create_authorization(provider, uid)
-    self.authorizations.create!(provider: provider, uid: uid)
-  end
-
-  # 
-  def username
-    name.blank? ? email : name
-  end
-  
-  #
   def self.generate(params)
     user = new(params)
     user.password = Devise.friendly_token[0, 20]
     user
-  end
-  
-  #
-  def self.send_daily_digest
-    find_each.each do |user|
-      DailyMailer.digest(user).deliver_later
-    end
   end
 end

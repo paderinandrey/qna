@@ -13,17 +13,17 @@ feature 'Subscribe to question', %q{
     background do
       sign_in(user)
       visit question_path(question)
-      click_on 'Subscribe'
-    end
-    
-    scenario 'sees unsubscribe link', js: true do 
-      expect(page).to have_link 'Unsubscribe'
-    end
-    
-    scenario 'tries to unsubscribe to the question', js: true do 
       click_on 'Unsubscribe'
-      
+    end
+    
+    scenario 'sees subscribe link', js: true do 
       expect(page).to have_link 'Subscribe'
+    end
+    
+    scenario 'tries to subscribe to the question', js: true do 
+      click_on 'Subscribe'
+      
+      expect(page).to have_link 'Unsubscribe'
     end
   end
   
