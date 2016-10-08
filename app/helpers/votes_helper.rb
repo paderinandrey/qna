@@ -10,17 +10,17 @@ module VotesHelper
   end
   
   def voting_buttons(votable)
-    like    = { id: :like, method: :post, class: 'btn btn-secondary' }
-    dislike = { id: :dislike, method: :post, class: 'btn btn-secondary' }
-    change  = { id: :change_vote, method: :patch, class: 'btn btn-secondary' }
-    cancel  = { id: :cancel_vote, method: :delete, class: 'btn btn-primary active' }
+    like    = { id: :like, method: :post, class: 'btn btn-secondary btn-sm' }
+    dislike = { id: :dislike, method: :post, class: 'btn btn-secondary btn-sm' }
+    change  = { id: :change_vote, method: :patch, class: 'btn btn-secondary btn-sm' }
+    cancel  = { id: :cancel_vote, method: :delete, class: 'btn btn-primary active btn-sm' }
     
     html_options    = { remote: true, data: { type: :json } } 
     
     if user_signed_in? && !current_user.author_of?(votable)
       combinations = current_user.voted?(votable) ? current_user.like?(votable) ? [cancel, change] : [change, cancel] : [like, dislike]      
           
-      content_tag(:div, class: "voting_buttons") do
+      content_tag(:span, class: "voting_buttons") do
         combinations.each do |param| 
           concat link_to(voting_button_icon(votable, param[:id]), polymorphic_path([param[:id], votable]), param.merge(html_options)) 
           concat " "

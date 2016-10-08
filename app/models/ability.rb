@@ -46,5 +46,13 @@ class Ability
     end
     
     can [:me, :index], User
+
+    can :subscribe, Question do |question|
+      !user.has_subscribed?(question)
+    end
+    
+    can :unsubscribe, Question do |question|
+      user.has_subscribed?(question)
+    end
   end
 end

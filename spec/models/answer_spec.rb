@@ -45,4 +45,13 @@ RSpec.describe Answer, type: :model do
       expect(answer.best).to eq false
     end
   end  
+  
+  describe '#notify_subscribers' do
+    let(:answer) { build(:answer) }
+    
+    it 'notify subscribers by email' do
+      expect(NotifierJob).to receive(:perform_later).and_call_original
+      answer.save
+    end
+  end
 end

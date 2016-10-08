@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
   
   it { should have_many(:questions).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
@@ -147,6 +148,45 @@ RSpec.describe User, type: :model do
       valid_params = {email: 'test1@test.com'}
       
       expect(User.generate(valid_params)).to be_valid
+    end
+  end
+  
+  describe '#has_subscribed?' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    
+    it 'User not subscribe to question' do
+      expect(user.has_subscribed?(question)).to eq false
+    end
+    
+    it 'User subscribe to question' do
+      user.subscribe_to(question)
+      expect(user.has_subscribed?(question)).to eq true
+    end
+  end
+  
+  describe '#subscribe_to' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    
+    it 'creates new subscription for user' do
+      expect { user.subscribe_to(question) }.to change(question.subscriptions, :count).by(1)
+    end
+    
+    it 'subscription belongs to user' do
+      subscription = user.subscribe_to(question)
+      
+      expect(subscription.user).to eq user
+    end
+  end
+  
+  describe '#unsubscribe_from' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let!(:subscription) { create(:subscription, user: user, question: question) }
+    
+    it 'deletes subscription from user' do
+      expect { user.unsubscribe_from(question) }.to change(Subscription, :count).by(-1)
     end
   end
 end

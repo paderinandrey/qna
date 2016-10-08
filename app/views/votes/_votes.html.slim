@@ -1,5 +1,4 @@
 .voting id="vote-for-#{ votable.class.name.downcase }-#{ votable.id }"
-  div class="result-vote-for-#{ votable.class.name.downcase }"
+  span class="result-vote-for-#{ votable.class.name.downcase } tag tag-default tag-pill"
     = votable.total
-  .vote-errors
   = voting_buttons(votable)

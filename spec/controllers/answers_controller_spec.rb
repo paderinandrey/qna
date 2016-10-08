@@ -31,11 +31,10 @@ RSpec.describe AnswersController, type: :controller do
         end
         
         it 'publish to PrivatePub' do
-          new_answer = create(:answer, question: question)
-          allow(Answer).to receive(:new).and_return(new_answer)
+          allow(Answer).to receive(:new).and_return(answer)
           expect(PrivatePub).to receive(:publish_to) do |channel, data|
             expect(channel).to eq "/questions/#{ question.id }/answers"
-            expect(data[:answer]).to be_json_eql(new_answer.to_json)
+            expect(data[:answer]).to be_json_eql(answer.to_json)
           end
           post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
         end
@@ -87,13 +86,12 @@ RSpec.describe AnswersController, type: :controller do
       end
       
       it 'publish to PrivatePub' do
-        new_answer = create(:answer, question: question, user: @user)
-        allow(Answer).to receive(:update).and_return(new_answer)
+        allow(Answer).to receive(:update).and_return(answer)
         expect(PrivatePub).to receive(:publish_to) do |channel, data|
           expect(channel).to eq "/questions/#{ question.id }/answers"
-          expect(data[:answer]).to be_json_eql(new_answer.to_json)
+          expect(data[:answer]).to be_json_eql(answer.to_json)
         end
-        patch :update, params: { id: new_answer, answer: attributes_for(:answer), format: :js }
+        patch :update, params: { id: answer, answer: attributes_for(:answer), format: :js }
       end
     end
   end
@@ -160,13 +158,12 @@ RSpec.describe AnswersController, type: :controller do
       end
       
       it 'publish to PrivatePub' do
-        new_answer = create(:answer, question: question, user: @user)
-        allow(Answer).to receive(:destroy).and_return(new_answer)
+        allow(Answer).to receive(:destroy).and_return(answer)
         expect(PrivatePub).to receive(:publish_to) do |channel, data|
           expect(channel).to eq "/questions/#{ question.id }/answers"
-          expect(data[:answer]).to be_json_eql(new_answer.to_json)
+          expect(data[:answer]).to be_json_eql(answer.to_json)
         end
-        delete :destroy, params: { id: new_answer, format: :js }
+        delete :destroy, params: { id: answer, format: :js }
       end
     end  
   end

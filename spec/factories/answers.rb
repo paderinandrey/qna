@@ -6,7 +6,7 @@ FactoryGirl.define do
   factory :answer do
     question
     user
-    body
+    body 'Some text'
   end
 
   factory :invalid_answer, class: 'Answer' do

@@ -33,8 +33,8 @@ RSpec.describe Ability, type: :model do
     let(:user_answer) { create(:answer, user: user) }
     let(:alien_answer) { create(:answer, user: alien) }
     
-    let(:user_comment) { create(:comment, user: user) }
-    let(:alien_comment) { create(:comment, user: alien) }
+    let(:user_comment) { create(:comment, commentable: alien_question, user: user) }
+    let(:alien_comment) { create(:comment, commentable: user_question, user: alien) }
     
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -87,6 +87,11 @@ RSpec.describe Ability, type: :model do
     context 'profile' do
       it { should be_able_to :me, User }
       it { should be_able_to :index, User.everyone_but_me(user) }
+    end
+    
+    context 'subscriptions' do
+      it { should be_able_to :subscribe, Question }
+      it { should be_able_to :unsubscribe, Question, user: user }
     end
   end
 end

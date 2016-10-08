@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :confirmable, 
@@ -13,6 +14,8 @@ class User < ApplicationRecord
   def author_of?(object)
     object.user_id == id
   end
+  
+  # ----- Voting -----
   
   # Return true if user voted
   def voted?(object)
@@ -27,6 +30,36 @@ class User < ApplicationRecord
   # Return true if user set like
   def like?(object)
     object.votes.where(user: self, value: 1).present?
+  end
+  
+  #---------------------------
+  
+  # ----- Subscriptions ------
+  
+  # Returns true if user has subscribed on Question 
+  def has_subscribed?(question)
+    self.subscriptions.where(question: question).exists?
+  end
+  
+  # Creates a new subscription on Question   
+  def subscribe_to(question)
+    self.subscriptions.find_or_create_by(question: question)
+  end
+  
+  # Unsubscribes from question
+  def unsubscribe_from(question)
+    self.subscriptions.where(question: question).delete_all if has_subscribed?(question)
+  end
+  # ---------------------------
+  
+  #
+  def create_authorization(provider, uid)
+    self.authorizations.create!(provider: provider, uid: uid)
+  end
+
+  # 
+  def username
+    name.blank? ? email : name
   end
   
   #
@@ -52,16 +85,6 @@ class User < ApplicationRecord
       end
     end
     user
-  end
-  
-  #
-  def create_authorization(provider, uid)
-    self.authorizations.create!(provider: provider, uid: uid)
-  end
-
-  # 
-  def username
-    name.blank? ? email : name
   end
   
   #
