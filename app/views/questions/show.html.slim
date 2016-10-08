@@ -1,36 +1,42 @@
 .well
   .media
-    h5= @question.title
-    p Posted by #{@question.user.email} on #{time_ago_in_words(@question.created_at) unless @question.created_at.blank?} ago.  
-    p= @question.body
-    
-    = render partial: 'attachments/attachments', locals: { object: @question }
-    
-    = render partial: 'votes/votes', locals: { votable: @question }
+   .media-left
+      .col-xs-2
+        = render partial: 'votes/votes', locals: { votable: @question }
+   .media-body
+      h4.media-heading= @question.title
+
+      p= @question.body
       
-    - if can?(:modify, @question)
-      = link_to edit_question_path(@question), class: 'btn btn-primary btn-sm'
-        i.fa.fa-pencil-square-o aria-hidden="true"
-        | &nbsp; Edit
+      = render partial: 'attachments/attachments', locals: { object: @question }
+      
+      p= posted_by(@question, true) 
+       
+      = link_to questions_path, class: 'btn btn-info btn-sm'
+        i.fa.fa-arrow-left aria-hidden="true"
+        | &nbsp; Back
       '&nbsp;
-      = link_to @question, method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: 'Are you sure?' }
-        i.fa.fa-trash-o aria-hidden="true"
-        | &nbsp; Delete
-      '&nbsp;
-    = link_to questions_path, class: 'btn btn-info btn-sm'
-      i.fa.fa-arrow-left aria-hidden="true"
-      | &nbsp; Back
-    '&nbsp;
-    - if user_signed_in?
-      .subscription
-        - if current_user.has_subscribed?(@question)
-          = link_to unsubscribe_question_path(@question), remote: true, method: :delete, class: 'btn btn-success btn-sm'
-            i.fa.fa-eye-slash aria-hidden="true"
-            | &nbsp; Unsubscribe
-        - else
-          = link_to subscribe_question_path(@question), remote: true, method: :post, class: 'btn btn-success btn-sm'
-            i.fa.fa-eye aria-hidden="true"
-            | &nbsp; Subscribe
+      - if user_signed_in?
+        span.subscription
+          - if current_user.has_subscribed?(@question)
+            = link_to unsubscribe_question_path(@question), remote: true, method: :delete, class: 'btn btn-success btn-sm'
+              i.fa.fa-eye-slash aria-hidden="true"
+              | &nbsp; Unsubscribe
+          - else
+            = link_to subscribe_question_path(@question), remote: true, method: :post, class: 'btn btn-success btn-sm'
+              i.fa.fa-eye aria-hidden="true"
+              | &nbsp; Subscribe
+           
+      .pull-right 
+        - if can?(:modify, @question)
+          = link_to edit_question_path(@question), class: 'btn btn-primary btn-sm'
+            i.fa.fa-pencil-square-o aria-hidden="true"
+            | &nbsp; Edit
+          '&nbsp;
+          = link_to @question, method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: 'Are you sure?' }
+            i.fa.fa-trash-o aria-hidden="true"
+            | &nbsp; Delete
+          '&nbsp;        
     
 = render partial: 'comments/comments', locals: { commentable: @question }
   

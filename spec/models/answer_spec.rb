@@ -50,7 +50,7 @@ RSpec.describe Answer, type: :model do
     let(:answer) { build(:answer) }
     
     it 'notify subscribers by email' do
-      expect(answer).to receive(:notify_subscribers).and_call_original
+      expect(NotifierJob).to receive(:perform_later).and_call_original
       answer.save
     end
   end

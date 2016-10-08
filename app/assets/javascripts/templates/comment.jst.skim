@@ -1,9 +1,9 @@
 .comment id="comment-#{ @comment.id }"
-  hr
-  i 
+  blockquote.blockquote-reverse
     div id="comment-body-#{ @comment.id }"
-      p #{ @comment.body }
-  
+      em #{ @comment.body }
+    .blockquote-footer= posted_by(comment)
+    
   .edit-comment id="comment-#{ @comment.id }"
 
   hr

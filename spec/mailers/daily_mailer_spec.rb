@@ -1,8 +1,8 @@
 require "rails_helper"
 
-RSpec.describe DailyMailerMailer, type: :mailer do
+RSpec.describe DailyMailer, type: :mailer do
   describe "digest" do
-    let(:mail) { DailyMailerMailer.digest }
+    let(:mail) { DailyMailer.digest }
 
     it "renders the headers" do
       expect(mail.subject).to eq("Digest")

@@ -16,10 +16,11 @@ RSpec.describe Question, type: :model do
   it { accept_nested_attributes_for :attachments }
   
   describe '#create_subscription_for_author' do
-    let(:question) { build(:question) }
+    let(:user) { create(:user) }
+    let(:question) { build(:question, user: user) }
     
     it 'create subscription for author' do
-      expect(question).to receive(:create_subscription_for_author).and_call_original
+      expect(user).to receive(:subscribe_to).with(question).and_call_original
       question.save
     end  
   end
