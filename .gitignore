@@ -21,3 +21,6 @@ config/database.yml
 config/secrets.yml
 
 /public/uploads/
+dump.rdb
+config/*.sphinx.conf
+db/sphinx

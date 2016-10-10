@@ -43,7 +43,12 @@ html lang="en"
           b Q
           small &
           b A
-
+    
+        = form_tag(search_path, method: "get", class: "form-inline pull-xs-right") do
+          = text_field_tag(:q, params[:q], class: "form-control", placeholder: "Search")
+          = select_tag(:a, options_for_select(Search::AREAS_FOR_SELECT), class: "form-control")
+          = submit_tag("Search", id: "search_button", class: "btn btn-outline-info")
+    
     .container
       .starter-template
         p.lead

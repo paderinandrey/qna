@@ -9,9 +9,9 @@ Rails.application.routes.draw do
   devise_for :users, skip: [:registrations], controllers: { omniauth_callbacks: 'omniauth_callbacks' } 
   
   devise_scope :user do
-    post '/users/confirm_email' => 'users#confirm_email', as: :confirm_email
-    get '/users/signup' => 'devise/registrations#new', as: :new_user_registration
-    post '/users/signup' => 'devise/registrations#create', as: :user_registration
+    post '/users/confirm_email', to: 'users#confirm_email', as: :confirm_email
+    get '/users/signup', to: 'devise/registrations#new', as: :new_user_registration
+    post '/users/signup', to: 'devise/registrations#create', as: :user_registration
   end
   
   concern :votable do
@@ -53,6 +53,8 @@ Rails.application.routes.draw do
       end
     end
   end
+  
+  get 'search', to: 'search#index'
   
   root to: "questions#index"
 end
