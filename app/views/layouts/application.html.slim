@@ -16,24 +16,50 @@ html lang="en"
         .about
           h4 About
           p.text-muted Answers to Questions from People who know from own experience. Find the Answer to your Question.
+          
+          - if !user_signed_in?
+            h6 Sign in width
+            = link_to user_facebook_omniauth_authorize_path, class: 'btn btn-social-icon btn-facebook' do
+              span.fa.fa-facebook
+            | &nbsp;
+            = link_to user_twitter_omniauth_authorize_path, class: 'btn btn-social-icon btn-twitter' do
+              span.fa.fa-twitter
+            | &nbsp;
+            = link_to user_linkedin_omniauth_authorize_path, class: 'btn btn-social-icon btn-linkedin' do
+              span.fa.fa-linkedin
+              
         .social
-        - if user_signed_in?
-          h4= current_user.email
-          ul.list-unstyled
-            li
-              = link_to destroy_user_session_path, method: :delete
-                i.fa.fa-sign-out
-                | &nbsp; Log out
-        - else
+          - if user_signed_in?
+            h4= current_user.email
             ul.list-unstyled
               li
-                = link_to new_user_session_path
-                  i.fa.fa-sign-in
-                  | &nbsp; Log in
-              li
-                = link_to new_user_registration_path
-                  i.fa.fa-key
-                  | &nbsp; Sign up
+                = link_to destroy_user_session_path, method: :delete
+                  i.fa.fa-sign-out
+                  | &nbsp; Log out
+          - else
+            .col-xs-3
+              h4 Log In
+              = form_for(:user, url: session_path(:user)) do |f|
+                .form-group
+                  .input-group.input-group-sm
+                    span.input-group-addon.input-sm
+                      i.fa.fa-envelope-o.fa-fw
+                    = f.email_field :email, class: 'form-control form-control-sm', placeholder: 'Email address', required: true
+                .form-group
+                  .input-group.input-group-sm
+                    span.input-group-addon
+                      i.fa.fa-key.fa-fw
+                    = f.password_field :password, class: 'form-control form-control-sm', placeholder: 'Password', required: true
+                .form-group
+                  = f.submit 'Sign in', class: 'btn btn-primary btn-sm'
+                  .form-check-inline
+                    = f.check_box :remember_me
+                    = f.label :remember_me, class: 'custom-control-description'
+        .about
+            - if !user_signed_in?
+              = link_to "Sign up", new_user_registration_path 
+              br
+              = link_to "Forgot your password?", new_password_path(:user)  
     
     .navbar.navbar-static-top.navbar-dark.bg-inverse
       .container-fluid
@@ -45,13 +71,12 @@ html lang="en"
           b A
     
         = form_tag(search_path, method: "get", class: "form-inline pull-xs-right") do
-          = text_field_tag(:q, params[:q], class: "form-control", placeholder: "Search")
+          = text_field_tag(:q, params[:q], class: "form-control input-lg", placeholder: "Search")
           = select_tag(:a, options_for_select(Search::AREAS_FOR_SELECT), class: "form-control")
-          = submit_tag("Search", id: "search_button", class: "btn btn-outline-info")
+          = submit_tag("Search", id: "search_button", class: "btn btn-outline-secondary")
     
     .container
       .starter-template
         p.lead
-          #unobtrusive_flash
           = render 'layouts/messages'
           = yield

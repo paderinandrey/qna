@@ -4,7 +4,7 @@ class Search < ApplicationRecord
 
   def self.search_for(params)
     classes = []
-    classes.push(params[:a].constantize) if AREAS.include?(params[:a])
+    classes << params[:a].constantize if AREAS.include?(params[:a])
     
     ThinkingSphinx.search(Riddle::Query.escape(params[:q]), classes: classes)
   end

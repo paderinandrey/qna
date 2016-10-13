@@ -13,7 +13,7 @@ class UsersController < ApplicationController
         @user.create_authorization(auth['provider'], auth['uid'])
       end
       sign_in_and_redirect @user, event: :authentication
-      flash[:success] = "Signed in successfully via #{ auth['provider'].capitalize }." 
+      flash[:notice] = "Signed in successfully via #{ auth['provider'].capitalize }." 
       flash[:notice] = "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account." 
     end
   end

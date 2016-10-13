@@ -12,28 +12,48 @@ Vote.delete_all
 Answer.delete_all
 Question.delete_all
 User.delete_all
-User.create(email: 'admin@qna.com', password: 'pa$$w0rd', password_confirmation: 'pa$$w0rd', admin: true)
 
-10.times do |n|
-  User.create!(email: Faker::Internet.email,
-               password: 'password',
-               password_confirmation: 'password')
+USER_COUNT = 15
+QUESTION_COUNT = 30
+ANSWER_COUNT = 10
+COMMENT_COUNT = 3
+ATTACHMENT_COUNT = 3
+
+# Users
+USER_COUNT.times do |n|
+  user = User.create!(email: Faker::Internet.email,
+                       password: 'password',
+                       password_confirmation: 'password',
+                       confirmed_at: Time.zone.now)
 end
 
 # Questions
-users = User.order(:created_at).take(5)
-users.each do |user| 
-  rand(1..5).times do |n|
-    title = Faker::Lorem.sentence(5)
-    body_question = Faker::Lorem.paragraph(10)
+QUESTION_COUNT.times do |n|
+  title = Faker::Lorem.sentence(5)
+  body_question = Faker::Lorem.paragraph(10)
+  
+  question = Question.create!(user: User.all[rand(User.count)], title: title, body: body_question)
+  
+  # Answers
+  rand(0..ANSWER_COUNT).times do |n|
+    body_answer = Faker::Lorem.paragraph(10)
     
-    question = user.questions.create!(title: title, body: body_question)
-    
-    # Answers
-    rand(1..5).times do |m|
-      body_answer = Faker::Lorem.paragraph(10)
-      best = Faker::Boolean.boolean
-      question.answers.create!(body: body_answer, best: best, user: user)
+    answer = question.answers.create!(body: body_answer, user: User.all[rand(User.count)])
+
+    # Comments
+    rand(0..COMMENT_COUNT).times do |n|
+      body_comment = Faker::Lorem.paragraph(1)
+      
+      answer.comments.create!(body: body_comment, user: User.all[rand(User.count)])
     end
   end
+
+  # Comments
+  rand(0..COMMENT_COUNT).times do |n|
+    body_comment = Faker::Lorem.paragraph(1)
+    
+    question.comments.create!(body: body_comment, user: User.all[rand(User.count)])
+  end
 end
+
+User.create(email: 'admin@qna.com', password: 'pa$$w0rd', password_confirmation: 'pa$$w0rd', admin: true, confirmed_at: Time.zone.now )
