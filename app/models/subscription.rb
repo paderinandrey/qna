@@ -4,5 +4,5 @@ class Subscription < ApplicationRecord
   
   validates :question_id, :user_id, presence: true
   
-  scope :for_question, -> (id) { where(question_id: id)}
+  scope :for_question, -> (id) { where(question_id: id) }
 end

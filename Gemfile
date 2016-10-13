@@ -55,6 +55,9 @@ gem 'whenever'
 gem 'sidekiq'
 gem 'sinatra', require: nil
 gem 'sidetiq'
+gem 'mysql2'
+gem 'thinking-sphinx'
+gem 'faker'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'

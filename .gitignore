@@ -19,5 +19,9 @@
 
 config/database.yml
 config/secrets.yml
+config/private_pub.yml
 
 /public/uploads/
+dump.rdb
+config/*.sphinx.conf
+db/sphinx

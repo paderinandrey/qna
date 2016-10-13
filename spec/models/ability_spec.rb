@@ -14,6 +14,8 @@ RSpec.describe Ability, type: :model do
     
     it { should be_able_to :confirm_email, User }
     
+    it { should be_able_to :index, Search }
+    
     it { should_not be_able_to :manage, :all }
   end
   

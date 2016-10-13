@@ -89,7 +89,7 @@ class User < ApplicationRecord
   
   #
   def self.generate(params)
-    user = new(params)
+    user = User.where(email: params[:email]).first_or_initialize
     user.password = Devise.friendly_token[0, 20]
     user
   end
