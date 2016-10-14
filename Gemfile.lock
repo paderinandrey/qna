@@ -74,6 +74,8 @@ GEM
       capistrano (~> 3.1)
       sshkit (~> 1.2)
     capistrano-harrow (0.5.3)
+    capistrano-passenger (0.2.0)
+      capistrano (~> 3.0)
     capistrano-rails (1.1.8)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
@@ -203,6 +205,7 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.4.1)
       launchy (~> 2.2)
+    libv8 (3.16.14.15)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -302,6 +305,7 @@ GEM
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
     redis (3.3.1)
+    ref (2.0.0)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     riddle (2.0.0)
@@ -380,6 +384,9 @@ GEM
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     temple (0.7.7)
+    therubyracer (0.12.2)
+      libv8 (~> 3.16.14.0)
+      ref
     thin (1.7.0)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -429,6 +436,7 @@ DEPENDENCIES
   cancancan
   capistrano
   capistrano-bundler
+  capistrano-passenger
   capistrano-rails
   capistrano-rvm
   capybara
@@ -440,7 +448,6 @@ DEPENDENCIES
   database_cleaner
   devise
   doorkeeper
-  dotenv
   dotenv-rails
   factory_girl_rails
   faker
@@ -479,6 +486,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sprockets (>= 3.7.0)
+  therubyracer
   thin
   thinking-sphinx
   turbolinks (~> 5)

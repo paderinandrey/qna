@@ -58,8 +58,9 @@ gem 'sidetiq'
 gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'faker'
-gem 'dotenv'
-gem 'dotenv-rails', require: 'dotenv/deployment'
+gem 'dotenv-rails'
+#gem 'dotenv-rails', require: 'dotenv/deployment'
+gem 'therubyracer'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
@@ -97,6 +98,7 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
+  gem 'capistrano-passenger', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
