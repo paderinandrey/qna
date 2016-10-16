@@ -1,5 +1,6 @@
 - if answer.persisted?
   li id="answer-#{answer.id}" class=(answer.best ? 'best-answer' : '')
+    .small= posted_by(answer, true)
     div id="answer-body-#{answer.id}"
       = answer.body
     
@@ -7,9 +8,6 @@
     .vote-for-answer  
       = render partial: 'votes/votes', locals: { votable: answer }
 
-    span.content= answer.user.email
-    span.timestamp
-      | Posted by #{answer.user.email} on #{time_ago_in_words(answer.created_at) unless answer.created_at.blank?} ago.
     - if user_signed_in?
         .row
           .col-md-3.col-sm-4

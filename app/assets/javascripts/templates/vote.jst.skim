@@ -7,15 +7,18 @@
       - if @votable.like
           a href="#{ @votable.votable_path }/cancel_vote" id="cancel_vote" data-method="delete" data-remote="true" data-type="json" class="btn btn-primary active btn-sm"
             i.fa.fa-thumbs-up
+          '&nbsp;
           a href="#{ @votable.votable_path }/change_vote" id="change_vote" data-method="patch" data-remote="true" data-type="json" class="btn btn-secondary btn-sm"
             i.fa.fa-thumbs-o-down
       - else
           a href="#{ @votable.votable_path }/change_vote" id="change_vote" data-method="patch" data-remote="true" data-type="json" class="btn btn-secondary btn-sm"
             i.fa.fa-thumbs-o-up
+          '&nbsp;
           a href="#{ @votable.votable_path }/cancel_vote" id="cancel_vote" data-method="delete" data-remote="true" data-type="json" class="btn btn-primary active btn-sm"
             i.fa.fa-thumbs-down
     - else
       a href="#{ @votable.votable_path }/like" id="like" data-method="post" data-remote="true" data-type="json" class="btn btn-secondary btn-sm"
         i.fa.fa-thumbs-o-up
+      '&nbsp;
       a href="#{ @votable.votable_path }/dislike" id="dislike" data-method="post" data-remote="true" data-type="json" class="btn btn-secondary btn-sm"
         i.fa.fa-thumbs-o-down

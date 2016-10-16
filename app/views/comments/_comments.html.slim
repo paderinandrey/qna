@@ -3,9 +3,9 @@
 
 - if user_signed_in?
   .add-comment id="for-#{ commentable.class.name.downcase }-#{ commentable.id }"
-    = link_to '', class: 'btn btn-default add-comment-link', id: "for-#{ commentable.class.name.downcase }-#{ commentable.id }", data: { commentable_id: commentable.id, commentable_type: commentable.class.name.downcase }
-      i.fa.fa-pencil-square-o aria-hidden="true"
-      | &nbsp; Add a comment
+    = link_to '', class: 'btn btn-default btn-sm add-comment-link', id: "for-#{ commentable.class.name.downcase }-#{ commentable.id }", data: { commentable_id: commentable.id, commentable_type: commentable.class.name.downcase }
+      i.fa.fa-commenting-o aria-hidden="true"
+      | &nbsp;add a comment
   
   .new-comment id="for-#{ commentable.class.name.downcase }-#{ commentable.id }"
   

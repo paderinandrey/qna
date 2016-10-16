@@ -20,10 +20,10 @@ module VotesHelper
     if user_signed_in? && !current_user.author_of?(votable)
       combinations = current_user.voted?(votable) ? current_user.like?(votable) ? [cancel, change] : [change, cancel] : [like, dislike]      
           
-      content_tag(:span, class: "voting_buttons") do
+      content_tag(:ul, class: "list-inline") do
         combinations.each do |param| 
-          concat link_to(voting_button_icon(votable, param[:id]), polymorphic_path([param[:id], votable]), param.merge(html_options)) 
-          concat " "
+          concat content_tag(:li, link_to(voting_button_icon(votable, param[:id]), polymorphic_path([param[:id], votable]), param.merge(html_options)), class: "list-inline-item") 
+          #concat " "
         end  
       end
     end  

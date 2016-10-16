@@ -66,14 +66,14 @@ html lang="en"
         button.navbar-toggler.collapsed aria-expanded="false" data-target="#navbar-header" data-toggle="collapse" type="button" 
           | ☰
         =link_to root_path, class: 'navbar-brand'
-          b Q
-          small &
-          b A
+          i.fa.fa-skyatlas
     
         = form_tag(search_path, method: "get", class: "form-inline pull-xs-right") do
           = text_field_tag(:q, params[:q], class: "form-control input-lg", placeholder: "Search")
           = select_tag(:a, options_for_select(Search::AREAS_FOR_SELECT), class: "form-control")
-          = submit_tag("Search", id: "search_button", class: "btn btn-outline-secondary")
+          = button_tag type: "submit", id: "search_button", class: "btn btn-outline-secondary" do
+            i.fa.fa-search
+            | &nbsp; Search
     
     .container
       .starter-template

@@ -2,7 +2,7 @@
   -@questions.each do |q|
     h4= link_to q.title, q
     p= q.body
-    div
+    .small
       i.fa.fa-user
       ' &nbsp; by
       = link_to q.user.email
