@@ -1,14 +1,15 @@
-.comment id="comment-#{ comment.id }"
-  blockquote.blockquote-reverse
-    div id="comment-body-#{ comment.id }"
-      em= comment.body
-    .blockquote-footer= posted_by(comment)
-    
-    .edit-comment id="edit-comment-#{ comment.id }"
-    - if can?(:modify, comment) 
-      = link_to comment, class: 'btn btn-sm', remote: true, method: :delete, data: { confirm: "Are you sure you want to delete this answer?" }
-        i.fa.fa-trash-o aria-hidden="true"
-        | &nbsp; Delete
-      = link_to '', class: 'btn btn-sm edit-comment-link', data: { comment_id: comment.id }
-        i.fa.fa-pencil-square-o aria-hidden="true"
-        | &nbsp; Edit
+- cache comment do
+  .comment id="comment-#{ comment.id }"
+    blockquote.blockquote-reverse
+      div id="comment-body-#{ comment.id }"
+        em= comment.body
+      .blockquote-footer= posted_by(comment)
+      
+      .edit-comment id="edit-comment-#{ comment.id }"
+      - if can?(:modify, comment) 
+        = link_to comment, class: 'btn btn-sm', remote: true, method: :delete, data: { confirm: "Are you sure you want to delete this answer?" }
+          i.fa.fa-trash-o aria-hidden="true"
+          | &nbsp; Delete
+        = link_to '', class: 'btn btn-sm edit-comment-link', data: { comment_id: comment.id }
+          i.fa.fa-pencil-square-o aria-hidden="true"
+          | &nbsp; Edit

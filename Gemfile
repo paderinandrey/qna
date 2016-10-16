@@ -61,6 +61,7 @@ gem 'faker'
 gem 'dotenv-rails'
 gem 'therubyracer'
 gem 'unicorn'
+gem 'redis-rails'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
