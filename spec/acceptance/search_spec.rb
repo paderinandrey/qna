@@ -7,20 +7,22 @@ feature 'Users can locate content by searching for', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:find_me) { create(:question, body: 'blablabla', user: user) }
-  given(:questions) { create_list(:question, 2,  user: user) }
+  given!(:find_me) { create(:question, body: 'blablabla', user: user) }
+  given!(:questions) { create_list(:question, 2,  user: user) }
 
   before do
     ThinkingSphinx::Test.index
   end
 
   scenario 'Non-registered user try to search' do
-    visit root_path
-    fill_in 'q', with: 'blablabla'
-    select('Question', from: 'a')
-    click_on 'search_button'
-
-    expect(page).to have_content find_me.body
-    expect(current_path).to eq search_path
+    ThinkingSphinx::Test.run do
+      visit root_path
+      fill_in 'q', with: 'blablabla'
+      select('Question', from: 'a')
+      click_on 'search_button'
+  
+      expect(page).to have_content find_me.body
+      expect(current_path).to eq search_path
+    end
   end
 end

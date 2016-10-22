@@ -26,7 +26,6 @@ feature 'Delete answers', %q{
     #page.accept_confirm do
     #  click_link "Delete"
     #end
-    
     expect(page).to have_content question.title
     expect(page).to have_content question.body
     expect(page).to have_no_content answer.body

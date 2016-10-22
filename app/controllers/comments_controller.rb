@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
   after_action -> { publish_comment(params[:action]) }
   authorize_resource
   
-  respond_to :js
+  respond_to :js, :json
   
   def create
     respond_with(@comment = @commentable.comments.create(comment_params.merge(user: current_user)))

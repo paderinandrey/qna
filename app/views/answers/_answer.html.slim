@@ -1,31 +1,30 @@
 - if answer.persisted?
- - cache answer do
-    li id="answer-#{answer.id}" class=(answer.best ? 'best-answer' : '')
-      .small= posted_by(answer, true)
-      div id="answer-body-#{answer.id}"
-        = answer.body
-      
-      = render partial: 'attachments/attachments', locals: { object: answer }
-      .vote-for-answer  
-        = render partial: 'votes/votes', locals: { votable: answer }
-  
-      - if user_signed_in?
-          .row
-            .col-md-3.col-sm-4
-            - if current_user.author_of?(answer.question)
-              = link_to best_answer_path(answer), id: "best-link-#{answer.id}",  method: :patch, class: 'btn btn-default', remote: true
-                i.fa.fa-star-o aria-hidden="true"
-                |#{answer.best ? 'Not best answer' : 'Best answer'}
-                
-            - if can?(:destroy, answer)   
-              = link_to answer, class: 'btn btn-default', remote: true, method: :delete, data: { confirm: "Are you sure you want to delete this answer?" }
-                i.fa.fa-trash-o aria-hidden="true"
-                | &nbsp; Delete
-            - if can?(:update, answer)  
-              = link_to '', class: 'btn btn-default edit-answer-link', data: { answer_id: answer.id }
-                i.fa.fa-pencil-square-o aria-hidden="true"
-                | &nbsp; Edit
-          
-          .edit-answer id="edit-answer-#{answer.id}"
-          
-      = render partial: 'comments/comments', locals: { commentable: answer }
+  li id="answer-#{answer.id}" class=(answer.best ? 'best-answer' : '')
+    .small= posted_by(answer, true)
+    div id="answer-body-#{answer.id}"
+      = answer.body
+    
+    = render partial: 'attachments/attachments', locals: { object: answer }
+    .vote-for-answer  
+      = render partial: 'votes/votes', locals: { votable: answer }
+
+    - if user_signed_in?
+        .row
+          .col-md-3.col-sm-4
+          - if current_user.author_of?(answer.question)
+            = link_to best_answer_path(answer), id: "best-link-#{answer.id}",  method: :patch, class: 'btn btn-default', remote: true
+              i.fa.fa-star-o aria-hidden="true"
+              |#{answer.best ? 'Not best answer' : 'Best answer'}
+              
+          - if can?(:destroy, answer)   
+            = link_to answer, class: 'btn btn-default', remote: true, method: :delete, data: { confirm: "Are you sure you want to delete this answer?" }
+              i.fa.fa-trash-o aria-hidden="true"
+              | &nbsp; Delete
+          - if can?(:update, answer)  
+            = link_to '', class: 'btn btn-default edit-answer-link', data: { answer_id: answer.id }
+              i.fa.fa-pencil-square-o aria-hidden="true"
+              | &nbsp; Edit
+        
+        .edit-answer id="edit-answer-#{answer.id}"
+        
+    = render partial: 'comments/comments', locals: { commentable: answer }

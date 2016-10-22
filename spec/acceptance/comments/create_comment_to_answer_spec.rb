@@ -15,7 +15,7 @@ feature 'Create comment to answer', %q{
     visit question_path(question)
     
     within "#answer-#{ answer.id }" do
-      click_on('Add a comment')
+      click_on('add a comment')
       fill_in 'comment_body', with: 'test comment'
       click_on('Save')
     end
@@ -29,7 +29,7 @@ feature 'Create comment to answer', %q{
     visit question_path(question)
     
     within "#answer-#{ answer.id }" do
-      click_on('Add a comment')
+      click_on('add a comment')
       fill_in 'comment_body', with: ''
       click_on('Save')
     end
@@ -41,6 +41,6 @@ feature 'Create comment to answer', %q{
   scenario 'Non-authenticated user ties to create answer to question' do
     visit question_path(question)
     
-    expect(page).to have_no_link('Add a comment')
+    expect(page).to have_no_link('add a comment')
   end
 end

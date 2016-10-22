@@ -39,6 +39,7 @@ Shoulda::Matchers.configure do |config|
 end
 
 OmniAuth.config.test_mode = true
+Capybara.wait_on_first_by_default = true
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods

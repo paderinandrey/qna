@@ -4,5 +4,5 @@
     .answer-errors
     input type="hidden" name="_method" value="patch"
     textarea id= "answer_body" name="answer[body]" #{ @answer_body }
-    
+    br/
     button type="submit" class="btn btn-primary active" Save

@@ -6,3 +6,4 @@ json.commentable_id comment.commentable_id
 
 json.comment_count comment.commentable.comments.count
 json.action action
+json.posted_by posted_by(comment)

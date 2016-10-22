@@ -6,3 +6,12 @@
 @import "font-awesome";
 @import "comments";
 @import "bootstrap-social";
+@import "devise_bootstrap_views";
+
+.alert-alert {
+  @extend .alert-warning;
+}
+
+.alert-notice {
+  @extend .alert-info;
+}
