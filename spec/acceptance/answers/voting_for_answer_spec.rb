@@ -46,16 +46,14 @@ feature 'Voting for answers', %q{
     end
     
     scenario 'change its evaluation for answer', js: true do
-      within ".vote-for-answer" do
+      within "#vote-for-answer-#{ answer.id }" do
         click_link('like')
         click_link('change_vote')
-      end
+        
+        within "span.result-vote-for-answer" do
+          expect(page).to have_content '-1'
+        end
       
-      within ".result-vote-for-answer" do
-        expect(page).to have_content '-1'
-      end
-      
-      within ".vote-for-answer" do
         expect(page).to have_css '.fa.fa-thumbs-down'
         expect(page).to have_css '.fa.fa-thumbs-o-up'
       end
@@ -63,24 +61,24 @@ feature 'Voting for answers', %q{
     
     describe 'cancel its evaluation for answer' do 
       scenario 'for like', js: true do
-        within ".vote-for-answer" do
+        within "#vote-for-answer-#{ answer.id }" do
           click_link('like')
           click_link('cancel_vote')
-        end
         
-        within '.vote-for-answer' do
-          expect(page).to have_content '0'
+          within 'span.result-vote-for-answer' do
+            expect(page).to have_content '0'
+          end
         end
       end
       
       scenario 'for dislike', js: true do
-        within ".vote-for-answer" do
+        within "#vote-for-answer-#{ answer.id }" do
           click_link('dislike')
           click_link('cancel_vote')
-        end
         
-        within '.vote-for-answer' do
-          expect(page).to have_content '0'
+          within 'span.result-vote-for-answer' do
+            expect(page).to have_content '0'
+          end
         end
       end
     end

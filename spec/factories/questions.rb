@@ -13,4 +13,11 @@ FactoryGirl.define do
     title nil
     body nil
   end
+  
+  factory :yesterday_question, class: 'Question' do
+    user
+    title
+    body 'MyText'
+    created_at Date.yesterday
+  end
 end

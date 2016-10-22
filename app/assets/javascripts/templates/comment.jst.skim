@@ -2,7 +2,7 @@
   blockquote.blockquote-reverse
     div id="comment-body-#{ @comment.id }"
       em #{ @comment.body }
-    .blockquote-footer= posted_by(comment)
+    .blockquote-footer= @comment.posted_by
     
   .edit-comment id="comment-#{ @comment.id }"
 

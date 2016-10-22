@@ -1,70 +1,71 @@
-.well
-  .media
-   .media-left
-     img.media-object src="http://examples.quackit.com/pix/samples/9s.jpg"
-     = render partial: 'votes/votes', locals: { votable: @question }
-   .media-body
-      .small
-        dl= posted_by(@question, true)
-      h4.media-heading= @question.title
-
-      p= @question.body
-      
-      = render partial: 'attachments/attachments', locals: { object: @question }
-       
-  = link_to questions_path, class: 'btn btn-info btn-sm'
-    i.fa.fa-arrow-left aria-hidden="true"
-    | &nbsp; Back
-       
-  .pull-right
-    - if user_signed_in?
-      span.subscription
-        - if current_user.has_subscribed?(@question)
-          = link_to unsubscribe_question_path(@question), remote: true, method: :delete, class: 'btn btn-success btn-sm'
-            i.fa.fa-eye-slash aria-hidden="true"
-            | &nbsp; Unsubscribe
-        - else
-          = link_to subscribe_question_path(@question), remote: true, method: :post, class: 'btn btn-success btn-sm'
-            i.fa.fa-eye aria-hidden="true"
-            | &nbsp; Subscribe
-            '&nbsp;
-    - if can?(:modify, @question)
-      = link_to edit_question_path(@question), class: 'btn btn-primary btn-sm'
-        i.fa.fa-pencil-square-o aria-hidden="true"
-        | &nbsp; Edit
-      '&nbsp;
-      = link_to @question, method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: 'Are you sure?' }
-        i.fa.fa-trash-o aria-hidden="true"
-        | &nbsp; Delete
-      '&nbsp;        
-    
-= render partial: 'comments/comments', locals: { commentable: @question }
-  
-p
-  -if @question.answers.any?
-    h6 id="answers-count" This question has #{ pluralize(@question.answers.count, 'answer') }
-    .answers data={question_id: "#{ @question.id }"}
-      = render @answers
-
-- if user_signed_in?
+- cache @question do
   .well
-    = form_for [@question, @answer], id: 'new_answer', authenticity_token: true, html: { multipart: true, remote: true } do |f|
+    .media
+     .media-left
+       img.media-object src="http://examples.quackit.com/pix/samples/9s.jpg"
+       = render partial: 'votes/votes', locals: { votable: @question }
+     .media-body
+        .small
+          dl= posted_by(@question, true)
+        h4.media-heading= @question.title
+  
+        p= @question.body
+        
+        = render partial: 'attachments/attachments', locals: { object: @question }
+         
+    = link_to questions_path, class: 'btn btn-info btn-sm'
+      i.fa.fa-arrow-left aria-hidden="true"
+      | &nbsp; Back
+         
+    .pull-right
+      - if user_signed_in?
+        span.subscription
+          - if current_user.has_subscribed?(@question)
+            = link_to unsubscribe_question_path(@question), remote: true, method: :delete, class: 'btn btn-success btn-sm'
+              i.fa.fa-eye-slash aria-hidden="true"
+              | &nbsp; Unsubscribe
+          - else
+            = link_to subscribe_question_path(@question), remote: true, method: :post, class: 'btn btn-success btn-sm'
+              i.fa.fa-eye aria-hidden="true"
+              | &nbsp; Subscribe
+              '&nbsp;
+      - if can?(:modify, @question)
+        = link_to edit_question_path(@question), class: 'btn btn-primary btn-sm'
+          i.fa.fa-pencil-square-o aria-hidden="true"
+          | &nbsp; Edit
+        '&nbsp;
+        = link_to @question, method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: 'Are you sure?' }
+          i.fa.fa-trash-o aria-hidden="true"
+          | &nbsp; Delete
+        '&nbsp;        
       
-      .answer-errors
-      
-      h5 Leave a answer:
-      p= f.text_area :body, rows: 4, placeholder: 'Please write your answer here...', class: 'form-control'
-      
-      p
-       = f.fields_for :attachments, @answer.attachments.build do |a|
-        = render 'attachment_fields', f: a
-      .links  
-        = link_to_add_association f, :attachments, class: 'btn-sm btn btn-outline-info'
-          i.fa.fa-plus
-          | &nbsp; Attach a file
-      br  
-      .actions  
-        p= f.submit 'Create answer', class: 'btn btn-primary' 
+  = render partial: 'comments/comments', locals: { commentable: @question }
+    
+  p
+    -if @question.answers.any?
+      h6 id="answers-count" This question has #{ pluralize(@question.answers.count, 'answer') }
+      .answers data={question_id: "#{ @question.id }"}
+        = render @answers
+
+  - if user_signed_in?
+    .well
+      = form_for [@question, @answer], id: 'new_answer', authenticity_token: true, html: { multipart: true, remote: true } do |f|
+        
+        .answer-errors
+        
+        h5 Leave a answer:
+        p= f.text_area :body, rows: 4, placeholder: 'Please write your answer here...', class: 'form-control'
+        
+        p
+         = f.fields_for :attachments, @answer.attachments.build do |a|
+          = render 'attachment_fields', f: a
+        .links  
+          = link_to_add_association f, :attachments, class: 'btn-sm btn btn-outline-info'
+            i.fa.fa-plus
+            | &nbsp; Attach a file
+        br  
+        .actions  
+          p= f.submit 'Create answer', class: 'btn btn-primary' 
 
 = subscribe_to "/questions/#{@question.id}/answers"
 = subscribe_to "/questions/#{@question.id}/comments"

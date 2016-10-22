@@ -17,10 +17,12 @@ feature 'User sign in', %q{
 
   scenario 'Non-registered user try to sign in' do
     visit new_user_session_path
-    fill_in 'Email', with: 'wront@test.com'
-    fill_in 'Password', with: '12345678'
-    click_button 'Log in'
-
+    within(".panel.panel-default.devise-bs") do
+      fill_in 'Email', with: 'wront@test.com'
+      fill_in 'Password', with: '12345678'
+      click_button 'Sign in'
+    end
+    
     expect(page).to have_content 'Invalid Email or password.'
     expect(current_path).to eq new_user_session_path
   end

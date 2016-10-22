@@ -18,8 +18,10 @@ feature 'User sign in via Twitter account', %q{
       click_on('Sign in with Twitter')
       
       expect(page).to have_content 'Please confirm your email address after continue.'
-      fill_in 'Email', with: 'test@test.com' 
-      click_on('Continue')
+      within("#add-email.container") do
+        fill_in 'Email', with: 'test@test.com' 
+        click_on('Continue')
+      end
       
       expect(page).to have_content 'Signed in successfully via Twitter.'
       expect(page).to have_content 'A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.'

@@ -14,7 +14,7 @@ feature 'User sign in via linkedin account', %q{
     
     scenario 'Registered user tries sign in via linkedin' do
       visit new_user_session_path
-      click_on('Sign in with LinkedIn')
+      click_on('Sign in with Linkedin')
       
       expect(page).to have_content 'Successfully authenticated from Linkedin account.'
       expect(current_path).to eq root_path
@@ -22,7 +22,7 @@ feature 'User sign in via linkedin account', %q{
     
     scenario 'Non-registered user tries sign in linkedin' do
       visit new_user_session_path
-      click_on('Sign in with LinkedIn')
+      click_on('Sign in with Linkedin')
       
       expect(page).to have_content 'Successfully authenticated from Linkedin account.'
       expect(current_path).to eq root_path

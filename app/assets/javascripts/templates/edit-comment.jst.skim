@@ -4,5 +4,5 @@
     .comment-errors
     input type="hidden" name="_method" value="patch"
     textarea id= "comment_body" name="comment[body]" #{ @comment_body }
-    
+    br/
     button type="submit" class="btn btn-primary active" Save
