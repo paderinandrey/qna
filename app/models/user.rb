@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  mount_uploader :avatar, AvatarUploader
+  
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :authorizations, dependent: :destroy
@@ -8,6 +10,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :confirmable, 
          :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter, :linkedin]
 
+  # Setup accessible (or protected) attributes for your model
+  #attr_accessible :email, :password, :remember_me, :avatar, :avatar_cache, :remove_avatar
+
+  #validates_presence_of   :avatar
+  #validates_integrity_of  :avatar
+  #validates_processing_of :avatar
+ 
   scope :everyone_but_me, ->(me) { where.not(id: me) }
 
   # Returns true if the current user is owner of object
@@ -93,4 +102,10 @@ class User < ApplicationRecord
     user.password = Devise.friendly_token[0, 20]
     user
   end
+  
+    
+  # def avatar_size_validation
+  #   errors[:avatar] << "should be less than 500KB" if avatar.size > 0.5.megabytes
+  # end
+  
 end
