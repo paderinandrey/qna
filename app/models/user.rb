@@ -13,9 +13,9 @@ class User < ApplicationRecord
   # Setup accessible (or protected) attributes for your model
   #attr_accessible :email, :password, :remember_me, :avatar, :avatar_cache, :remove_avatar
 
-  validates_presence_of   :avatar
-  validates_integrity_of  :avatar
-  validates_processing_of :avatar
+  #validates_presence_of   :avatar
+  #validates_integrity_of  :avatar
+  #validates_processing_of :avatar
  
   scope :everyone_but_me, ->(me) { where.not(id: me) }
 

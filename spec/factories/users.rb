@@ -12,6 +12,7 @@ FactoryGirl.define do
     password '12345678'
     password_confirmation '12345678'
     confirmed_at Time.zone.now
+    avatar File.open(Rails.root.join('app/assets/images/fallback/default-avatar.png'), 'r')
   end
   
   factory :named_user, class: 'User' do
@@ -20,6 +21,7 @@ FactoryGirl.define do
     password '12345678'
     password_confirmation '12345678'
     confirmed_at Time.zone.now
+    avatar File.open(Rails.root.join('app/assets/images/fallback/default-avatar.png'), 'r')
   end
   
   factory :invalid_user, class: 'User' do
