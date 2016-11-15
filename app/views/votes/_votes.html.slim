@@ -1,4 +1,7 @@
-.voting id="vote-for-#{ votable.class.name.downcase }-#{ votable.id }"
-  span class="result-vote-for-#{ votable.class.name.downcase } tag tag-default tag-pill"
-    = votable.total
-  = voting_buttons(votable)
+.text-xs-center
+  .voting id="vote-for-#{ votable.class.name.downcase }-#{ votable.id }"
+    h3
+      span class="result-vote-for-#{ votable.class.name.downcase } tag tag-default tag-pill"
+        = votable.total
+    br  
+    = voting_buttons(votable)
